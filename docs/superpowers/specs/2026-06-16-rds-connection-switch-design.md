@@ -10,18 +10,20 @@ VentureScout는 docker-compose의 로컬 PostgreSQL(`pgvector/pgvector:pg16`)을
 별도로, 팀이 이미 AWS RDS PostgreSQL 인스턴스(`your-db-host.ap-northeast-1.rds.amazonaws.com`)를
 프로비저닝해두었고, 스키마(9개 테이블 + pgvector 확장)도 이미 적용되어 있는 것을 확인했다. 다만 이 RDS의
 실제 스키마는 `db/init.sql`과 세부사항(UUID 생성 함수, VARCHAR 길이, NOT NULL, CHECK 제약, 인덱스 등)이
-다르다 — 이 차이는 의도적으로 범위에서 제외한다(아래 "범위 제외" 참조).
+다르다. **RDS 자체는 건드리지 않되, 문서(`db/init.sql`, `db/schema.dbml`)를 RDS 실제 상태에 맞춰
+다시 쓴다** (아래 "5. 스키마 문서 동기화" 참조) — 이렇게 하면 다음에 로컬 docker postgres를
+새로 띄울 일이 생겨도(또는 다른 사람이 스키마를 읽을 때) 실제와 일치하는 정의를 보게 된다.
 
 ## 목표
 
 애플리케이션(및 로컬 개발 환경)이 로컬 docker-compose postgres 대신 이 AWS RDS 인스턴스를
-"진짜 DB"로 바라보게 만든다. **연결 설정 전환만** 다루며, DB 액세스 코드(retrieve/vector_search
-구현, persistence 레이어)나 스키마 정합성 문제는 다루지 않는다.
+"진짜 DB"로 바라보게 만든다. **연결 설정 전환 + 스키마 문서 동기화**를 다루며, DB 액세스 코드
+(retrieve/vector_search 구현, persistence 레이어)는 다루지 않는다.
 
 ## 범위 제외 (명시적으로 하지 않는 것)
 
-- `db/init.sql`과 RDS 실제 스키마의 차이를 맞추는 작업 (UUID 함수, VARCHAR 길이, NOT NULL/CHECK
-  제약, 중복 UNIQUE 제약, FTS 언어 설정(`simple` vs `english`) 등 11가지 차이 발견됨 — 별도 이슈로 다룸)
+- RDS 실제 스키마 자체를 변경하는 작업 (중복 UNIQUE 제약 정리, FTS 언어를 `simple`로 되돌리는 등) —
+  운영 중인 DB라 건드리면 복잡해진다는 판단. 문서만 RDS에 맞춰 동기화하고 RDS는 그대로 둔다.
 - `retrieval/tools.py`의 mock을 실제 pgvector 쿼리로 교체 (Track B 범위)
 - IAM DB 인증으로 전환 (정적 비밀번호 유지)
 - RDS 보안그룹 인바운드 규칙 관리 (AWS CLI/콘솔 작업 — 이 환경에는 AWS 자격증명이 없어 수행 불가)
@@ -62,9 +64,29 @@ VentureScout는 docker-compose의 로컬 PostgreSQL(`pgvector/pgvector:pg16`)을
 - `docker compose config`로 정적 검증 + 가능하면 `docker compose up api`로 컨테이너 내부에서도
   동일하게 연결되는지 확인
 
+### 5. 스키마 문서 동기화 (`db/init.sql`, `db/schema.dbml`)
+
+- RDS는 **읽기 전용으로만 조회**한다 (information_schema, pg_constraint, pg_indexes 등) — DDL을
+  실행하거나 RDS의 어떤 것도 바꾸지 않는다.
+- 조회 결과를 바탕으로 `db/init.sql`을 9개 테이블 전부 다시 작성한다. RDS 실제 상태를 **있는 그대로**
+  반영한다 — 즉 다음 항목도 "고치지" 않고 그대로 포함하되, 발견된 사실은 주석으로 짧게 남긴다:
+  - `gen_random_uuid()`(pgcrypto) 사용, `uuid-ossp` 대신 `pgcrypto`/`pg_trgm` 확장 선언
+  - VARCHAR 길이 무제한, 추가된 NOT NULL/CHECK/DEFAULT, 모든 FK `ON DELETE CASCADE`
+  - 6개 테이블에 추가된 `created_at` 컬럼, `agent_runs.target_run_id` 자기참조 FK
+  - `idx_documents_source_type`/`idx_patent_claims_independent`/`idx_ip_overlap_job_hypothesis` 등
+    추가 인덱스, `idx_evidence_items_job_hypothesis`/`idx_agent_runs_job`의 복합 컬럼 확장
+  - `patent_claims`/`claim_limitations`의 중복 UNIQUE 제약 2건 — `-- 중복으로 보임(버그 추정), RDS 변경은
+    범위 밖이라 그대로 반영` 주석 추가
+  - FTS가 `to_tsvector('english', ...)`인 점 — `-- 한국어 텍스트엔 부적합할 수 있음, RDS 변경은 범위 밖`
+    주석 추가
+- `db/schema.dbml`도 동일한 컬럼/제약/관계로 다시 그린다 (dbdiagram.io 포맷).
+- 파일 상단 주석(현재 "원칙: 계약 strict / payload JSONB / pgvector 단일 스토어")은 유지하고, 새 줄에
+  "이 파일은 RDS(`venturescout-db...`)의 실제 스키마를 반영한 것" 한 줄을 추가한다.
+
 ## 알려진 한계
 
 - RDS 보안그룹이 현재 연결 테스트가 성공한 이 PC의 공인 IP만 허용하고 있을 가능성이 높다.
   팀원 PC나 클라우드 배포 환경에서는 보안그룹 인바운드 규칙 추가가 별도로 필요하며, 이 작업은
   AWS 콘솔/CLI 권한이 필요해 현재 이 환경(AWS CLI 미설치, 자격증명 없음)에서는 수행할 수 없다.
-- `db/init.sql`은 RDS 실제 스키마와 어긋난 채로 남는다 (의도적, 위 "범위 제외" 참조).
+- 중복 UNIQUE 제약, FTS 언어 설정(`english`) 등 RDS 자체의 잠재적 결함은 문서화만 하고 고치지 않는다 —
+  운영 중인 공유 DB라 수정은 팀 논의 후 별도로 진행해야 한다.
