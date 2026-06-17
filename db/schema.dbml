@@ -1,119 +1,134 @@
-// VentureScout Tier 0 — 9 tables (기본 6 + 시그니처 3)
-// dbdiagram.io 붙여넣기용. 원칙: 계약 strict / payload JSON / pgvector 단일 스토어
+// VentureScout — RDS 실제 스키마 반영 (your-db-host.ap-northeast-1.rds.amazonaws.com)
+// dbdiagram.io 붙여넣기용. db/init.sql과 1:1 대응.
 
 Table ideas {
-  idea_id uuid [pk]
-  raw_input text
+  idea_id uuid [pk, default: `gen_random_uuid()`]
+  raw_input text [not null]
   title varchar
   idea_type varchar
   target_customer text
   problem_statement text
   solution_summary text
   business_model_hint text
-  technical_elements json
-  patent_keywords json
-  user_confirmed boolean
-  created_at timestamp
+  technical_elements json [default: `[]`]
+  patent_keywords json [default: `[]`]
+  user_confirmed boolean [default: false]
+  created_at timestamp [default: `now()`]
 }
 Table analysis_jobs {
-  job_id uuid [pk]
-  idea_id uuid
-  status varchar
+  job_id uuid [pk, default: `gen_random_uuid()`]
+  idea_id uuid [not null]
+  status varchar [default: 'pending', note: 'CHECK: pending|running|done|failed']
   current_stage varchar
-  progress_pct int
+  progress_pct int [default: 0]
   decision varchar
   decision_summary text
   started_at timestamp
   finished_at timestamp
+  created_at timestamp [default: `now()`]
 }
 Table hypotheses {
-  hypothesis_id uuid [pk]
-  job_id uuid
-  idea_id uuid
-  code varchar
+  hypothesis_id uuid [pk, default: `gen_random_uuid()`]
+  job_id uuid [not null]
+  idea_id uuid [not null]
+  code varchar [not null]
   axis varchar
   statement text
-  confidence varchar
+  confidence varchar [default: 'low', note: 'CHECK: high|mid|low']
   next_validation text
+  created_at timestamp [default: `now()`]
 }
 Table documents {
-  document_id uuid [pk]
-  source_type varchar
-  ext_id varchar
+  document_id uuid [pk, default: `gen_random_uuid()`]
+  source_type varchar [not null, note: 'CHECK: patent|seed_review|seed_competitor|seed_pricing|web']
+  ext_id varchar [unique]
   title varchar
   canonical_url varchar
   clean_text text
-  embedding vector
-  meta json
+  embedding vector [note: 'vector(768)']
+  meta json [default: `{}`]
   reliability_score decimal
   freshness_score decimal
-  is_user_provided boolean
+  is_user_provided boolean [default: false]
+  created_at timestamp [default: `now()`]
 }
 Table evidence_items {
-  evidence_id uuid [pk]
-  job_id uuid
-  hypothesis_id uuid
-  document_id uuid
+  evidence_id uuid [pk, default: `gen_random_uuid()`]
+  job_id uuid [not null]
+  hypothesis_id uuid [not null]
+  document_id uuid [not null]
   source_type varchar
-  evidence_text text
-  stance varchar
+  evidence_text text [not null]
+  stance varchar [default: 'neutral', note: 'CHECK: supports|contradicts|neutral']
   relevance_score decimal
   reliability_score decimal
+  created_at timestamp [default: `now()`]
 }
 Table agent_runs {
-  agent_run_id uuid [pk]
-  job_id uuid
+  agent_run_id uuid [pk, default: `gen_random_uuid()`]
+  job_id uuid [not null]
   hypothesis_id uuid
-  agent_name varchar
-  model_name varchar
-  depth varchar
-  confidence varchar
-  grounded_on json
-  output_json json
   target_run_id uuid
+  agent_name varchar [not null, note: 'CHECK: market|competitor|tech|ip|bm|critic|structuring']
+  model_name varchar
+  depth varchar [default: 'light', note: 'CHECK: full|light']
+  confidence varchar [default: 'low', note: 'CHECK: high|mid|low']
+  grounded_on json [default: `[]`]
+  output_json json [not null, default: `{}`]
   groundedness_score decimal
-  overclaim_flag boolean
-  status varchar
+  overclaim_flag boolean [default: false]
+  status varchar [default: 'pending', note: 'CHECK: pending|running|done|failed']
+  created_at timestamp [default: `now()`]
 }
 Table patent_claims {
-  claim_id uuid [pk]
-  document_id uuid
-  claim_no int
-  claim_text text
-  is_independent boolean
+  claim_id uuid [pk, default: `gen_random_uuid()`]
+  document_id uuid [not null]
+  claim_no int [not null]
+  claim_text text [not null]
+  is_independent boolean [default: false]
   parent_claim_no int
+
+  indexes {
+    (document_id, claim_no) [unique, note: '중복 UNIQUE 2건이 RDS에 존재(버그 추정) — 범위 밖, 그대로 반영']
+  }
 }
 Table claim_limitations {
-  limitation_id uuid [pk]
-  claim_id uuid
-  limitation_order int
-  normalized_text text
-  embedding vector
+  limitation_id uuid [pk, default: `gen_random_uuid()`]
+  claim_id uuid [not null]
+  limitation_order int [not null]
+  normalized_text text [not null]
+  embedding vector [note: 'vector(768)']
+
+  indexes {
+    (claim_id, limitation_order) [unique, note: '중복 UNIQUE 2건이 RDS에 존재(버그 추정) — 범위 밖, 그대로 반영']
+  }
 }
 Table ip_overlap_candidates {
-  candidate_id uuid [pk]
-  job_id uuid
-  hypothesis_id uuid
-  limitation_id uuid
-  evidence_id uuid
-  plan_technical_element text
+  candidate_id uuid [pk, default: `gen_random_uuid()`]
+  job_id uuid [not null]
+  hypothesis_id uuid [not null]
+  limitation_id uuid [not null]
+  evidence_id uuid [not null]
+  plan_technical_element text [not null]
   lexical_score decimal
   similarity_score decimal
   hybrid_score decimal
   rank int
+  created_at timestamp [default: `now()`]
 }
 
-Ref: ideas.idea_id < analysis_jobs.idea_id
-Ref: ideas.idea_id < hypotheses.idea_id
-Ref: analysis_jobs.job_id < hypotheses.job_id
-Ref: analysis_jobs.job_id < evidence_items.job_id
-Ref: hypotheses.hypothesis_id < evidence_items.hypothesis_id
-Ref: documents.document_id < evidence_items.document_id
-Ref: analysis_jobs.job_id < agent_runs.job_id
-Ref: hypotheses.hypothesis_id < agent_runs.hypothesis_id
-Ref: documents.document_id < patent_claims.document_id
-Ref: patent_claims.claim_id < claim_limitations.claim_id
-Ref: analysis_jobs.job_id < ip_overlap_candidates.job_id
-Ref: hypotheses.hypothesis_id < ip_overlap_candidates.hypothesis_id
-Ref: claim_limitations.limitation_id < ip_overlap_candidates.limitation_id
-Ref: evidence_items.evidence_id < ip_overlap_candidates.evidence_id
+Ref: ideas.idea_id < analysis_jobs.idea_id [delete: cascade]
+Ref: ideas.idea_id < hypotheses.idea_id [delete: cascade]
+Ref: analysis_jobs.job_id < hypotheses.job_id [delete: cascade]
+Ref: analysis_jobs.job_id < evidence_items.job_id [delete: cascade]
+Ref: hypotheses.hypothesis_id < evidence_items.hypothesis_id [delete: cascade]
+Ref: documents.document_id < evidence_items.document_id [delete: cascade]
+Ref: analysis_jobs.job_id < agent_runs.job_id [delete: cascade]
+Ref: hypotheses.hypothesis_id < agent_runs.hypothesis_id [delete: cascade]
+Ref: agent_runs.target_run_id < agent_runs.agent_run_id
+Ref: documents.document_id < patent_claims.document_id [delete: cascade]
+Ref: patent_claims.claim_id < claim_limitations.claim_id [delete: cascade]
+Ref: analysis_jobs.job_id < ip_overlap_candidates.job_id [delete: cascade]
+Ref: hypotheses.hypothesis_id < ip_overlap_candidates.hypothesis_id [delete: cascade]
+Ref: claim_limitations.limitation_id < ip_overlap_candidates.limitation_id [delete: cascade]
+Ref: evidence_items.evidence_id < ip_overlap_candidates.evidence_id [delete: cascade]
