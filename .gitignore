@@ -3,6 +3,7 @@
 .env.*
 !.env.example
 *.pem
+!db/certs/*.pem
 *.key
 secrets/
 *.json
