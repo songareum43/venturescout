@@ -6,6 +6,8 @@ CREATE EXTENSION IF NOT EXISTS vector;
 CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 
 -- ① 구조화된 입력
+-- 실제 데이터 전환 지점:
+-- 업로드 파일/폼 입력을 파싱한 raw_input과 Structuring 에이전트 결과를 여기에 저장한다.
 CREATE TABLE ideas (
     idea_id            uuid PRIMARY KEY DEFAULT uuid_generate_v4(),
     raw_input          text,
@@ -47,6 +49,9 @@ CREATE TABLE hypotheses (
 );
 
 -- ④ 근거 출처 통합 + 임베딩
+-- 실제 데이터 전환 지점:
+-- 특허, 웹 문서, 인터뷰 메모, 가격 자료, 기술 벤치마크 문서를 여기에 적재한다.
+-- clean_text는 검색 대상이고 embedding은 pgvector 검색 대상이다.
 CREATE TABLE documents (
     document_id       uuid PRIMARY KEY DEFAULT uuid_generate_v4(),
     source_type       varchar(30),          -- patent|seed_review|seed_competitor|seed_pricing|web
@@ -62,6 +67,9 @@ CREATE TABLE documents (
 );
 
 -- ⑤ ★ 그라운딩 원자
+-- 실제 데이터 전환 지점:
+-- documents에서 특정 hypothesis에 대해 뽑은 근거 조각을 저장한다.
+-- 모든 AgentRun.grounded_on은 이 evidence_id만 인용해야 한다.
 CREATE TABLE evidence_items (
     evidence_id       uuid PRIMARY KEY DEFAULT uuid_generate_v4(),
     job_id            uuid REFERENCES analysis_jobs(job_id),
@@ -110,6 +118,9 @@ CREATE TABLE claim_limitations (
     embedding        vector(768)            -- 짧아 청크 불필요
 );
 
+-- 실제 데이터 전환 지점:
+-- Track B 검색기가 plan_technical_element와 claim_limitations를 매칭한 후보를 저장한다.
+-- 이 테이블은 법적 판단이 아니라 IP 에이전트가 읽을 후보 목록이다.
 CREATE TABLE ip_overlap_candidates (
     candidate_id          uuid PRIMARY KEY DEFAULT uuid_generate_v4(),
     job_id                uuid REFERENCES analysis_jobs(job_id),

@@ -572,23 +572,34 @@ python -c "from agents.graph import build_graph; r=build_graph().invoke({'job_id
 
 ## 현재 모델 연결 상태
 
-현재는 실제 LLM 모델과 연결되어 있지 않다.
+기본 실행은 여전히 mock 모드다. AWS 인증 없이도 테스트와 데모를 돌릴 수 있게 하기 위해서다.
 
 ```text
 model_name = "mock"
 ```
 
-호출하지 않는 것:
+Bedrock Claude를 실제 호출하려면 환경변수로 provider를 바꾼다.
 
-```text
-Bedrock
-Claude
-OpenAI
-실제 PostgreSQL
-실제 pgvector 검색
+```bash
+$env:AGENT_LLM_PROVIDER="bedrock"
+$env:AWS_REGION="us-east-1"
+$env:BEDROCK_MODEL_ID="anthropic.claude-3-5-sonnet-20240620-v1:0"
+python scripts/run_bedrock_graph.py
 ```
 
-지금 구현은 “실제 AI 판단”이 아니라, **실제 AI를 붙이기 전에 데이터 흐름과 에이전트 계약이 올바른지 검증하는 mock E2E**다.
+Bedrock 모드에서는 `agents/llm.py`가 AWS Bedrock Runtime Converse API를 호출한다. 각 `AgentRun.model_name`에는 `bedrock:{BEDROCK_MODEL_ID}`가 기록된다.
+
+현재 Bedrock 연결 방식:
+
+```text
+Structuring -> Claude가 raw_input을 ideas + H1~H5로 구조화
+Market/Competitor/BM -> Claude가 mock evidence 기반 output_json 보강
+Tech -> Claude가 H4 evidence 기반 기술 리스크/검증 계획 보강
+IP -> Claude가 H5 evidence + ip_overlap_candidates 기반 IP 리스크 해석 보강
+Critic -> 코드의 결정 규칙을 유지하면서 Claude가 summary/objection/next_experiments 보강
+```
+
+그래도 evidence 검색은 아직 mock이다. 즉, 현재 상태는 **Bedrock Claude가 분석 문장을 보강하지만, DB/pgvector/특허 검색은 아직 실제 서비스가 아니라 mock 데이터 원천을 사용한다.**
 
 ## 왜 agents/nodes/*를 바로 연결하지 않았나
 
@@ -610,6 +621,109 @@ OpenAI
 3. Critic ON/OFF 평가 하네스 추가
 4. 실제 LLM 호출 계층 추가
 5. 실제 DB와 retrieval을 붙일 때 `retrieval/tools.py` 내부만 교체
+
+## PostgreSQL 연결 skeleton
+
+실제 DB 연결을 위해 다음 파일을 추가했다.
+
+```text
+db/connection.py
+  DATABASE_URL을 .env 또는 환경변수에서 읽고 psycopg2 connection/cursor를 제공한다.
+
+scripts/inspect_db.py
+  information_schema와 pg_indexes를 이용해 documents, ideas, hypotheses,
+  evidence_items, analysis_jobs, agent_runs의 컬럼/PK/FK/index/row count를 출력한다.
+
+scripts/inspect_documents.py
+  documents의 embedding 차원, source_type별 count, 샘플 문서 5개를 출력한다.
+
+retrieval/pgvector_search.py
+  documents.embedding 기준 pgvector top_k 검색 함수다.
+  query embedding 생성은 아직 TODO/mock vector로 분리되어 있다.
+
+agents/db_workflow.py
+  LLM 호출 없는 DB workflow skeleton이다.
+  create_idea(), create_analysis_job(), create_hypotheses(),
+  search_evidence_for_hypothesis(), log_agent_run(), run_analysis_workflow()를 제공한다.
+```
+
+실행 전 `.env` 또는 PowerShell 환경변수에 `DATABASE_URL`이 있어야 한다.
+
+```powershell
+$env:DATABASE_URL="postgresql://postgres:<PASSWORD>@your-db-host.ap-northeast-1.rds.amazonaws.com:5432/venturescout"
+```
+
+스키마 확인:
+
+```bash
+python scripts/inspect_db.py
+```
+
+documents 확인:
+
+```bash
+python scripts/inspect_documents.py
+```
+
+pgvector 검색 확인:
+
+```bash
+python -m retrieval.pgvector_search
+```
+
+검색 결과의 `distance`는 query embedding과 documents.embedding 사이의 cosine distance다.
+
+```text
+distance가 작다  -> query와 문서가 의미상 더 가깝다
+distance가 크다  -> query와 문서가 의미상 덜 가깝다
+```
+
+단, 현재 `retrieval/pgvector_search.py`의 query embedding은 실제 embedding 모델이 아니라 deterministic mock vector다. 따라서 지금 검색 결과는 **검색 품질 평가가 아니라 DB 연결과 pgvector SQL 동작 확인용**이다.
+
+중요한 해석 원칙:
+
+```text
+가까운 문서가 나온다
+  -> 관련 근거 또는 IP 중첩 후보일 수 있어 검토해야 한다.
+
+가까운 문서가 안 나온다
+  -> 현재 검색 조건에서는 강한 유사 신호가 약하다는 뜻이다.
+  -> 하지만 "기존 특허와 안 겹친다", "안전하다"로 단정하면 안 된다.
+```
+
+IP 판단은 documents 전체 유사도만으로 하지 않는다. 최종적으로는 `claim_limitations`, `ip_overlap_candidates`, 수동 claim chart 검토까지 이어져야 한다.
+
+DB workflow skeleton 실행:
+
+```bash
+python -m agents.db_workflow
+```
+
+현재 RDS 접속 테스트 결과, host에는 도달했지만 password가 없어 실패했다.
+
+```text
+fe_sendauth: no password supplied
+```
+
+따라서 실제 컬럼/PK/FK/index 확인은 `DATABASE_URL`에 비밀번호를 넣은 뒤 `scripts/inspect_db.py`로 먼저 수행해야 한다. INSERT 계층은 실행 시 information_schema에서 실제 컬럼을 읽고, 존재하는 컬럼만 사용하도록 작성되어 있다.
+
+DB workflow skeleton 실행 시 `agent_runs.agent_name`은 DB CHECK constraint를 따른다. `skeleton` 같은 임의 이름은 들어갈 수 없고, 현재는 가설 코드에 따라 실제 agent 이름을 사용한다.
+
+```text
+H1 -> market
+H2 -> competitor
+H3 -> bm
+H4 -> tech
+H5 -> ip
+```
+
+이번 실행이 실제 LLM 분석이 아니라 skeleton이라는 정보는 `agent_name`이 아니라 `agent_runs.output_json` 안에 남긴다.
+
+```json
+{
+  "skeleton": true
+}
+```
 
 ## 개발 원칙
 

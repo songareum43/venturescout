@@ -20,6 +20,9 @@ Agent 출력이 실제 근거(Evidence)에 기반하는지 검증하는 모듈.
 from typing import Iterable
 
 from agents.guardrails import detect_overclaim
+from agents.logger import get_logger
+
+logger = get_logger("grounding")
 
 
 def validate_grounded_output(
@@ -53,6 +56,9 @@ def validate_grounded_output(
     )
     """
 
+    agent_name = output.get("agent_name", "unknown")
+    logger.debug(f"[validate] agent={agent_name}")
+
     errors = []
 
     # 사용 가능한 Evidence ID 집합
@@ -63,44 +69,33 @@ def validate_grounded_output(
         output.get("grounded_on", [])
     )
 
-    # --------------------------------------------------------------
+    logger.debug(f"  grounded_on: {len(grounded_on)} / allowed: {len(allowed)}")
+
     # 1. grounded_on 검증
-    # --------------------------------------------------------------
-
     if not grounded_on:
-        errors.append(
-            "grounded_on is empty"
-        )
+        errors.append("grounded_on is empty")
+        logger.warning(f"  ⚠️  {agent_name}: grounded_on 비어있음")
 
-    # --------------------------------------------------------------
     # 2. 존재하지 않는 Evidence 사용 여부 확인
-    # --------------------------------------------------------------
-
     invalid = grounded_on - allowed
 
     if invalid:
-        errors.append(
-            f"invalid evidence_id found: {sorted(invalid)}"
-        )
+        errors.append(f"invalid evidence_id found: {sorted(invalid)}")
+        logger.warning(f"  ⚠️  {agent_name}: 존재하지 않는 evidence_id = {sorted(invalid)}")
 
-    # --------------------------------------------------------------
     # 3. 과장 표현 검증
-    # --------------------------------------------------------------
-
     text = str(output)
-
     overclaims = detect_overclaim(text)
 
     for phrase in overclaims:
-        errors.append(
-            f"overclaim phrase detected: {phrase}"
-        )
+        errors.append(f"overclaim phrase detected: {phrase}")
+        logger.warning(f"  ⚠️  {agent_name}: 금지 표현 = '{phrase}'")
 
-    # --------------------------------------------------------------
     # 검증 결과 반환
-    # --------------------------------------------------------------
+    success = len(errors) == 0
+    if success:
+        logger.info(f"✓ {agent_name} 근거 검증 통과")
+    else:
+        logger.error(f"✗ {agent_name} 근거 검증 실패: {len(errors)}개 오류")
 
-    return (
-        len(errors) == 0,
-        errors
-    )
+    return (success, errors)

@@ -61,12 +61,18 @@ from agents.mock_data import MOCK_RAW_INPUT
 
 initial_state = {
 
+    # 실제 데이터 전환 지점:
+    # 운영에서는 API가 analysis_jobs를 만들고 생성된 job_id를 넣는다.
     # 작업 ID
     "job_id": "job_mock_001",
 
+    # 실제 데이터 전환 지점:
+    # 운영에서는 ideas를 insert한 뒤 생성된 idea_id를 넣는다.
     # 아이디어 ID
     "idea_id": "idea_mock_001",
 
+    # 실제 데이터 전환 지점:
+    # 운영에서는 업로드 파일 파서 또는 request body에서 추출한 원문 텍스트를 넣는다.
     # 사용자 원본 입력
     "raw_input": MOCK_RAW_INPUT,
 

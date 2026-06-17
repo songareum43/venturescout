@@ -18,6 +18,10 @@ LLM 출력의 과장(Overclaim) 표현을 탐지하기 위한 Guardrail 모듈.
 ✅ "추가 검증이 필요하다"
 """
 
+from agents.logger import get_logger
+
+logger = get_logger("guardrails")
+
 # ------------------------------------------------------------------
 # 사용 금지 표현 목록
 #
@@ -67,8 +71,15 @@ def detect_overclaim(text: str) -> list[str]:
     ["침해 위험이 없다"]
     """
 
-    return [
+    found = [
         phrase
         for phrase in BANNED_CLAIMS
         if phrase in text
     ]
+
+    if found:
+        logger.warning(f"⚠️  금지된 과장 표현 발견: {found}")
+    else:
+        logger.debug("✓ 과장 표현 검사 통과")
+
+    return found

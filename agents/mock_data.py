@@ -6,6 +6,11 @@ agents/mock_data.py
 이 파일은 실제 DB가 붙기 전까지 9개 Tier 0 테이블의 최소 흐름을
 흉내 낸다. graph와 retrieval은 여기 있는 dict/list를 읽어서
 shared.contracts의 Pydantic 모델로 변환한다.
+
+실제 데이터 전환 지점:
+- 사용자가 업로드한 파일/텍스트는 MOCK_RAW_INPUT 대신 API 또는 파일 파서 결과로 들어와야 한다.
+- ideas, hypotheses, documents, evidence_items, ip_overlap_candidates는 이 파일의 고정 dict/list가 아니라 DB 조회 결과로 채워야 한다.
+- 실제 전환 후 이 파일은 테스트 fixture 전용으로만 남기고, 운영 코드에서는 직접 import하지 않게 분리하는 것이 좋다.
 """
 
 MOCK_JOB_ID = "job_mock_001"
