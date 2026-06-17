@@ -1,22 +1,47 @@
-"""LangGraph 런타임 State 컨테이너 (느슨).
+"""Tier 0 VentureScout 흐름에서 쓰는 LangGraph 런타임 State."""
 
-주의(통합 계약): ②③④⑤⑥이 병렬 분기로 같은 키에 동시 기록하므로,
-fan-out 되는 키(findings)는 reducer가 필수. 없으면 INVALID_CONCURRENT_GRAPH_UPDATE.
-"""
 from __future__ import annotations
+
 import operator
-from typing import TypedDict, Annotated
-from shared.contracts import Hypothesis, EvidenceItem, AgentFinding, CriticResult
+from typing import Annotated, Any, TypedDict
 
-
-def _merge_dict(a: dict, b: dict) -> dict:
-    return {**(a or {}), **(b or {})}
+from shared.contracts import (
+    AgentRun,
+    AnalysisJob,
+    CriticResult,
+    Decision,
+    DocumentRecord,
+    EvidenceItem,
+    Hypothesis,
+    IPOverlapCandidate,
+    IdeaRecord,
+)
 
 
 class VentureScoutState(TypedDict, total=False):
-    idea: dict
+    # 요청으로 들어오는 기본 문맥.
+    job_id: str
+    idea_id: str
+    raw_input: str
+
+    # 데이터가 흐르는 테이블 순서.
+    idea: IdeaRecord
+    analysis_job: AnalysisJob
     hypotheses: list[Hypothesis]
-    evidence_pool: Annotated[dict[str, EvidenceItem], _merge_dict]  # 병렬 기록 머지
-    findings: Annotated[list[AgentFinding], operator.add]           # 병렬 append
+    documents: dict[str, DocumentRecord]
+    evidence_items: Annotated[dict[str, EvidenceItem], operator.or_]
+    agent_runs: Annotated[list[AgentRun], operator.add]
+    ip_overlap_candidates: Annotated[list[IPOverlapCandidate], operator.add]
+
+    # 최종 의사결정 뷰.
     critic: CriticResult
-    final_report: str
+    decision: Decision
+    final_report: dict[str, Any]
+
+    # agents/nodes/* 상세 노드가 graph로 이관되는 동안 유지하는 호환 키.
+    market_result: dict[str, Any] | None
+    competitor_result: dict[str, Any] | None
+    tech_result: dict[str, Any] | None
+    ip_result: dict[str, Any] | None
+    bm_result: dict[str, Any] | None
+    critic_result: dict[str, Any] | None

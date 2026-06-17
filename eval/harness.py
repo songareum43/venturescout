@@ -16,7 +16,7 @@ from typing import Optional
 from langgraph.graph import StateGraph, START, END
 
 from shared.state import VentureScoutState
-from shared.contracts import AgentFinding, CriticResult
+from shared.contracts import AgentRun, CriticResult
 from agents.graph import (
     build_graph,                                    # Critic ON (척추 그대로)
     structuring_node, market_node, competitor_node,
@@ -48,38 +48,40 @@ def build_graph_no_critic():
 
 
 # ── process 지표 (mock에서도 계산 가능) ──
-def json_validity(findings: list[AgentFinding]) -> float:
-    """findings가 전부 계약(AgentFinding) 스키마를 만족하는 비율. (재검증)"""
-    if not findings:
+# C 계약: 분석 산출은 agent_runs = list[AgentRun]. (예전 findings/AgentFinding → agent_runs/AgentRun)
+def json_validity(runs: list[AgentRun]) -> float:
+    """agent_runs가 전부 계약(AgentRun) 스키마를 만족하는 비율. (재검증)"""
+    if not runs:
         return 0.0
     ok = 0
-    for f in findings:
+    for r in runs:
         try:
-            AgentFinding.model_validate(f.model_dump())
+            AgentRun.model_validate(r.model_dump())
             ok += 1
         except Exception:
             pass
-    return ok / len(findings)
+    return ok / len(runs)
 
 
-def groundedness(findings: list[AgentFinding]) -> float:
-    """grounded_on(근거 id)이 비어있지 않은 finding 비율. 근거 없는 주장 = 비그라운드."""
-    if not findings:
+def groundedness(runs: list[AgentRun]) -> float:
+    """grounded_on(근거 id)이 비어있지 않은 run 비율. 근거 없는 주장 = 비그라운드."""
+    if not runs:
         return 0.0
-    return sum(1 for f in findings if f.grounded_on) / len(findings)
+    return sum(1 for r in runs if r.grounded_on) / len(runs)
 
 
-def overclaim_count(findings: list[AgentFinding]) -> int:
-    """overclaim = 근거 없이(또는 빈약하게) 높은 confidence를 주장하는 finding 수.
-    프록시: grounded_on 비었는데 confidence가 low가 아닌 경우. (ADR-014 정직성 위반)"""
-    return sum(1 for f in findings if not f.grounded_on and f.confidence != "low")
+def overclaim_count(runs: list[AgentRun]) -> int:
+    """overclaim = 근거 없이(또는 빈약하게) 높은 confidence를 주장하는 run 수.
+    프록시: grounded_on 비었는데 confidence가 low가 아닌 경우. (ADR-014 정직성 위반)
+    ※ AgentRun.grounded_on은 min_length=1이라 빈 경우가 계약상 없음 → 실질 0 (승격 시 재정의)."""
+    return sum(1 for r in runs if not r.grounded_on and r.confidence != "low")
 
 
 # ── 헤드라인: Critic ON/OFF 비교 ──
-def _naive_decision(findings: list[AgentFinding]) -> str:
+def _naive_decision(runs: list[AgentRun]) -> str:
     """Critic OFF 베이스라인 판정: 적대검증 없는 낙관 규칙.
-    근거 있는 finding이 하나라도 있으면 'go'(편향 그대로) — Critic이 이걸 교정하는지 본다."""
-    return "go" if any(f.grounded_on for f in findings) else "more_research"
+    근거 있는 run이 하나라도 있으면 'go'(편향 그대로) — Critic이 이걸 교정하는지 본다."""
+    return "go" if any(r.grounded_on for r in runs) else "more_research"
 
 
 def _invoke_timed(graph, idea: dict) -> tuple[dict, float]:
@@ -92,10 +94,10 @@ def _invoke_timed(graph, idea: dict) -> tuple[dict, float]:
 def _compare_from_runs(off_state: dict, off_latency: float,
                        on_state: dict, on_latency: float) -> dict:
     """이미 돌린 OFF/ON 결과로 헤드라인 지표 산출 (순수 함수 — 재invoke 없음)."""
-    off_findings = off_state.get("findings", [])
+    off_runs = off_state.get("agent_runs", [])
     critic: Optional[CriticResult] = on_state.get("critic")
 
-    off_decision = _naive_decision(off_findings)
+    off_decision = _naive_decision(off_runs)
     on_decision = critic.decision if critic else None
     n_objections = len(critic.objections) if critic else 0
 
@@ -104,7 +106,7 @@ def _compare_from_runs(off_state: dict, off_latency: float,
         "on_decision": on_decision,                 # Critic 교정 판정
         "decision_changed": off_decision != on_decision,
         "objections_added": n_objections,           # Critic이 제기한 반박 수
-        "overclaims_in_off": overclaim_count(off_findings),
+        "overclaims_in_off": overclaim_count(off_runs),
         "critic_latency_overhead_s": round(on_latency - off_latency, 4),
     }
 
@@ -126,13 +128,13 @@ def evaluate(idea: dict) -> dict:
     """
     off_state, off_latency = _invoke_timed(build_graph_no_critic(), idea)
     on_state, on_latency = _invoke_timed(build_graph(), idea)
-    findings = on_state.get("findings", [])
+    runs = on_state.get("agent_runs", [])
 
     return {
         "agent_metrics": {
-            "json_validity": json_validity(findings),
-            "groundedness": groundedness(findings),
-            "overclaim_count": overclaim_count(findings),
+            "json_validity": json_validity(runs),
+            "groundedness": groundedness(runs),
+            "overclaim_count": overclaim_count(runs),
         },
         # ★ 헤드라인 (ADR-019) — 위에서 돌린 OFF/ON 재사용(재invoke 없음)
         "multiagent_effect": _compare_from_runs(off_state, off_latency, on_state, on_latency),

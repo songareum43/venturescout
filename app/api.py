@@ -3,8 +3,11 @@ Track D — FastAPI (비동기 job + SSE 스트리밍).
 얇은 클라이언트 원칙: 에이전트 로직은 graph(C)에, API는 호출 + 이벤트 봉투 중계만.
 
 ★ ADR-007 — D가 SSE 이벤트 봉투 포맷 소유(겉), 내부는 LangGraph astream_events(안).
-★ ADR-023 — 단일 실행: astream_events 한 번으로 단계 중계 + 최종 state 캡처
-            (ainvoke 재실행 없음). findings/evidence_pool reducer 전제(state.py).
+★ ADR-023 — 단일 실행: astream_events 한 번으로 단계 중계 + 최종 state 캡처(ainvoke 재실행 없음).
+★ job_id 오케스트레이션 — /analyze 진입점에서 ideas+analysis_jobs 행을 만들어 job_id를 발급하고,
+   그 job_id를 graph에 (초기 state + RunnableConfig 둘 다)로 흘린다. C는 state["job_id"]로,
+   B(persistence)는 RunnableConfig.configurable.job_id로 읽는다(두 소비자 모두 충족).
+   계약: agent_runs/AgentRun, CriticResult (shared.contracts, C 소유).
 """
 from __future__ import annotations
 import asyncio
@@ -12,6 +15,7 @@ import json
 import os
 from typing import AsyncIterator
 
+import psycopg2
 from fastapi import FastAPI
 from fastapi.responses import StreamingResponse
 from pydantic import BaseModel
@@ -48,6 +52,54 @@ def _sse(payload: dict) -> str:
     return f"data: {json.dumps(payload, ensure_ascii=False, default=str)}\n\n"
 
 
+# ── job_id 라이프사이클 (D 소유 진입점) ───────────────────────────────────────
+# DATABASE_URL은 .env에서 옴(검증은 로컬 docker postgres로). config.py(B)가 머지되면
+# 그쪽 db_dsn으로 교체 가능 — 지금은 D가 독립적으로 최소 연결만 갖는다.
+
+def _db_conn():
+    return psycopg2.connect(os.environ["DATABASE_URL"], connect_timeout=10)
+
+
+def _create_job(raw_input: str) -> tuple[str, str]:
+    """ideas → analysis_jobs 행을 만들고 (job_id, idea_id) 반환. status=running.
+
+    analysis_jobs.idea_id가 NOT NULL FK라 ideas를 먼저 만든다(스키마: ideas←analysis_jobs).
+    """
+    conn = _db_conn()
+    try:
+        with conn.cursor() as cur:
+            cur.execute(
+                "INSERT INTO ideas (raw_input) VALUES (%s) RETURNING idea_id",
+                (raw_input,),
+            )
+            idea_id = str(cur.fetchone()[0])
+            cur.execute(
+                "INSERT INTO analysis_jobs (idea_id, status, started_at) "
+                "VALUES (%s, 'running', now()) RETURNING job_id",
+                (idea_id,),
+            )
+            job_id = str(cur.fetchone()[0])
+        conn.commit()
+        return job_id, idea_id
+    finally:
+        conn.close()
+
+
+def _finish_job(job_id: str, status: str, decision: str | None, summary: str | None) -> None:
+    """분석 종료 시 analysis_jobs 상태/결정 업데이트 (done|failed)."""
+    conn = _db_conn()
+    try:
+        with conn.cursor() as cur:
+            cur.execute(
+                "UPDATE analysis_jobs SET status=%s, decision=%s, decision_summary=%s, "
+                "finished_at=now() WHERE job_id=%s",
+                (status, decision, summary, job_id),
+            )
+        conn.commit()
+    finally:
+        conn.close()
+
+
 @app.get("/health")
 def health() -> dict:
     return {"status": "ok"}
@@ -58,24 +110,38 @@ async def analyze(req: AnalyzeRequest) -> StreamingResponse:
     """SSE 스트리밍: job → 에이전트 단계(running/done) → 최종 report.
 
     봉투 포맷 (ADR §3, UI·평가가 의존):
-      {"type":"job",   "status":"running|done|failed", "stage":null}
+      {"type":"job",   "status":"running|done|failed", "stage":null, "job_id":"..."}
       {"type":"stage", "stage":"<노드명>", "label":"<표시>", "status":"running|done"}
-      {"type":"report","decision":"...", "summary":"...", "findings":[...]}
+      {"type":"report","decision":"...", "summary":"...", "agent_runs":[...]}
     """
 
     async def event_stream() -> AsyncIterator[str]:
-        yield _sse({"type": "job", "status": "running", "stage": None})
+        # ① job_id 발급 (ideas+analysis_jobs INSERT). 실패하면 바로 봉투로 보고.
+        try:
+            job_id, idea_id = await asyncio.to_thread(_create_job, req.idea)
+        except Exception as exc:  # noqa: BLE001
+            yield _sse({"type": "job", "status": "failed", "stage": None,
+                        "error": f"job 생성 실패: {type(exc).__name__}: {exc}"})
+            return
 
-        # astream_events 한 번으로 단계 중계 + 최종 state 누적 (재실행 없음)
-        findings: list[dict] = []
+        yield _sse({"type": "job", "status": "running", "stage": None, "job_id": job_id})
+
+        # astream_events 한 번으로 단계 중계 + agent_runs 누적 (재실행 없음)
+        agent_runs: list[dict] = []
         critic: dict | None = None
 
-        # ① 입력: 현재 idea는 평문 → graph가 idea dict 기대. 최소 래핑(① 구조화가 채움).
-        #   키는 DB 스키마(ideas.raw_input)와 일치시킴 — C가 실 구조화 붙일 때 그대로 읽도록.
-        init_state = {"idea": {"raw_input": req.idea}}
+        # ① 입력: job_id/idea_id/raw_input을 초기 state로(C는 state로 읽음).
+        init_state = {
+            "job_id": job_id,
+            "idea_id": idea_id,
+            "raw_input": req.idea,
+            "idea": {"raw_input": req.idea},
+        }
+        # B(persistence)는 RunnableConfig.configurable.job_id로 읽으므로 config에도 주입.
+        config = {"configurable": {"job_id": job_id, "idea_id": idea_id}}
 
         try:
-            async for ev in _graph.astream_events(init_state, version="v2"):
+            async for ev in _graph.astream_events(init_state, version="v2", config=config):
                 etype = ev["event"]
                 name = ev.get("name")
                 if name not in KNOWN_NODES:
@@ -92,9 +158,9 @@ async def analyze(req: AnalyzeRequest) -> StreamingResponse:
                 elif etype == "on_chain_end":
                     out = ev.get("data", {}).get("output") or {}
                     if isinstance(out, dict):
-                        for f in out.get("findings", []) or []:
-                            findings.append(
-                                f.model_dump() if hasattr(f, "model_dump") else f
+                        for r in out.get("agent_runs", []) or []:
+                            agent_runs.append(
+                                r.model_dump() if hasattr(r, "model_dump") else r
                             )
                         c = out.get("critic")
                         if c is not None:
@@ -105,22 +171,28 @@ async def analyze(req: AnalyzeRequest) -> StreamingResponse:
                     })
 
         except Exception as exc:  # noqa: BLE001 — 데모용 광역 캐치 후 봉투로 보고
-            yield _sse({"type": "job", "status": "failed", "stage": None,
+            await asyncio.to_thread(_finish_job, job_id, "failed", None, None)
+            yield _sse({"type": "job", "status": "failed", "stage": None, "job_id": job_id,
                         "error": f"{type(exc).__name__}: {exc}"})
             return
 
-        # 최종 리포트 (critic 판단 + 누적 findings = Evidence Board 소스)
+        # 최종 리포트 (critic 판단 + 누적 agent_runs = Evidence Board 소스)
         decision = (critic or {}).get("decision", "more_research")
         summary = (critic or {}).get("summary", "근거 부족 — 추가 검증 필요")
+
+        # 잡 종료 기록 (status=done, decision 저장)
+        await asyncio.to_thread(_finish_job, job_id, "done", decision, summary)
+
         yield _sse({
             "type": "report",
+            "job_id": job_id,
             "decision": decision,
             "summary": summary,
             "confidence": (critic or {}).get("confidence"),
             "objections": (critic or {}).get("objections", []),
             "next_experiments": (critic or {}).get("next_experiments", []),
-            "findings": findings,
+            "agent_runs": agent_runs,
         })
-        yield _sse({"type": "job", "status": "done", "stage": None})
+        yield _sse({"type": "job", "status": "done", "stage": None, "job_id": job_id})
 
     return StreamingResponse(event_stream(), media_type="text/event-stream")

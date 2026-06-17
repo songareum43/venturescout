@@ -63,18 +63,21 @@ def _render_board(report: dict) -> str:
         "",
     ]
 
-    findings = report.get("findings", [])
-    if findings:
+    # C 계약: report.agent_runs = list[AgentRun dict]. signal/next_experiment는
+    # strict 필드가 아니라 output_json(loose) 안에 있으므로 거기서 방어적으로 읽는다.
+    runs = report.get("agent_runs", [])
+    if runs:
         lines.append("### 가설별 근거")
         lines.append("")
         lines.append("| 에이전트 | 깊이 | 신뢰도 | 신호 | 근거 |")
         lines.append("|---|---|---|---|---|")
-        for f in findings:
-            agent = f.get("agent", "?")
-            depth = f.get("depth", "")
-            conf = CONFIDENCE_KO.get(f.get("confidence", ""), f.get("confidence", ""))
-            signal = (f.get("signal") or "").replace("|", "\\|")
-            grounded = ", ".join(f.get("grounded_on", [])) or "—"
+        for r in runs:
+            agent = r.get("agent_name", "?")
+            depth = r.get("depth", "")
+            conf = CONFIDENCE_KO.get(r.get("confidence", ""), r.get("confidence", ""))
+            output = r.get("output_json") or {}
+            signal = (output.get("signal") or "").replace("|", "\\|")
+            grounded = ", ".join(r.get("grounded_on", [])) or "—"
             lines.append(f"| {agent} | {depth} | {conf} | {signal} | {grounded} |")
         lines.append("")
 
