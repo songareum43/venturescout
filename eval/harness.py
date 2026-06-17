@@ -82,18 +82,18 @@ def _naive_decision(findings: list[AgentFinding]) -> str:
     return "go" if any(f.grounded_on for f in findings) else "more_research"
 
 
-def compare_critic(idea: dict) -> dict:
-    """멀티에이전트 헤드라인 지표. ON vs OFF를 같은 idea로 돌려 차이를 정량화."""
+def _invoke_timed(graph, idea: dict) -> tuple[dict, float]:
+    """이미 컴파일된 graph를 1회 invoke → (최종 state, 소요초). 컴파일은 타이밍 밖."""
     t0 = time.perf_counter()
-    off = build_graph_no_critic().invoke({"idea": idea})
-    off_latency = time.perf_counter() - t0
+    state = graph.invoke({"idea": idea})
+    return state, time.perf_counter() - t0
 
-    t1 = time.perf_counter()
-    on = build_graph().invoke({"idea": idea})
-    on_latency = time.perf_counter() - t1
 
-    off_findings = off.get("findings", [])
-    critic: Optional[CriticResult] = on.get("critic")
+def _compare_from_runs(off_state: dict, off_latency: float,
+                       on_state: dict, on_latency: float) -> dict:
+    """이미 돌린 OFF/ON 결과로 헤드라인 지표 산출 (순수 함수 — 재invoke 없음)."""
+    off_findings = off_state.get("findings", [])
+    critic: Optional[CriticResult] = on_state.get("critic")
 
     off_decision = _naive_decision(off_findings)
     on_decision = critic.decision if critic else None
@@ -109,13 +109,24 @@ def compare_critic(idea: dict) -> dict:
     }
 
 
+def compare_critic(idea: dict) -> dict:
+    """멀티에이전트 헤드라인 지표. ON vs OFF를 같은 idea로 돌려 차이를 정량화.
+    OFF·ON 각 1회(총 2회) invoke — 최소 호출."""
+    off_state, off_latency = _invoke_timed(build_graph_no_critic(), idea)
+    on_state, on_latency = _invoke_timed(build_graph(), idea)
+    return _compare_from_runs(off_state, off_latency, on_state, on_latency)
+
+
 # ── 전체 평가 ──
 def evaluate(idea: dict) -> dict:
-    """idea 하나에 대한 process 지표 묶음. 지금 계산 가능한 건 실측, 나머진 None+TODO."""
-    t0 = time.perf_counter()
-    result = build_graph().invoke({"idea": idea})
-    latency = round(time.perf_counter() - t0, 4)
-    findings = result.get("findings", [])
+    """idea 하나에 대한 process 지표 묶음. 지금 계산 가능한 건 실측, 나머진 None+TODO.
+
+    OFF·ON 그래프를 각 1회만 돌리고(총 2회), ON 결과를 agent_metrics·헤드라인이
+    공유한다 — 예전엔 evaluate가 ON을 한 번 더 돌려 총 3회였음(실 LLM 시 비용 3배).
+    """
+    off_state, off_latency = _invoke_timed(build_graph_no_critic(), idea)
+    on_state, on_latency = _invoke_timed(build_graph(), idea)
+    findings = on_state.get("findings", [])
 
     return {
         "agent_metrics": {
@@ -123,9 +134,10 @@ def evaluate(idea: dict) -> dict:
             "groundedness": groundedness(findings),
             "overclaim_count": overclaim_count(findings),
         },
-        "multiagent_effect": compare_critic(idea),  # ★ 헤드라인 (ADR-019)
+        # ★ 헤드라인 (ADR-019) — 위에서 돌린 OFF/ON 재사용(재invoke 없음)
+        "multiagent_effect": _compare_from_runs(off_state, off_latency, on_state, on_latency),
         "system_metrics": {
-            "latency_s": latency,
+            "latency_s": round(on_latency, 4),
             # TODO(승격): Bedrock 토큰·$ 집계 — 실 LLM 연결 후 (지금 mock은 비용 0)
             "cost_usd": None,
         },

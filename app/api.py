@@ -71,7 +71,8 @@ async def analyze(req: AnalyzeRequest) -> StreamingResponse:
         critic: dict | None = None
 
         # ① 입력: 현재 idea는 평문 → graph가 idea dict 기대. 최소 래핑(① 구조화가 채움).
-        init_state = {"idea": {"raw_text": req.idea}}
+        #   키는 DB 스키마(ideas.raw_input)와 일치시킴 — C가 실 구조화 붙일 때 그대로 읽도록.
+        init_state = {"idea": {"raw_input": req.idea}}
 
         try:
             async for ev in _graph.astream_events(init_state, version="v2"):
