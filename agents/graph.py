@@ -287,11 +287,17 @@ def _agent_run(
     evidence: list[EvidenceItem],
     output_json: dict[str, Any],
 ) -> AgentRun:
-    # 모든 에이전트 출력은 AgentRun 하나로 감싼다.
-    # 이 공통 envelope 덕분에 Critic은 agent_name이 무엇이든 같은 방식으로 검수할 수 있다.
-    # 조정 가능 지점:
-    # agent_run_id는 지금 mock 문자열이지만, 실제 DB에서는 agent_runs insert 후 발급된 uuid를 쓰는 편이 맞다.
-    return AgentRun(
+    """AgentRun Pydantic 객체를 만들고, DB가 설정된 환경이면 즉시 적재한다.
+
+    인메모리 state 반환과 DB 적재를 여기서 함께 처리하는 이유:
+    - 모든 노드(market/competitor/tech/ip/bm/critic)가 이 함수를 공유하므로
+      각 노드에 개별적으로 적재 코드를 넣을 필요가 없다.
+    - 적재 실패 시에도 AgentRun을 반환하므로 그래프 흐름이 끊기지 않는다.
+    """
+    run = AgentRun(
+        # 실제 데이터 전환 지점:
+        # DB에 INSERT 성공하면 try_persist_agent_run()이 실제 UUID를 반환한다.
+        # 지금은 fallback으로 mock ID를 유지한다.
         agent_run_id=f"run_mock_{agent_name}_{hypothesis_id}",
         job_id=job_id,
         hypothesis_id=hypothesis_id,
@@ -305,6 +311,17 @@ def _agent_run(
         overclaim_flag=False,
         status="done",
     )
+
+    # DB 적재 배선 — DB가 미설정(mock 모드)이면 내부에서 조용히 건너뛴다.
+    # try_persist_agent_run은 절대 예외를 던지지 않으므로 여기서 try/except 불필요.
+    from pipeline.persistence import try_persist_agent_run  # 순환 import 방지용 지연 import
+    db_run_id = try_persist_agent_run(run, evidence)
+    if db_run_id:
+        # DB가 발급한 실제 UUID로 agent_run_id를 교체한다.
+        # 이후 state에서 참조할 때 항상 실제 DB 행의 ID를 가리키게 된다.
+        run = run.model_copy(update={"agent_run_id": db_run_id})
+
+    return run
 
 
 def structuring_node(state: VentureScoutState) -> dict:
