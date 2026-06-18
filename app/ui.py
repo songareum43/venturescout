@@ -51,6 +51,23 @@ async def stream_events(idea: str) -> AsyncIterator[dict]:
                     continue
 
 
+def _extract_signal(output: dict) -> str:
+    """신호 칸 텍스트 — output_json(loose)에서 방어적으로 뽑는다.
+
+    D 노드는 'signal'을 쓰지만 C(ko-agent) 노드는 'summary'/'key_findings'를 쓴다.
+    키가 트랙마다 달라도 보드가 비지 않게 signal → summary → key_findings[0] 순 폴백.
+    """
+    text = output.get("signal") or output.get("summary")
+    if not text:
+        kf = output.get("key_findings")
+        if isinstance(kf, list) and kf:
+            text = str(kf[0])
+    text = str(text or "")
+    if len(text) > 80:
+        text = text[:80] + "…"
+    return text.replace("|", "\\|").replace("\n", " ")
+
+
 def _render_board(report: dict) -> str:
     """report 이벤트 → Evidence Board 마크다운."""
     decision = report.get("decision", "more_research")
@@ -76,7 +93,7 @@ def _render_board(report: dict) -> str:
             depth = r.get("depth", "")
             conf = CONFIDENCE_KO.get(r.get("confidence", ""), r.get("confidence", ""))
             output = r.get("output_json") or {}
-            signal = (output.get("signal") or "").replace("|", "\\|")
+            signal = _extract_signal(output)
             grounded = ", ".join(r.get("grounded_on", [])) or "—"
             lines.append(f"| {agent} | {depth} | {conf} | {signal} | {grounded} |")
         lines.append("")
