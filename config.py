@@ -73,10 +73,41 @@ class Config:
 
     @property
     def db_dsn(self) -> str:
-        # DATABASE_URL이 있으면 그대로 사용, 없으면 POSTGRES_* 조합으로 생성
+        """DB 연결 문자열을 우선순위 순으로 반환한다.
+
+        우선순위:
+        1. DATABASE_URL — 완성된 URL이 있으면 그대로 쓴다.
+        2. RDS_SECRET_ARN — AWS Secrets Manager에서 비밀번호를 런타임에 가져온다.
+           .env에 비밀번호를 평문으로 저장하지 않아도 되므로 운영 환경 기본 방식이다.
+        3. POSTGRES_* 낱개 변수 — 로컬 Docker/로컬 RDS 직접 연결 시 사용한다.
+        """
+        # 1순위: DATABASE_URL이 있으면 파싱 없이 바로 반환
         url = os.getenv("DATABASE_URL")
         if url:
             return url
+
+        # 2순위: Secrets Manager ARN → boto3로 런타임 조회
+        # 비밀번호를 .env에 저장하지 않고 IAM Role/Instance Profile로 접근한다.
+        secret_arn = os.getenv("RDS_SECRET_ARN")
+        if secret_arn:
+            import json as _j
+            import boto3
+            region = secret_arn.split(":")[3]   # ARN 형식: arn:aws:...:region:account:...
+            client = boto3.client("secretsmanager", region_name=region)
+            secret = _j.loads(
+                client.get_secret_value(SecretId=secret_arn)["SecretString"]
+            )
+            # RDS 관리형 시크릿은 host/port/dbname까지 포함하는 경우가 있어
+            # .env의 POSTGRES_* 값을 폴백으로 사용한다.
+            host = secret.get("host", self.db_host)
+            port = secret.get("port", self.db_port)
+            dbname = secret.get("dbname", self.db_name)
+            return (
+                f"postgresql://{secret['username']}:{quote_plus(secret['password'])}"
+                f"@{host}:{port}/{dbname}"
+            )
+
+        # 3순위: POSTGRES_* 낱개 변수 조합
         # 비밀번호에 URI 예약문자(#, :, ?, @ 등)가 있어도 안전하게 인코딩
         return (
             f"postgresql://{self.db_user}:{quote_plus(self.db_password)}"

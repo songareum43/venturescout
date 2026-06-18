@@ -11,11 +11,30 @@ job_id/hypothesis_id는 그래프 오케스트레이션이 LangGraph RunnableCon
 from __future__ import annotations
 
 import json as _json
+import logging as _logging
+import os as _os
+import uuid as _uuid
 
 import psycopg2
 from pgvector.psycopg2 import register_vector
 
 from config import config
+
+_logger = _logging.getLogger("persistence")
+
+
+def _is_real_uuid(value: str) -> bool:
+    """문자열이 RFC 4122 UUID인지 확인한다.
+
+    DB의 job_id/hypothesis_id 컬럼은 uuid 타입이므로
+    mock ID("job_mock_001", "H1" 등)를 그대로 넘기면 INSERT가 실패한다.
+    이 함수로 먼저 걸러 DB 오류를 방지한다.
+    """
+    try:
+        _uuid.UUID(str(value))
+        return True
+    except ValueError:
+        return False
 
 
 def get_connection() -> psycopg2.extensions.connection:
@@ -233,4 +252,142 @@ def persist_agent_output(
             output_json=output_json,
         )
     finally:
+        conn.close()
+
+
+# ── Track C 노드용 고수준 적재 헬퍼 ─────────────────────────────────────────
+
+def _db_configured() -> bool:
+    """DB 연결 정보가 최소한 하나라도 설정되어 있으면 True.
+
+    DATABASE_URL → RDS_SECRET_ARN → POSTGRES_PASSWORD 순으로 확인한다.
+    셋 다 없으면 mock/로컬 환경으로 보고 DB 쓰기를 건너뛴다.
+    """
+    return bool(
+        _os.getenv("DATABASE_URL")
+        or _os.getenv("RDS_SECRET_ARN")
+        or config.db_password  # POSTGRES_PASSWORD가 설정된 경우
+    )
+
+
+def try_persist_agent_run(agent_run, evidence) -> str | None:
+    """AgentRun Pydantic 모델을 DB에 저장 시도한다. (Track C 노드 전용)
+
+    설계 원칙:
+    - DB가 설정되지 않은 환경(AGENT_LLM_PROVIDER=mock, 로컬 테스트)에서는
+      아무것도 하지 않고 None을 반환한다. 그래프 흐름에 영향이 없다.
+    - DB 연결이나 INSERT가 실패해도 예외를 던지지 않는다.
+      적재 실패는 경고 로그로 남기고, 그래프는 계속 실행된다.
+    - evidence_items 먼저 INSERT → agent_runs INSERT 순서를 지킨다.
+      이 순서를 어기면 agent_runs.grounded_on에 아직 존재하지 않는
+      evidence_id가 담겨 조회 시 불일치가 생긴다.
+
+    mock evidence 처리:
+    - retrieve() mock 모드가 반환하는 evidence_id는 'ev_mock_' 접두사를 가진다.
+    - 이 ID는 documents 테이블에 실제 행이 없으므로 evidence_items INSERT 시
+      document_id FK 위반이 발생한다.
+    - 따라서 mock evidence는 evidence_items INSERT를 건너뛰고,
+      기존 ID를 grounded_on에 그대로 사용한다.
+    - 실제 retrieve()로 교체되면 prefix가 바뀌어 자동으로 정상 경로를 탄다.
+
+    Args:
+        agent_run: AgentRun Pydantic 모델 (shared.contracts.AgentRun)
+        evidence:  EvidenceItem 리스트 (shared.contracts.EvidenceItem)
+
+    Returns:
+        DB에서 발급된 agent_run_id(str), 건너뛰었으면 None
+    """
+    # DB가 설정되지 않은 환경 → 조용히 종료 (mock 모드 호환)
+    if not _db_configured():
+        return None
+
+    # job_id가 유효한 UUID가 아니면 mock run이다.
+    # DB의 job_id 컬럼은 uuid 타입이므로 "job_mock_001" 같은 값을 넘기면
+    # INSERT가 type 오류로 실패한다. 여기서 미리 걸러 불필요한 DB 왕복을 막는다.
+    # 실제 job_id(UUID)가 들어오기 시작하면 이 분기는 자동으로 통과된다.
+    if not _is_real_uuid(agent_run.job_id):
+        _logger.debug(
+            "[PERSIST SKIP] mock job_id 감지 — agent=%s job_id=%s",
+            agent_run.agent_name, agent_run.job_id,
+        )
+        return None
+
+    # DB 연결 시도. 연결 실패 시 그래프는 죽이지 않고 경고만 남긴다.
+    try:
+        conn = get_connection()
+    except Exception as exc:
+        _logger.warning(
+            "[PERSIST SKIP] DB 연결 실패 — agent=%s hypothesis=%s error=%s",
+            agent_run.agent_name, agent_run.hypothesis_id, exc,
+        )
+        return None
+
+    try:
+        # ── 1단계: evidence_items INSERT ──────────────────────────────────
+        # agent_runs.grounded_on이 실제 evidence_id를 참조해야 하므로
+        # 반드시 agent_runs INSERT 전에 실행한다.
+        persisted_ids: list[str] = []
+        for ev in evidence:
+            if ev.evidence_id.startswith("ev_mock_"):
+                # mock evidence → documents 테이블에 없으므로 FK 위반 방지.
+                # 실제 검색으로 교체되면 이 분기는 자동으로 사라진다.
+                persisted_ids.append(ev.evidence_id)
+                continue
+
+            try:
+                real_id = create_evidence_item(
+                    conn,
+                    job_id=agent_run.job_id,
+                    hypothesis_id=agent_run.hypothesis_id or "",
+                    document_id=ev.document_id,
+                    source_type=ev.source_type,
+                    evidence_text=ev.evidence_text,
+                    stance=ev.stance,
+                    relevance_score=ev.relevance_score,
+                    reliability_score=ev.reliability_score,
+                )
+                persisted_ids.append(real_id)
+            except Exception as exc:
+                # 개별 evidence INSERT 실패 → 해당 항목만 건너뜀.
+                # 나머지 evidence와 agent_run은 계속 저장한다.
+                _logger.warning(
+                    "[PERSIST SKIP] evidence_item INSERT 실패 — id=%s error=%s",
+                    ev.evidence_id, exc,
+                )
+                persisted_ids.append(ev.evidence_id)  # 원본 ID 보존
+
+        # ── 2단계: agent_runs INSERT ──────────────────────────────────────
+        # grounded_on은 위에서 확정된 evidence_id 목록을 사용한다.
+        # mock ID가 섞여 있어도 grounded_on은 jsonb/text[]라 FK 제약이 없다.
+        effective_grounded = persisted_ids or agent_run.grounded_on
+        run_id = create_agent_run(
+            conn,
+            job_id=agent_run.job_id,
+            hypothesis_id=agent_run.hypothesis_id,
+            agent_name=agent_run.agent_name,
+            model_name=agent_run.model_name or config.bedrock_model_id,
+            depth=agent_run.depth,
+            confidence=agent_run.confidence,
+            grounded_on=effective_grounded,
+            output_json=agent_run.output_json,
+            groundedness_score=agent_run.groundedness_score,
+            overclaim_flag=agent_run.overclaim_flag,
+            status=agent_run.status,
+        )
+        _logger.info(
+            "[PERSIST OK] agent=%s hypothesis=%s → agent_run_id=%s",
+            agent_run.agent_name, agent_run.hypothesis_id, run_id,
+        )
+        return run_id
+
+    except Exception as exc:
+        # agent_runs INSERT 자체가 실패한 경우. 그래프는 계속 실행된다.
+        _logger.error(
+            "[PERSIST ERROR] agent_run INSERT 실패 — agent=%s error=%s",
+            agent_run.agent_name, exc,
+        )
+        return None
+
+    finally:
+        # 연결은 항상 닫는다. connection pool 없이 매번 새 연결을 쓰기 때문.
         conn.close()
