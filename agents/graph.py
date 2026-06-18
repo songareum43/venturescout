@@ -776,6 +776,16 @@ def bm_node(state: VentureScoutState) -> dict:
         "key_findings": ["Pricing evidence is only a placeholder."],
         "risks": ["Buyer willingness and budget owner are unknown."],
         "recommendations": ["Run pricing interviews."],
+        # ── D 작업분(ADR-028/032): BM 도메인 5필드 + signal/next_experiment ──
+        # C의 _agent_output_with_llm 프레임워크 안으로 합침. mock이면 아래 값이,
+        # AGENT_LLM_PROVIDER=bedrock이면 Claude가 이 키들을 채워 반환한다(loose, ADR-016).
+        "signal": "[MOCK] 거래 수수료+구독 혼합 수익모델, 단위경제 미검증",
+        "next_experiment": "[MOCK] 가격 민감도 테스트(랜딩 A/B)로 과금단위·전환율 검증",
+        "revenue_model": "[MOCK] 거래 수수료 + 프리미엄 구독 혼합",
+        "pricing_hypothesis": "[MOCK] 거래액 3% 수수료 / 팀 단위 월 $29 구독",
+        "market_size_signal": "[MOCK] 추천 커머스 SaaS TAM 확대 추세(우상향)",
+        "unit_economics": "[MOCK] LTV > CAC 추정(구독 리텐션 가정) — 미검증",
+        "key_risk": "[MOCK] 무료 대체재·플랫폼 자체 추천기능에 마진 잠식",
     }
     return {
         "evidence_items": _evidence_map(evidence),
