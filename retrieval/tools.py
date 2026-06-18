@@ -1,96 +1,89 @@
-"""Track C 에이전트가 사용하는 mock 검색 도구.
-
-운영 환경에서는 Track B가 documents, evidence_items, claim_limitations에 대한
-하이브리드 검색으로 본문을 교체한다. 함수 시그니처는 이미 9개 테이블
-계약을 반환하므로, 에이전트는 병렬로 개발할 수 있다.
+"""
+Track B — 검색 tool (에이전트가 호출).
+shared.contracts의 EvidenceItem / IPOverlapCandidate를 반환 — 시그니처(반환 타입) 고정.
+내부는 pgvector + tsvector 하이브리드 검색(search/hybrid.py) + rerank(search/reranker.py).
 
 실제 데이터 전환 지점:
-- retrieve()는 MOCK_EVIDENCE 필터링 대신 PostgreSQL/pgvector/tsvector 하이브리드 검색을 호출해야 한다.
-- vector_search()는 MOCK_IP_CANDIDATES 필터링 대신 claim_limitations embedding 검색과 lexical 검색 결과를 조합해야 한다.
-- 반환 타입은 EvidenceItem, IPOverlapCandidate로 유지해야 graph와 agent contract가 깨지지 않는다.
+- retrieve(): documents 하이브리드 검색 → EvidenceItem 변환
+- vector_search(): claim_limitations 하이브리드 검색 → IPOverlapCandidate 변환
+- 반환 타입은 ko-agent (C팀) contracts와 일치하므로 agents/graph.py 교체 없이 동작.
 """
-
 from __future__ import annotations
 
-from agents.logger import get_logger
-from agents.mock_data import MOCK_EVIDENCE, MOCK_IP_CANDIDATES
-from shared.contracts import EvidenceItem, IPOverlapCandidate
+import uuid
 
-logger = get_logger("retrieval.tools")
+from shared.contracts import EvidenceItem, IPOverlapCandidate
+from search.hybrid import HybridSearcher
+from search.reranker import ReRanker
+
+_searcher = HybridSearcher()
+_reranker = ReRanker()
 
 
 def retrieve(
     hypothesis_id: str,
     query: str,
     *,
-    job_id: str = "job_mock_001",
+    job_id: str = "",
     k: int = 5,
 ) -> list[EvidenceItem]:
-    """가설과 관련된 evidence_items 행을 반환한다."""
+    """가설별 찬반 근거 회수 (documents 하이브리드 검색 + rerank)."""
+    raw = _searcher.search_documents(query=query, top_k=k * 2)
+    ranked = _reranker.rerank(raw, prefer_contradicting=True, top_k=k)
 
-    logger.debug(f"[retrieve] hypothesis_id={hypothesis_id}, query='{query}', k={k}")
-
-    # 실제 데이터 전환 지점:
-    # 여기서 MOCK_EVIDENCE를 순회하지 말고, documents/evidence_items를 대상으로
-    # job_id + hypothesis_id + query 기반 하이브리드 검색을 실행한다.
-    # 검색 결과는 아래처럼 EvidenceItem으로 변환해서 반환하면 graph 코드는 그대로 쓸 수 있다.
-    matched = [
+    return [
         EvidenceItem(
+            evidence_id=str(item["document_id"]),
             job_id=job_id,
-            **item,
+            hypothesis_id=hypothesis_id,
+            document_id=str(item["document_id"]),
+            source_type=item["source_type"],
+            evidence_text=str(item["clean_text"])[:1000],
+            stance=item.get("stance", "neutral"),
+            relevance_score=float(item.get("hybrid_score") or 0.0),
+            reliability_score=float(item.get("reliability_score") or 0.0),
         )
-        for item in MOCK_EVIDENCE
-        if item["hypothesis_id"] == hypothesis_id
+        for item in ranked
     ]
-
-    result = matched[:k]
-    logger.info(f"✓ retrieve 완료: {len(result)}개 근거 수집 ({hypothesis_id})")
-    for item in result[:3]:
-        logger.debug(f"  - {item.evidence_id}: {item.stance}")
-
-    return result
 
 
 def vector_search(
     technical_elements: list[str],
     *,
-    job_id: str = "job_mock_001",
-    hypothesis_id: str = "H5",
+    job_id: str = "",
+    hypothesis_id: str = "",
     k: int = 10,
 ) -> list[IPOverlapCandidate]:
-    """기계가 생성한 IP 중첩 후보를 반환한다. 법적 판단은 아니다."""
+    """시그니처: 기술요소 ↔ 특허 limitation 매칭 후보 (claim_limitations 하이브리드 검색 + rerank)."""
+    query = " ".join(technical_elements)
+    plan_technical_element = technical_elements[0] if technical_elements else ""
 
-    logger.debug(f"[vector_search] hypothesis_id={hypothesis_id}, elements={technical_elements}, k={k}")
+    raw = _searcher.search_claim_limitations(query=query, top_k=k * 3)
+    ranked = _reranker.rerank(raw, prefer_contradicting=False, top_k=k * 3)
 
-    # 실제 데이터 전환 지점:
-    # 여기서 MOCK_IP_CANDIDATES를 읽지 말고, technical_elements를 query로 삼아
-    # claim_limitations.embedding 벡터 검색 + normalized_text lexical 검색을 수행한다.
-    # 그 결과를 ip_overlap_candidates에 저장/조회한 뒤 IPOverlapCandidate로 반환한다.
-    elements = set(technical_elements)
-    matched = [
+    # 특허(patent_id) 단위 dedup — 같은 특허의 limitation 중 rerank_score 최상위 1개만 유지
+    seen_patents: set[str] = set()
+    deduped = []
+    for item in ranked:
+        pid = item.get("patent_id")
+        if pid not in seen_patents:
+            seen_patents.add(pid)
+            deduped.append(item)
+        if len(deduped) >= k:
+            break
+
+    return [
         IPOverlapCandidate(
+            candidate_id=str(uuid.uuid4()),
             job_id=job_id,
-            **{
-                key: value
-                for key, value in item.items()
-                if key != "limitation_text"
-            },
+            hypothesis_id=hypothesis_id,
+            limitation_id=str(item["limitation_id"]),
+            evidence_id=str(item["document_id"]),
+            plan_technical_element=plan_technical_element,
+            lexical_score=float(item.get("lexical_score") or 0.0),
+            similarity_score=float(item.get("similarity_score") or 0.0),
+            hybrid_score=float(item["hybrid_score"]),
+            rank=rank,
         )
-        for item in MOCK_IP_CANDIDATES
-        if item["hypothesis_id"] == hypothesis_id
-        and (not elements or item["plan_technical_element"] in elements)
+        for rank, item in enumerate(deduped, start=1)
     ]
-
-    result = matched[:k]
-
-    # IP 위험도별 분류
-    high_watch = [c for c in result if c.hybrid_score >= 0.78]
-    watch = [c for c in result if 0.70 <= c.hybrid_score < 0.78]
-    low_watch = [c for c in result if c.hybrid_score < 0.70]
-
-    logger.info(f"✓ vector_search 완료: {len(result)}개 IP 후보")
-    logger.info(f"  high_watch: {len(high_watch)}, watch: {len(watch)}, low_watch: {len(low_watch)}")
-    for item in result[:3]:
-        logger.debug(f"  - {item.candidate_id}: {item.plan_technical_element} (score={item.hybrid_score:.2f})")
-
-    return result
