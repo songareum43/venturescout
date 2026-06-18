@@ -1,0 +1,18 @@
+{
+  "source_type": "seed_competitor",
+  "ext_id": "seed_competitor_rebuy",
+  "title": "Rebuy - Shopify AI personalization and Smart Cart platform",
+  "clean_text": "Rebuy is a Shopify-native personalization platform offering Smart Cart, a fully customizable flyout cart replacing the default theme cart, alongside AI-powered product recommendations, dynamic bundles, search, and post-purchase upsells. Core packages are sold modularly: Cart & Merchandising, Checkout & Post-Purchase, Search & Collections, and Flows & A/B Testing. Includes a Rules Engine for recommendation logic and a guaranteed positive ROI policy comparing platform spend against Rebuy-attributed revenue. Targets Shopify and Shopify Plus brands seeking a no-code to low-code personalization solution across the full purchase journey.",
+  "meta": {
+    "product": "Rebuy",
+    "category": "recommendation_engine",
+    "platform": [
+      "Shopify",
+      "Shopify Plus"
+    ],
+    "target": "small to mid-size Shopify brands",
+    "pricing_model": "modular tiered subscription",
+    "source": "rebuyengine.com + storecensus.com/shopify-apps/rebuy",
+    "collected_date": "2026-06-17"
+  }
+}

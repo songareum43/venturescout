@@ -1,0 +1,17 @@
+{
+  "source_type": "seed_pricing",
+  "ext_id": "seed_pricing_oracle_commerce",
+  "title": "Oracle Commerce Cloud pricing - Page-view tiered subscription",
+  "clean_text": "Oracle Commerce Cloud uses a page-view based subscription model with Standard and Premium tiers. The Standard tier minimum commitment is 20 million page views annually, at a minimum list cost of approximately $400,000 per year. The Premium tier has a lower minimum of 1 million page views annually but at a higher per-unit rate, totaling approximately $800,000 per year at list pricing. Mid-sized retailers report base subscriptions starting around $180,000 per year with usage-based charges adding $50,000 to $70,000 annually.",
+  "meta": {
+    "product": "Oracle Commerce Cloud",
+    "pricing_model": "page-view tiered subscription",
+    "standard_tier_min_annual_usd": 400000,
+    "premium_tier_min_annual_usd": 800000,
+    "midsize_typical_annual_usd": "180000-250000",
+    "source": "redresscompliance.com/oracle-commerce-cloud-pricing + litextension.com",
+    "collected_date": "2026-06-17",
+    "min_price_usd": 15000,
+    "max_price_usd": 66667
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "source_type": "seed_competitor",
+  "ext_id": "seed_competitor_adobe_sensei",
+  "title": "Adobe Sensei Product Recommendations - Adobe Commerce AI engine",
+  "clean_text": "Adobe Sensei powers product recommendations within Adobe Commerce (formerly Magento Commerce), using artificial intelligence and machine learning to analyze aggregated shopper behavior including browsing history, purchase history, and cart contents. Offers nine distinct recommendation types spanning shopper-based, item-based, popularity-based, trending, and similarity-based algorithms. Recommendations are deployed as SaaS and surfaced on product pages, cart pages, and email campaigns. Integrates natively with Adobe Experience Cloud including Adobe Analytics, Adobe Target, and Adobe Experience Manager. Targets mid-to-large enterprises already on the Adobe Commerce platform.",
+  "meta": {
+    "product": "Adobe Sensei Product Recommendations",
+    "category": "recommendation_engine",
+    "parent": "Adobe",
+    "platform": [
+      "Adobe Commerce",
+      "Magento"
+    ],
+    "target": "mid to large enterprise retailers",
+    "pricing_model": "GMV-based, bundled with Adobe Commerce",
+    "source": "experienceleague.adobe.com",
+    "collected_date": "2026-06-17"
+  }
+}

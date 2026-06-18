@@ -1,0 +1,15 @@
+{
+  "source_type": "seed_pricing",
+  "ext_id": "seed_pricing_hcl_commerce",
+  "title": "HCL Commerce pricing - Custom enterprise quote",
+  "clean_text": "HCL Commerce does not publish pricing and uses a fully custom enterprise quote model. No free plan or trial is publicly available. Pricing is comparable to other enterprise commerce platforms in the six-figure annual range, with IBM support fees adding to total licensing cost. The acquisition history from IBM has created additional cost layers for some existing customers maintaining legacy integrations.",
+  "meta": {
+    "product": "HCL Commerce",
+    "pricing_model": "custom enterprise quote",
+    "free_tier": false,
+    "source": "saasworthy.com/product/hcl-commerce/pricing",
+    "collected_date": "2026-06-17",
+    "min_price_usd": null,
+    "max_price_usd": null
+  }
+}

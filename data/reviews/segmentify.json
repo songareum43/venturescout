@@ -1,0 +1,17 @@
+{
+  "source_type": "seed_review",
+  "ext_id": "seed_review_segmentify",
+  "title": "Segmentify - Integration challenges on complex platforms",
+  "clean_text": "Reviewers note that integration can be problematic for complex ecommerce platform structures. Some users want recommendations personalized more specifically to individual customer journey stages rather than relying solely on overall behavioral data. Other reported issues include occasional technical glitches, limited customization options compared to larger competitors, and reporting features that reviewers feel need improvement. No API is offered, which may limit integration flexibility for technically sophisticated merchants.",
+  "meta": {
+    "product": "Segmentify",
+    "sentiment": "negative",
+    "issue_type": [
+      "Implementation_Complexity",
+      "Feature_Limitation",
+      "Feature_Missing"
+    ],
+    "source": "capterra.com/p/151750/Segmentify + softwareworld.co/software/segmentify-reviews",
+    "collected_date": "2026-06-17"
+  }
+}

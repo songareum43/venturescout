@@ -8,6 +8,7 @@
 secrets/
 *.json
 credentials
+credentials/
 
 # ── Python ──
 __pycache__/

@@ -1,0 +1,19 @@
+{
+  "source_type": "seed_pricing",
+  "ext_id": "seed_pricing_google_recommendations_ai",
+  "title": "Google Recommendations AI pricing - Tiered consumption-based",
+  "clean_text": "Vertex AI Search for commerce charges $0.27 per 1,000 prediction requests for up to 20 million monthly requests, $0.18 per 1,000 for the next 280 million, and $0.10 per 1,000 above 300 million. Training and tuning cost $2.50 per node per hour. Free trial includes $600 in credits valid for 6 months. No charge for importing catalog data or user events.",
+  "meta": {
+    "product": "Google Recommendations AI",
+    "pricing_model": "tiered consumption-based",
+    "inference_tier1_per_1k_usd": 0.27,
+    "inference_tier2_per_1k_usd": 0.18,
+    "inference_tier3_per_1k_usd": 0.1,
+    "training_per_node_hour_usd": 2.5,
+    "free_trial": "$600 credits, 6 months",
+    "source": "cloud.google.com/retail/pricing",
+    "collected_date": "2026-06-17",
+    "min_price_usd": 0,
+    "max_price_usd": null
+  }
+}

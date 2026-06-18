@@ -1,0 +1,20 @@
+{
+  "source_type": "seed_competitor",
+  "ext_id": "seed_competitor_nosto",
+  "title": "Nosto - AI-powered Commerce Experience Platform (CXP)",
+  "clean_text": "Nosto is an AI-powered Commerce Experience Platform unifying product recommendations, on-site search personalization, and category merchandising under a single control plane, powered by its experience.AI engine. Connects customer, product, and content data to personalize interactions across the product detail page, search bar, and category grid. Integrates with Shopify, BigCommerce, Magento, and Salesforce Commerce Cloud. Targets mid-market to enterprise ecommerce directors seeking one vendor covering discovery across multiple storefront touchpoints rather than separate point solutions.",
+  "meta": {
+    "product": "Nosto",
+    "category": "personalization_platform",
+    "platform": [
+      "Shopify",
+      "BigCommerce",
+      "Magento",
+      "Salesforce Commerce Cloud"
+    ],
+    "target": "mid-market to enterprise ecommerce",
+    "pricing_model": "custom quote, traffic and feature-based",
+    "source": "nosto.com/commerce-experience-platform + ecommerceguide.com/apps/nosto",
+    "collected_date": "2026-06-17"
+  }
+}

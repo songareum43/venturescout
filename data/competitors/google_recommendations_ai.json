@@ -1,0 +1,19 @@
+{
+  "source_type": "seed_competitor",
+  "ext_id": "seed_competitor_google_recommendations_ai",
+  "title": "Google Recommendations AI - Vertex AI Search for commerce",
+  "clean_text": "Google Recommendations AI, now rebranded as Vertex AI Search for commerce, is a fully managed machine learning service on Google Cloud for product recommendations and search ranking. It uses Google's deep learning models trained on retail-specific data patterns. Integrates with Google Analytics, Merchant Center, and the broader Google Cloud ecosystem. Targets mid-to-large retailers requiring scalable recommendation infrastructure. Purely API-based with no plug-and-play storefront UI. Requires engineering resources for catalog data ingestion, user event tracking, and model management.",
+  "meta": {
+    "product": "Google Recommendations AI",
+    "current_name": "Vertex AI Search for commerce",
+    "category": "recommendation_engine",
+    "parent": "Google Cloud",
+    "platform": [
+      "Google Cloud"
+    ],
+    "target": "mid to large enterprise retailers",
+    "pricing_model": "consumption-based",
+    "source": "cloud.google.com/recommendations + cloud.google.com/retail/pricing",
+    "collected_date": "2026-06-17"
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "source_type": "seed_pricing",
+  "ext_id": "seed_pricing_klaviyo",
+  "title": "Klaviyo pricing - Active profile tiered, starting at $20/month",
+  "clean_text": "Klaviyo's Email plan starts at $20 per month for 500 contacts and 5,000 emails. The combined Email + SMS plan starts at $35 per month for 251 to 500 active profiles, including 5,000+ monthly email sends and 1,250 SMS or MMS credits, with product recommendations included at this entry tier. Pricing scales with active profile count: 10,000 contacts costs approximately $150 per month, and 20,000 contacts costs approximately $375 per month. SMS and WhatsApp messaging draw from a separate shared credit pool billed by message volume.",
+  "meta": {
+    "product": "Klaviyo",
+    "pricing_model": "active profile count tiered",
+    "entry_monthly_usd": 20,
+    "email_sms_entry_monthly_usd": 35,
+    "10k_contacts_monthly_usd": 150,
+    "20k_contacts_monthly_usd": 375,
+    "source": "emitrr.com/blog/klaviyo-pricing + omnisend.com/blog/klaviyo-pricing",
+    "collected_date": "2026-06-17",
+    "min_price_usd": 20,
+    "max_price_usd": null
+  }
+}

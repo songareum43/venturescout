@@ -1,0 +1,20 @@
+{
+  "source_type": "seed_competitor",
+  "ext_id": "seed_competitor_hcl_commerce",
+  "title": "HCL Commerce (formerly IBM Watson Commerce / WebSphere Commerce)",
+  "clean_text": "HCL Commerce, formerly IBM WebSphere Commerce and the platform underlying IBM Watson Commerce, was acquired by HCL Technologies from IBM in late 2018. It is an enterprise ecommerce platform supporting B2B, B2C, B2B2C, and marketplace business models with embedded product recommendations, personalized search, and AI-driven merchandising. IBM separately sold its Watson marketing and commerce cloud division to Centerbridge Partners in 2019. HCL Commerce targets large enterprises requiring high transaction volume and complex multi-site deployments, with a React-based headless storefront option. Supports multiple international languages.",
+  "meta": {
+    "product": "HCL Commerce",
+    "former_name": "IBM WebSphere Commerce / Watson Commerce",
+    "category": "ecommerce_platform",
+    "parent": "HCL Technologies",
+    "platform": [
+      "HCL Commerce Cloud",
+      "Google Cloud"
+    ],
+    "target": "large enterprise B2B and B2C retailers",
+    "pricing_model": "custom enterprise license",
+    "source": "trustradius.com + en.wikipedia.org/wiki/HCL_Commerce + royalcyber.com",
+    "collected_date": "2026-06-17"
+  }
+}

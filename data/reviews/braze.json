@@ -1,0 +1,17 @@
+{
+  "source_type": "seed_review",
+  "ext_id": "seed_review_braze",
+  "title": "Braze - Recommendations are message-centric, not storefront-native",
+  "clean_text": "Braze's product recommendation capability is built for personalizing marketing messages rather than rendering recommendation widgets directly on the storefront, requiring brands to also operate a separate onsite personalization tool for product detail and category pages. Data-savvy teams report that Braze's audience segmentation feels constrained compared to more flexible alternatives, with real implications for overall marketing stack architecture. The platform is positioned for enterprise-level companies, making it less cost-effective for small businesses and startups.",
+  "meta": {
+    "product": "Braze",
+    "sentiment": "negative",
+    "issue_type": [
+      "Feature_Missing",
+      "Feature_Limitation",
+      "Price"
+    ],
+    "source": "maestra.io/blog/comparisons/braze-alternatives + spendflo.com",
+    "collected_date": "2026-06-17"
+  }
+}

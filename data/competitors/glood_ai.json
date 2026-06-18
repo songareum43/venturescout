@@ -1,0 +1,18 @@
+{
+  "source_type": "seed_competitor",
+  "ext_id": "seed_competitor_glood_ai",
+  "title": "Glood.AI - Shopify AI personalization and recommendation platform",
+  "clean_text": "Glood.AI is a Shopify-native AI/ML personalization platform offering 12 types of product recommendation widgets including frequently bought together, recently viewed, trending, and bestseller logic, deployable across the product page, cart, mini cart, and checkout. Includes a visual builder for theme-integrated widget customization without code, plus checkout funnels, bundles, and smart popups for AOV growth. Glood also offers separate apps for AI-powered visual search, image and video generation, and inventory demand planning. Targets small to mid-market Shopify and Shopify Plus merchants, with case studies citing up to 145% AOV increases.",
+  "meta": {
+    "product": "Glood.AI",
+    "category": "recommendation_engine",
+    "platform": [
+      "Shopify",
+      "Shopify Plus"
+    ],
+    "target": "small to mid-market Shopify merchants",
+    "pricing_model": "freemium, display-volume tiered",
+    "source": "apps.shopify.com/recommendation-kit + glood.ai/platform/shopify",
+    "collected_date": "2026-06-17"
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "source_type": "seed_pricing",
+  "ext_id": "seed_pricing_salesforce_einstein",
+  "title": "Salesforce Einstein Recommendations pricing - Bundled GMV-based Commerce Cloud",
+  "clean_text": "Einstein Recommendations is bundled with Salesforce Commerce Cloud and not priced separately. Commerce Cloud pricing is GMV-based: approximately 1–3% of GMV for B2C and 1–2% for B2B editions. Pricing is quote-driven and not publicly disclosed as a fixed schedule. Implementation and customization costs add significantly to total cost of ownership. Not viable for stores unable to justify GMV-based platform costs.",
+  "meta": {
+    "product": "Salesforce Einstein Recommendations",
+    "pricing_model": "GMV-based, bundled",
+    "b2c_gmv_rate": "1-3%",
+    "b2b_gmv_rate": "1-2%",
+    "pricing_disclosure": "quote-driven, not public",
+    "source": "salesforce.com/products/b2c-commerce-pricing + elogic.co/blog/salesforce-pricing-plans",
+    "collected_date": "2026-06-17",
+    "min_price_usd": null,
+    "max_price_usd": null
+  }
+}

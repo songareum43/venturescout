@@ -1,0 +1,20 @@
+{
+  "source_type": "seed_competitor",
+  "ext_id": "seed_competitor_klaviyo",
+  "title": "Klaviyo - Ecommerce-focused B2C CRM with product recommendations",
+  "clean_text": "Klaviyo is a publicly traded (NYSE: KVYO) ecommerce-focused marketing platform combining email, SMS, and mobile messaging with a B2C CRM layer. Customer product recommendations are included starting at its entry Email + SMS tier, alongside predictive analytics, multi-channel attribution, and behavioral segmentation. Has a close relationship with Shopify, which owns approximately 11% of the company and recommends Klaviyo as the default email platform for Shopify Plus merchants. Targets ecommerce brands of all sizes, from small DTC stores to larger retailers, with deep native Shopify data sync as a core differentiator over generalist marketing platforms.",
+  "meta": {
+    "product": "Klaviyo",
+    "category": "marketing_automation",
+    "platform": [
+      "Shopify",
+      "web",
+      "email",
+      "SMS"
+    ],
+    "target": "small to mid-size ecommerce, Shopify-native",
+    "pricing_model": "active profile count tiered",
+    "source": "omnisend.com/blog/klaviyo-review-pricing-features + retainful.com/blog/klaviyo-pricing",
+    "collected_date": "2026-06-17"
+  }
+}

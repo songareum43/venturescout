@@ -1,0 +1,17 @@
+{
+  "source_type": "seed_review",
+  "ext_id": "seed_review_salesforce_einstein",
+  "title": "Salesforce Einstein Recommendations - High cost and platform lock-in",
+  "clean_text": "Salesforce Einstein Recommendations is only available as part of Commerce Cloud, making it inaccessible for merchants not already on the Salesforce platform. Implementation cost is high and requires Salesforce-certified partners, which adds significant overhead. Small businesses frequently cite cost as prohibitive. Einstein AI features require substantial historical data to produce reliable recommendations. Platform rebranding from Commerce Cloud to Agentforce Commerce has created integration instability for existing customers.",
+  "meta": {
+    "product": "Salesforce Einstein Recommendations",
+    "sentiment": "negative",
+    "issue_type": [
+      "Vendor_Lock_in",
+      "Price",
+      "Implementation_Complexity"
+    ],
+    "source": "Gartner Peer Insights + elogic.co + eesel.ai",
+    "collected_date": "2026-06-17"
+  }
+}

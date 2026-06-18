@@ -1,0 +1,20 @@
+{
+  "source_type": "seed_competitor",
+  "ext_id": "seed_competitor_sap_emarsys",
+  "title": "SAP Emarsys (now SAP Engagement Cloud) - Omnichannel marketing automation with AI recommendations",
+  "clean_text": "SAP Emarsys, rebranded to SAP Engagement Cloud in late 2025, is an omnichannel customer engagement platform offering AI-powered product recommendations through its Predict feature alongside email, SMS, push, and web personalization. Includes 60+ pre-built marketing automation tactics, customer segmentation, and real-time behavioral triggers for abandonment and retargeting. The platform is sold in two editions: Emarsys Edition, a standalone marketing automation platform, and Enterprise Edition, which adds real-time integration with SAP Commerce Cloud, S/4HANA, and Joule AI. Targets mid-to-large retailers, with Enterprise Edition specifically suited to existing SAP CX customers.",
+  "meta": {
+    "product": "SAP Emarsys",
+    "current_name": "SAP Engagement Cloud",
+    "category": "marketing_automation",
+    "parent": "SAP",
+    "platform": [
+      "SAP Commerce Cloud",
+      "standalone"
+    ],
+    "target": "mid to large enterprise retailers",
+    "pricing_model": "contact-based with channel add-ons",
+    "source": "g2.com + spadoom.com + community.sap.com",
+    "collected_date": "2026-06-17"
+  }
+}

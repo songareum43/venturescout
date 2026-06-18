@@ -1,0 +1,16 @@
+{
+  "source_type": "seed_review",
+  "ext_id": "seed_review_coveo",
+  "title": "Coveo - Total cost of ownership rises with platform growth",
+  "clean_text": "Users report that as Coveo's platform usage and feature adoption grows within an organization, total cost of ownership increases substantially over time. The platform is positioned as a broad enterprise relevance solution spanning ecommerce, customer service, and internal workplace search rather than a dedicated ecommerce recommendation tool, which means ecommerce-only buyers pay for capabilities outside their core need. Smaller businesses seeking a lower-cost, ecommerce-focused alternative frequently look to more specialized competitors instead.",
+  "meta": {
+    "product": "Coveo Relevance Cloud",
+    "sentiment": "negative",
+    "issue_type": [
+      "Price",
+      "Target_Mismatch"
+    ],
+    "source": "g2.com/products/coveo/reviews + softwareworld.co",
+    "collected_date": "2026-06-17"
+  }
+}

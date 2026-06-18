@@ -1,0 +1,17 @@
+{
+  "source_type": "seed_review",
+  "ext_id": "seed_review_constructor_io",
+  "title": "Constructor.io - High minimum contract value excludes smaller merchants",
+  "clean_text": "Constructor.io's average contract value is reported at approximately $150,000 per year, positioning it well outside reach for small and mid-size ecommerce merchants. The platform requires significant onboarding investment, including a multi-week Proof Schedule process to assess gaps before full implementation. Pricing negotiations are described as results-driven, requiring customers to demonstrate expected ROI to justify the investment, which adds complexity to the buying process compared to flat-rate competitors.",
+  "meta": {
+    "product": "Constructor.io",
+    "sentiment": "negative",
+    "issue_type": [
+      "Price",
+      "Implementation_Complexity",
+      "Pricing_Complexity"
+    ],
+    "source": "vendr.com/marketplace/constructor-io",
+    "collected_date": "2026-06-17"
+  }
+}

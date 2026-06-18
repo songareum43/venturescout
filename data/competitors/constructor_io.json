@@ -1,0 +1,18 @@
+{
+  "source_type": "seed_competitor",
+  "ext_id": "seed_competitor_constructor_io",
+  "title": "Constructor.io - Enterprise AI product discovery and recommendations",
+  "clean_text": "Constructor.io, founded in 2015, is an enterprise-focused AI product discovery platform offering search, autosuggest, browse, and recommendations built specifically for ecommerce. Uses natural language processing, machine learning-based ranking, and collaborative personalization, with a stated philosophy of prioritizing revenue impact over pure relevance. Recommendation pricing is based on A/B-tested results rather than flat fees, with optimization goals set per business need. Customers include Sephora, Backcountry, Tommy John, and Walmart's Jet.com. Targets large enterprise retailers with complex catalogs and dedicated merchandising teams.",
+  "meta": {
+    "product": "Constructor.io",
+    "category": "search_discovery",
+    "founded": 2015,
+    "platform": [
+      "enterprise ecommerce, API-based"
+    ],
+    "target": "large enterprise retailers",
+    "pricing_model": "custom enterprise, results-based",
+    "source": "saasworthy.com/product/constructor-io + vendr.com/marketplace/constructor-io",
+    "collected_date": "2026-06-17"
+  }
+}

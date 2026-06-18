@@ -1,0 +1,21 @@
+{
+  "source_type": "seed_competitor",
+  "ext_id": "seed_competitor_coveo",
+  "title": "Coveo Relevance Cloud - AI-powered enterprise relevance platform",
+  "clean_text": "Coveo Relevance Cloud, from publicly traded Coveo Solutions (TSX:CVO), is a SaaS-native AI relevance platform spanning search, recommendations, personalization, and merchandising across commerce, service, website, and workplace applications. Uses behavioral data, product attributes, and historical clicks to rank and recommend results, with understanding of variants, synonyms, and contextual intent. Integrates with Salesforce Commerce Cloud, SAP Commerce Cloud, Adobe Experience Manager, and commercetools. Targets large enterprises across finance, manufacturing, telecommunications, and retail requiring unified relevance across multiple business functions, not ecommerce alone.",
+  "meta": {
+    "product": "Coveo Relevance Cloud",
+    "category": "search_discovery",
+    "parent": "Coveo Solutions Inc.",
+    "platform": [
+      "Salesforce Commerce Cloud",
+      "SAP Commerce Cloud",
+      "Adobe Experience Manager",
+      "commercetools"
+    ],
+    "target": "large enterprise across multiple industries",
+    "pricing_model": "tiered plus custom enterprise",
+    "source": "capterra.com + g2.com/products/coveo/reviews",
+    "collected_date": "2026-06-17"
+  }
+}

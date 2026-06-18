@@ -1,0 +1,16 @@
+{
+  "source_type": "seed_pricing",
+  "ext_id": "seed_pricing_insider",
+  "title": "Insider One pricing - Custom quote averaging $48,000/year",
+  "clean_text": "Insider does not publish pricing and uses a fully custom quote model. Industry transaction data indicates an average annual cost of approximately $48,000, with pricing reaching up to $100,000 per year depending on scope and channels activated. Pricing varies significantly based on company size, number of channels used, and data volume.",
+  "meta": {
+    "product": "Insider One",
+    "pricing_model": "custom enterprise quote",
+    "average_annual_usd": 48000,
+    "max_observed_annual_usd": 100000,
+    "source": "vendr.com/buyer-guides/insider",
+    "collected_date": "2026-06-17",
+    "min_price_usd": 4000,
+    "max_price_usd": 8333
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "source_type": "seed_review",
+  "ext_id": "seed_review_google_recommendations_ai",
+  "title": "Google Recommendations AI - High barrier for non-technical merchants",
+  "clean_text": "Google Recommendations AI requires dedicated engineering resources for catalog ingestion, user event tracking, and model management. Non-technical ecommerce merchants cannot use it without significant development investment. No pre-built storefront widgets — all recommendation UI must be built from scratch. Product has been rebranded multiple times, causing integration instability for existing users.",
+  "meta": {
+    "product": "Google Recommendations AI",
+    "sentiment": "negative",
+    "issue_type": [
+      "Implementation_Complexity",
+      "Feature_Missing",
+      "Product_Stability"
+    ],
+    "source": "cloud.google.com + G2 reviews",
+    "collected_date": "2026-06-17"
+  }
+}

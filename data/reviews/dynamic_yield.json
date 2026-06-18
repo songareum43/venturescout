@@ -1,0 +1,16 @@
+{
+  "source_type": "seed_review",
+  "ext_id": "seed_review_dynamic_yield",
+  "title": "Dynamic Yield - High pricing excludes smaller teams",
+  "clean_text": "Most reviewers describe Dynamic Yield's pricing as high for smaller teams, leading many small businesses to choose more affordable alternatives unless they specifically require the platform's full feature set including journey orchestration and real-time analytics. Dynamic Yield uses fully custom quotes with no public pricing table, making upfront budget planning difficult for prospective enterprise buyers evaluating multiple vendors simultaneously.",
+  "meta": {
+    "product": "Dynamic Yield",
+    "sentiment": "negative",
+    "issue_type": [
+      "Price",
+      "Pricing_Complexity"
+    ],
+    "source": "personizely.net/blog/dynamic-yield-pricing",
+    "collected_date": "2026-06-17"
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "source_type": "seed_review",
+  "ext_id": "seed_review_algolia_recommend",
+  "title": "Algolia Recommend - Requires existing search subscription and technical setup",
+  "clean_text": "Algolia Recommend is not available as a standalone product and requires an existing Algolia Search subscription at the Premium or Elevate tier, adding cost on top of base search pricing. Customers on non-enterprise plans frequently report slow support response times, often being directed to documentation rather than receiving personalized help. Some startups using promotional credit programs report losing significant credit value because the credit clock starts at acceptance rather than at product launch, leading to unexpectedly high costs once the promotional period ends.",
+  "meta": {
+    "product": "Algolia Recommend",
+    "sentiment": "negative",
+    "issue_type": [
+      "Vendor_Lock_in",
+      "Product_Stability",
+      "Contract_Terms"
+    ],
+    "source": "meilisearch.com/blog/algolia-review + oreateai.com",
+    "collected_date": "2026-06-17"
+  }
+}

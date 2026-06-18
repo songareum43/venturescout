@@ -1,0 +1,15 @@
+{
+  "source_type": "seed_pricing",
+  "ext_id": "seed_pricing_shopify_native",
+  "title": "Shopify Native Recommendations pricing - Included at no additional cost",
+  "clean_text": "Shopify's native product recommendation feature is included at no additional cost with any Shopify subscription plan and requires no separate licensing. Merchants who need more advanced personalization beyond the native system typically pay for third-party apps separately, with costs ranging from free tiers to $50 or more per month depending on the chosen app.",
+  "meta": {
+    "product": "Shopify Native Recommendations",
+    "pricing_model": "included, no additional cost",
+    "additional_cost_usd": 0,
+    "source": "shopify.dev + litos.io",
+    "collected_date": "2026-06-17",
+    "min_price_usd": 0,
+    "max_price_usd": 0
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "source_type": "seed_review",
+  "ext_id": "seed_review_insider",
+  "title": "Insider One - Requires scale to justify investment",
+  "clean_text": "Reviewers note that a certain scale is required to realize return on investment, and the platform is best suited to medium to large businesses rather than small ecommerce operations. The breadth of the platform, spanning CDP, journey orchestration, and personalization across many channels, means smaller merchants with simpler needs may find the scope and cost disproportionate to what they actually use. The platform's value proposition depends heavily on having complex omnichannel requirements and mature data infrastructure already in place.",
+  "meta": {
+    "product": "Insider One",
+    "sentiment": "negative",
+    "issue_type": [
+      "Target_Mismatch"
+    ],
+    "source": "trustradius.com/products/insider-growth-management-platform-gmp",
+    "collected_date": "2026-06-17"
+  }
+}

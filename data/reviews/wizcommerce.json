@@ -1,0 +1,16 @@
+{
+  "source_type": "seed_review",
+  "ext_id": "seed_review_wizcommerce",
+  "title": "WizCommerce - Custom sender domain costs extra, not included by default",
+  "clean_text": "WizCommerce's base plan does not include sending order emails from the customer's own domain; enabling a custom sender address requires an additional monthly fee. A reviewer noted this cost was unanticipated and questioned whether business customers would accept tradeshow orders arriving from a WizCommerce-branded email address, suggesting the feature should be included by default rather than charged separately.",
+  "meta": {
+    "product": "WizCommerce",
+    "sentiment": "negative",
+    "issue_type": [
+      "Pricing_Complexity",
+      "Feature_Missing"
+    ],
+    "source": "Capterra user review",
+    "collected_date": "2026-06-17"
+  }
+}

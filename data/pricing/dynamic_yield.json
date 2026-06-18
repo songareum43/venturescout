@@ -1,0 +1,16 @@
+{
+  "source_type": "seed_pricing",
+  "ext_id": "seed_pricing_dynamic_yield",
+  "title": "Dynamic Yield pricing - Custom enterprise quote, no public pricing",
+  "clean_text": "Dynamic Yield does not publish a pricing table and uses fully custom quotes for every customer. The platform is positioned for enterprise brands, multi-region retailers, and businesses requiring personalization, journey orchestration, and real-time analytics at scale, implying enterprise-level six-figure annual contracts consistent with other Mastercard enterprise software offerings. No free tier or self-serve pricing option is available.",
+  "meta": {
+    "product": "Dynamic Yield",
+    "pricing_model": "custom enterprise quote",
+    "publicly_disclosed": false,
+    "free_tier": false,
+    "source": "personizely.net/blog/dynamic-yield-pricing",
+    "collected_date": "2026-06-17",
+    "min_price_usd": null,
+    "max_price_usd": null
+  }
+}

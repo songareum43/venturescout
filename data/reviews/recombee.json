@@ -1,0 +1,16 @@
+{
+  "source_type": "seed_review",
+  "ext_id": "seed_review_recombee",
+  "title": "Recombee - Steeper learning curve than plug-and-play tools",
+  "clean_text": "Recombee's high degree of customizability through its ReQL query language comes with a steeper learning curve than plug-and-play recommendation tools, requiring more technical investment to fully configure recommendation rules. Visual recommendation capability is not the platform's primary focus, so it may not feel as polished as tools specialized for visually-driven categories like fashion. Businesses without developer resources may find Recombee less approachable than no-code alternatives such as Algolia.",
+  "meta": {
+    "product": "Recombee",
+    "sentiment": "negative",
+    "issue_type": [
+      "Implementation_Complexity",
+      "Feature_Limitation"
+    ],
+    "source": "eesel.ai/blog/ai-visual-recommendation",
+    "collected_date": "2026-06-17"
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "source_type": "seed_competitor",
+  "ext_id": "seed_competitor_wizcommerce",
+  "title": "WizCommerce - AI-powered B2B wholesale sales platform",
+  "clean_text": "WizCommerce is an AI-powered sales and ecommerce platform built for wholesale distributors, manufacturers, and brands. The platform is organized around four core products: WizOrder, an AI-first order-taking app for sales reps; WizShop, a wholesale-native B2B ecommerce storefront; WizStudio, AI-powered catalog and product imagery generation; and WizPay, embedded B2B payments. It explicitly offers AI-driven personalized product recommendations and intelligent search based on buyer behavior and purchase history. The platform integrates with ERP and accounting systems including QuickBooks, NetSuite, and Fishbowl, and supports multi-channel order taking across tradeshows, field sales, and online. Founded in 2020, the company raised an $8M Series A round in August 2025 led by Peak XV Partners, bringing total funding to $13.5M.",
+  "meta": {
+    "product": "WizCommerce",
+    "category": "b2b_wholesale",
+    "parent": null,
+    "platform": [
+      "Web",
+      "SaaS"
+    ],
+    "target": "B2B wholesale distributors, manufacturers, and brands",
+    "pricing_model": "custom quote, pricing not published",
+    "source": "wizcommerce.com, Crunchbase, Z47 press release",
+    "collected_date": "2026-06-17"
+  }
+}

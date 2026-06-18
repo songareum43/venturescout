@@ -1,0 +1,16 @@
+{
+  "source_type": "seed_pricing",
+  "ext_id": "seed_pricing_vue_ai",
+  "title": "Vue.ai pricing - Custom subscription, not publicly disclosed",
+  "clean_text": "Vue.ai does not publish pricing on its website or major review platforms such as G2 or TrustRadius, requiring direct sales contact for a quote. The platform uses a subscription-based pricing model structured according to which specific modules and features a customer selects, such as catalog automation, personalization, or visual search. Vue.ai raised $50 million in funding from Taj Investment Holdings in September 2024, following a $17 million Series B led by Sequoia Capital India in 2019, bringing total known funding to approximately $77.5 million.",
+  "meta": {
+    "product": "Vue.ai",
+    "pricing_model": "custom subscription, module-based",
+    "publicly_disclosed": false,
+    "total_funding_usd": 77500000,
+    "source": "gartner.com/reviews/product/vue-ai + checkthat.ai/brands/vue-ai",
+    "collected_date": "2026-06-17",
+    "min_price_usd": null,
+    "max_price_usd": null
+  }
+}

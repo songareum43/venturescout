@@ -1,0 +1,17 @@
+{
+  "source_type": "seed_competitor",
+  "ext_id": "seed_competitor_wiser",
+  "title": "Wiser (GetWiser.ai) - Shopify AI product recommendations and upsell app",
+  "clean_text": "Wiser, operating at getwiser.ai, is a Shopify-native AI-powered product recommendation and upsell app delivering Amazon-style personalized suggestions including frequently bought together, related products, recently viewed, and post-purchase upsell widgets. The recommendation engine uses past sales history and a product matching algorithm comparing title, collection, content, and behavioral data to identify similar items. Supports placement on cart pages, cart drawers, popups, and email via integrations with Mailchimp and Klaviyo. Note: this product is distinct from Wiser Solutions (wiser.com), a separate company focused on competitive price intelligence and monitoring, not recommendations.",
+  "meta": {
+    "product": "Wiser (GetWiser.ai)",
+    "category": "recommendation_engine",
+    "platform": [
+      "Shopify"
+    ],
+    "target": "small to mid-size Shopify merchants",
+    "pricing_model": "order-volume tiered subscription",
+    "source": "digismoothie.com/app/wiser + getwiser.ai",
+    "collected_date": "2026-06-17"
+  }
+}

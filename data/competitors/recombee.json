@@ -1,0 +1,19 @@
+{
+  "source_type": "seed_competitor",
+  "ext_id": "seed_competitor_recombee",
+  "title": "Recombee - Domain-flexible AI recommendation engine (Recommender as a Service)",
+  "clean_text": "Recombee is a Recommender-as-a-Service platform combining collaborative filtering, content-based filtering, and knowledge-based systems through a RESTful API and SDKs designed by data scientists. Unlike ecommerce-specific competitors, Recombee is domain-flexible, having been used to recommend music, movies, books, news, cultural events, job listings, and ecommerce products. Includes ReQL, a proprietary filtering and boosting query language for fine-grained recommendation customization, and addresses the cold-start problem through automated content-based models. Founded by a team including four PhD holders with strong academic research ties. Targets developers and businesses wanting deep customization across varied content domains rather than a plug-and-play ecommerce widget.",
+  "meta": {
+    "product": "Recombee",
+    "category": "recommendation_engine",
+    "platform": [
+      "Shopify",
+      "Magento",
+      "API-based, any domain"
+    ],
+    "target": "developers, businesses needing custom recommendation logic",
+    "pricing_model": "usage-based tiered subscription",
+    "source": "saasworthy.com/product/recombee + recombee.com/blog/recommendation-engine",
+    "collected_date": "2026-06-17"
+  }
+}

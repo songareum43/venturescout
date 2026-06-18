@@ -1,0 +1,16 @@
+{
+  "source_type": "seed_pricing",
+  "ext_id": "seed_pricing_bazaarvoice",
+  "title": "Bazaarvoice pricing - Custom quote, $6,500 to $200,000+ annually",
+  "clean_text": "Bazaarvoice charges roughly $10,000 to $200,000 or more per year depending on deployment size and feature scope, based on real client quotes gathered in 2025 and 2026. The lowest realistic entry point is approximately $6,500 to $15,000 per year for self-serve syndication-only access through the Open Network program, with limited features and no on-site ratings collection included. Each additional retail syndication destination, such as Walmart or Costco, is priced separately on top of the base platform fee.",
+  "meta": {
+    "product": "Bazaarvoice",
+    "pricing_model": "custom enterprise quote",
+    "lowest_entry_annual_usd": "6500-15000",
+    "typical_range_annual_usd": "10000-200000+",
+    "source": "wiserreview.com/blog/bazaarvoice-pricing",
+    "collected_date": "2026-06-17",
+    "min_price_usd": 542,
+    "max_price_usd": 16667
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "source_type": "seed_pricing",
+  "ext_id": "seed_pricing_adobe_sensei",
+  "title": "Adobe Commerce pricing - GMV-tiered enterprise license",
+  "clean_text": "Adobe Commerce license fees are GMV-based and not publicly listed. On-premise license starts around $22,000/year for merchants under $1M GMV, scaling to $125,000+/year for $25M+ GMV. Adobe Commerce Cloud (managed hosting included) starts around $40,000/year, scaling to approximately $190,000/year at enterprise tier. Total cost of ownership including development, hosting, and support typically runs 2 to 3 times the license fee alone.",
+  "meta": {
+    "product": "Adobe Sensei Product Recommendations",
+    "pricing_model": "GMV-based tiered enterprise license",
+    "onpremise_start_usd": 22000,
+    "onpremise_max_usd": 125000,
+    "cloud_start_usd": 40000,
+    "cloud_max_usd": 190000,
+    "source": "checkthat.ai + mgt-commerce.com + folio3.com",
+    "collected_date": "2026-06-17",
+    "min_price_usd": 1833,
+    "max_price_usd": 15833
+  }
+}

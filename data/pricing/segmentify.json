@@ -1,0 +1,15 @@
+{
+  "source_type": "seed_pricing",
+  "ext_id": "seed_pricing_segmentify",
+  "title": "Segmentify pricing - Per-feature subscription starting at €149/month",
+  "clean_text": "Segmentify pricing starts at €149 per month, billed per feature, with a free trial available and no credit card required to begin. No free permanent plan is offered. The platform claims an average 9 times return on investment for customers, with free integration and widget design included at signup. Custom enterprise quotes are available directly through the vendor for larger deployments.",
+  "meta": {
+    "product": "Segmentify",
+    "pricing_model": "per-feature subscription",
+    "free_tier": false,
+    "source": "getapp.com/website-ecommerce-software/a/segmentify/pricing + capterra.com/p/151750/Segmentify/pricing",
+    "collected_date": "2026-06-17",
+    "min_price_usd": 161,
+    "max_price_usd": null
+  }
+}

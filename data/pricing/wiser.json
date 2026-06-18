@@ -1,0 +1,18 @@
+{
+  "source_type": "seed_pricing",
+  "ext_id": "seed_pricing_wiser",
+  "title": "Wiser pricing - Order-volume tiered, free to $49/month",
+  "clean_text": "Wiser offers a free plan for development stores, with paid plans starting at $9 per month for stores with up to 100 orders. Pricing scales with order volume: $19 per month for 101-300 orders, and $49 per month for 301-500 orders. Each tier includes AI recommendations and analytics features without feature gating, with cost scaling purely by order volume rather than feature access.",
+  "meta": {
+    "product": "Wiser (GetWiser.ai)",
+    "pricing_model": "order-volume tiered subscription",
+    "entry_monthly_usd": 9,
+    "mid_tier_monthly_usd": 19,
+    "top_tier_monthly_usd": 49,
+    "free_tier": true,
+    "source": "digismoothie.com/app/wiser",
+    "collected_date": "2026-06-17",
+    "min_price_usd": 0,
+    "max_price_usd": 49
+  }
+}

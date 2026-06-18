@@ -1,0 +1,19 @@
+{
+  "source_type": "seed_pricing",
+  "ext_id": "seed_pricing_recombee",
+  "title": "Recombee pricing - Free tier plus tiered plans from $99 to $2,499/month",
+  "clean_text": "Recombee offers a free plan covering up to 100,000 recommendation requests per month, making it accessible for small businesses to test. Paid tiers include Standard at $99 per month, Plus at $899 per month, Pro at $1,499 per month, and Premium at $2,499 per month, with a 30-day free trial available across paid plans. Pricing scales primarily with usage volume and feature access rather than catalog size alone.",
+  "meta": {
+    "product": "Recombee",
+    "pricing_model": "usage-based tiered subscription",
+    "free_tier_requests_monthly": 100000,
+    "standard_monthly_usd": 99,
+    "plus_monthly_usd": 899,
+    "pro_monthly_usd": 1499,
+    "premium_monthly_usd": 2499,
+    "source": "softwarefinder.com/artificial-intelligence/recombee",
+    "collected_date": "2026-06-17",
+    "min_price_usd": 0,
+    "max_price_usd": 2499
+  }
+}

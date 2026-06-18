@@ -1,0 +1,19 @@
+{
+  "source_type": "seed_competitor",
+  "ext_id": "seed_competitor_findify",
+  "title": "Findify - AI search, merchandising, and recommendations platform",
+  "clean_text": "Findify is an enterprise-grade AI-powered search and discovery personalization platform combining real-time search, smart collections, and product recommendations, built specifically for ecommerce growth. Uses machine learning to track customer behavior and improve search relevance, with Active Sync infrastructure keeping product data, pricing, and stock levels continuously up to date. Personalized Recommendations are reserved for the top Enterprise tier rather than included at entry level. Integrates with Shopify, Magento, and BigCommerce, and supports nine languages. Targets mid-size to enterprise merchants needing multi-store, multi-language personalization.",
+  "meta": {
+    "product": "Findify",
+    "category": "search_discovery",
+    "platform": [
+      "Shopify",
+      "Magento",
+      "BigCommerce"
+    ],
+    "target": "mid-size to enterprise ecommerce",
+    "pricing_model": "tiered subscription",
+    "source": "apps.shopify.com/findify-search-personalize + getapp.com/marketing-software/a/findify",
+    "collected_date": "2026-06-17"
+  }
+}

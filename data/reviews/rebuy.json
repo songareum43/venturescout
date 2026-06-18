@@ -1,0 +1,16 @@
+{
+  "source_type": "seed_review",
+  "ext_id": "seed_review_rebuy",
+  "title": "Rebuy - Smart Cart replaces theme customizations, requiring rework",
+  "clean_text": "Enabling Rebuy's Smart Cart replaces the native Shopify theme cart entirely, meaning any existing cart customizations or design elements do not carry over automatically and must be rebuilt using Smart Cart's settings, CSS adjustments, or low-code functionality. Merchants choosing a la carte modules must evaluate four separate package categories rather than a single bundled plan, adding complexity to initial setup decisions compared to single-package competitors.",
+  "meta": {
+    "product": "Rebuy",
+    "sentiment": "negative",
+    "issue_type": [
+      "Feature_Limitation",
+      "Pricing_Complexity"
+    ],
+    "source": "help.rebuyengine.com/en/articles/7135807-rebuy-s-smart-cart",
+    "collected_date": "2026-06-17"
+  }
+}

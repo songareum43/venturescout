@@ -1,0 +1,17 @@
+{
+  "source_type": "seed_review",
+  "ext_id": "seed_review_klevu",
+  "title": "Klevu - Premium pricing may not fit smaller stores",
+  "clean_text": "Klevu's premium price point and feature complexity may not align with every online store's needs or budget, with reviewers noting it is best suited for merchants with larger catalogs or more advanced personalization goals rather than small shops. Recommendations are sold as a separate add-on subscription requiring an existing Site Search plan, meaning the full personalization capability is not available standalone. The January 2025 merger into Athos Commerce introduces some uncertainty for existing customers about long-term product direction and support continuity.",
+  "meta": {
+    "product": "Klevu",
+    "sentiment": "negative",
+    "issue_type": [
+      "Price",
+      "Pricing_Complexity",
+      "Product_Stability"
+    ],
+    "source": "addsearch.com/blog/klevu-alternatives + blog.expertrec.com/klevu-shopify",
+    "collected_date": "2026-06-17"
+  }
+}

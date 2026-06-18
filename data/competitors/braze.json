@@ -1,0 +1,21 @@
+{
+  "source_type": "seed_competitor",
+  "ext_id": "seed_competitor_braze",
+  "title": "Braze - Customer engagement platform with AI product recommendations",
+  "clean_text": "Braze is a customer engagement platform delivering personalized cross-channel messaging across email, push, SMS, and in-app, with product recommendations embedded through Connected Content and standardized eCommerce Recommended Events. Turns real-time shopping behaviors such as abandoned cart, abandoned browse, and order confirmation into automated personalization triggers. Recommendations are primarily message-embedded rather than onsite storefront widgets, distinguishing it from dedicated recommendation platforms. Publicly traded company serving digital-first companies including ecommerce businesses and mobile app developers. Targets mid-market to enterprise companies focused on engagement and retention rather than onsite merchandising alone.",
+  "meta": {
+    "product": "Braze",
+    "category": "marketing_automation",
+    "platform": [
+      "email",
+      "push",
+      "SMS",
+      "in-app",
+      "web"
+    ],
+    "target": "mid-market to enterprise, digital-first companies",
+    "pricing_model": "MAU and message-volume based, tiered",
+    "source": "braze.com/resources/articles + thecxlead.com/tools/braze-review",
+    "collected_date": "2026-06-17"
+  }
+}

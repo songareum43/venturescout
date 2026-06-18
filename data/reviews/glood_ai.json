@@ -1,0 +1,15 @@
+{
+  "source_type": "seed_review",
+  "ext_id": "seed_review_glood_ai",
+  "title": "Glood.AI - Automatic widget positioning can inflate usage costs",
+  "clean_text": "At least one reviewer reports that Glood's automatic widget positioning feature can cause the widget to keep rendering even when not actively called, leading to higher widget display counts and increased cost on usage-based pricing tiers. While overall reviews are largely positive citing reliable AI and strong customer support, this rendering behavior is flagged as an unresolved billing concern for some merchants on metered plans.",
+  "meta": {
+    "product": "Glood.AI",
+    "sentiment": "negative",
+    "issue_type": [
+      "Pricing_Complexity"
+    ],
+    "source": "apps.shopify.com/recommendation-kit/reviews",
+    "collected_date": "2026-06-17"
+  }
+}

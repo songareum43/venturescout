@@ -1,0 +1,16 @@
+{
+  "source_type": "seed_review",
+  "ext_id": "seed_review_klaviyo",
+  "title": "Klaviyo - Cost rises sharply with profile count, not feature value",
+  "clean_text": "Klaviyo's pricing model charges based on total active profile count rather than email volume, meaning the feature set is identical for a $20 per month account and a $720 per month account, with cost increasing purely because the contact list is larger. The February 2025 shift to billing by active profiles, rather than only emailed profiles, raised costs for many existing businesses and made ongoing list hygiene a near-mandatory cost-control activity. Some review sources note that for stores whose revenue does not scale proportionally with list size, the resulting cost can be difficult to justify.",
+  "meta": {
+    "product": "Klaviyo",
+    "sentiment": "negative",
+    "issue_type": [
+      "Pricing_Complexity",
+      "Implementation_Complexity"
+    ],
+    "source": "retainful.com/blog/klaviyo-pricing + omnisend.com/blog/klaviyo-pricing",
+    "collected_date": "2026-06-17"
+  }
+}

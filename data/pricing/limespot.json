@@ -1,0 +1,17 @@
+{
+  "source_type": "seed_pricing",
+  "ext_id": "seed_pricing_limespot",
+  "title": "LimeSpot Personalizer pricing - Revenue-based tier",
+  "clean_text": "LimeSpot Max charges $150 per month for stores with up to $50,000 monthly revenue from the Online Store channel. Pricing is tied to total store revenue rather than app-attributed revenue. 15-day free trial available.",
+  "meta": {
+    "product": "LimeSpot Personalizer",
+    "pricing_model": "tiered revenue-based",
+    "base_price_usd": 150,
+    "revenue_cap": "$50K/month",
+    "trial": "15 days",
+    "source": "limespot.com/pricing",
+    "collected_date": "2026-06-16",
+    "min_price_usd": 150,
+    "max_price_usd": null
+  }
+}

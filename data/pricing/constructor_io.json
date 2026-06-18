@@ -1,0 +1,16 @@
+{
+  "source_type": "seed_pricing",
+  "ext_id": "seed_pricing_constructor_io",
+  "title": "Constructor.io pricing - Custom enterprise contracts averaging $150,000/year",
+  "clean_text": "Constructor.io does not publish pricing and negotiates custom enterprise contracts. Industry data indicates an average contract value of approximately $150,000 per year, with proposed pricing sometimes reaching $300,000 depending on scope. A free trial and a multi-week Proof Schedule evaluation process are available before committing to a paid contract. Pricing for the recommendations module specifically is tied to A/B-tested performance outcomes rather than a fixed rate.",
+  "meta": {
+    "product": "Constructor.io",
+    "pricing_model": "custom enterprise, results-based",
+    "average_annual_contract_usd": 150000,
+    "max_observed_annual_usd": 300000,
+    "source": "vendr.com/marketplace/constructor-io",
+    "collected_date": "2026-06-17",
+    "min_price_usd": 12500,
+    "max_price_usd": 25000
+  }
+}

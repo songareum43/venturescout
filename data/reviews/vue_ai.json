@@ -1,0 +1,17 @@
+{
+  "source_type": "seed_review",
+  "ext_id": "seed_review_vue_ai",
+  "title": "Vue.ai - Sizing accuracy challenges at scale, pricing not transparent",
+  "clean_text": "Users managing large catalogs report sizing accuracy challenges when processing thousands of SKUs in short timeframes, requiring ongoing collaboration with the Vue.ai team to refine outcomes. Pricing details are not publicly available on major review platforms, requiring direct vendor contact for any quote. The company's market mindshare in the customer experience management category has reportedly declined year over year according to peer engagement data, and reports surfaced in early 2025 of acquisition discussions with M2P Fintech.",
+  "meta": {
+    "product": "Vue.ai",
+    "sentiment": "negative",
+    "issue_type": [
+      "Performance",
+      "Pricing_Complexity",
+      "Product_Stability"
+    ],
+    "source": "g2.com/products/vue-ai/reviews + checkthat.ai/brands/vue-ai + peerspot.com",
+    "collected_date": "2026-06-17"
+  }
+}

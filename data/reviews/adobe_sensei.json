@@ -1,0 +1,17 @@
+{
+  "source_type": "seed_review",
+  "ext_id": "seed_review_adobe_sensei",
+  "title": "Adobe Sensei Recommendations - Only available via expensive Adobe Commerce license",
+  "clean_text": "Adobe Sensei product recommendations are only accessible through an Adobe Commerce license, making them unavailable to merchants on other platforms or Magento Open Source. License costs alone, before development and hosting, are prohibitive for small and mid-size merchants. Implementation typically requires specialized development resources costing $50,000 to over $250,000. Smaller merchants without complex B2B needs often find better ROI with simpler platforms.",
+  "meta": {
+    "product": "Adobe Sensei Product Recommendations",
+    "sentiment": "negative",
+    "issue_type": [
+      "Vendor_Lock_in",
+      "Price",
+      "Implementation_Complexity"
+    ],
+    "source": "eesel.ai + checkthat.ai + folio3.com",
+    "collected_date": "2026-06-17"
+  }
+}

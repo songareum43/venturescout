@@ -1,0 +1,17 @@
+{
+  "source_type": "seed_review",
+  "ext_id": "seed_review_nosto",
+  "title": "Nosto - Costly for smaller merchants, narrow personalization focus",
+  "clean_text": "Nosto can be costly for smaller merchants and sometimes requires technical setup expertise despite being marketed as accessible. Its focus is primarily on product-level personalization rather than broader behavioral insights or survey-based feedback, prompting some merchants to evaluate alternatives offering different approaches. Pricing negotiations require presenting historical transaction counts and competing quotes to secure favorable terms, and auto-renewal clauses are a common point of contention for new customers.",
+  "meta": {
+    "product": "Nosto",
+    "sentiment": "negative",
+    "issue_type": [
+      "Price",
+      "Feature_Limitation",
+      "Contract_Terms"
+    ],
+    "source": "zigpoll.com + vendr.com/marketplace/nosto-solutions",
+    "collected_date": "2026-06-17"
+  }
+}

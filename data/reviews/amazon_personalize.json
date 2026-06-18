@@ -1,0 +1,16 @@
+{
+  "source_type": "seed_review",
+  "ext_id": "seed_review_amazon_personalize",
+  "title": "Amazon Personalize - High engineering barrier for non-technical merchants",
+  "clean_text": "Amazon Personalize requires significant ML engineering expertise to integrate and maintain. Non-technical ecommerce merchants without dedicated engineering teams cannot use it without third-party implementation support. Minimum 1 TPS billing means costs accrue even when no recommendation requests are made, problematic for stores with sporadic traffic. No pre-built UI widgets for storefront integration.",
+  "meta": {
+    "product": "Amazon Personalize",
+    "sentiment": "negative",
+    "issue_type": [
+      "Implementation_Complexity",
+      "Pricing_Complexity"
+    ],
+    "source": "G2 + Gartner Peer Insights",
+    "collected_date": "2026-06-17"
+  }
+}

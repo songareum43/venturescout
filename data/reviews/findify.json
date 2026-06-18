@@ -1,0 +1,15 @@
+{
+  "source_type": "seed_review",
+  "ext_id": "seed_review_findify",
+  "title": "Findify - Recommendations locked behind top Enterprise tier",
+  "clean_text": "Personalized Recommendations, the core AI recommendation feature, is only available at Findify's top Enterprise tier starting at $1,199 per month, meaning merchants on the entry Essentials or mid-tier Professional plans cannot access product recommendations even with smart search and collections enabled. The Capterra listing shows zero accumulated user reviews as of early 2026, making third-party verification of real-world satisfaction limited compared to more established competitors.",
+  "meta": {
+    "product": "Findify",
+    "sentiment": "negative",
+    "issue_type": [
+      "Feature_Limitation"
+    ],
+    "source": "apps.shopify.com/findify-search-personalize + capterra.com/p/158883/findify",
+    "collected_date": "2026-06-17"
+  }
+}

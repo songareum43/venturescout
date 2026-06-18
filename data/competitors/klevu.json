@@ -1,0 +1,20 @@
+{
+  "source_type": "seed_competitor",
+  "ext_id": "seed_competitor_klevu",
+  "title": "Klevu - AI search and product recommendations (now part of Athos Commerce)",
+  "clean_text": "Klevu is an AI-powered search and product discovery platform for mid-market ecommerce retailers, combining natural language processing, behavior-learning algorithms, and a personalized recommendation engine for cross-sells. Klevu merged with Searchspring in January 2025 to form Athos Commerce, ending its run as an independent company, though the Klevu product line continues to operate under that umbrella. Provides pre-built integrations for Shopify and BigCommerce, emphasizing automation over the deep customization offered by developer-focused competitors like Algolia. Core capabilities include campaign management for merchandising automation, dynamic facet generation, and conversion analytics dashboards.",
+  "meta": {
+    "product": "Klevu",
+    "parent_company": "Athos Commerce (merger of Klevu and Searchspring, January 2025)",
+    "category": "search_discovery",
+    "platform": [
+      "Shopify",
+      "BigCommerce",
+      "Magento"
+    ],
+    "target": "mid-market ecommerce retailers",
+    "pricing_model": "modular add-on subscription",
+    "source": "checkthat.ai/brands/klevu + apps.shopify.com/klevu-smart-search",
+    "collected_date": "2026-06-17"
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "source_type": "seed_review",
+  "ext_id": "seed_review_sap_emarsys",
+  "title": "SAP Emarsys - Complex onboarding and steep learning curve",
+  "clean_text": "Users report that initial setup of SAP Emarsys is complicated, with a steep learning curve that requires formal training to operate effectively. Enterprise Edition's value depends heavily on having a mature SAP CX deployment; companies without sufficient SAP infrastructure end up paying 2 to 3 times the price for integration capabilities they never use. Most companies activate only 5 to 10 of the 60+ pre-built tactics, leaving significant platform value unused. Small ecommerce brands with fewer than 20,000 contacts are considered over-served by the platform relative to its cost.",
+  "meta": {
+    "product": "SAP Emarsys",
+    "sentiment": "negative",
+    "issue_type": [
+      "Implementation_Complexity",
+      "Target_Mismatch"
+    ],
+    "source": "g2.com + spadoom.com",
+    "collected_date": "2026-06-17"
+  }
+}

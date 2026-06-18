@@ -1,0 +1,16 @@
+{
+  "source_type": "seed_review",
+  "ext_id": "seed_review_limespot",
+  "title": "LimeSpot Personalizer - Misleading revenue-based pricing complaint",
+  "clean_text": "Multiple merchants report that LimeSpot's pricing is misleading because it charges based on total store revenue rather than revenue attributed to the app. Stores driving traffic from external paid channels end up paying for sales they generated themselves through advertising. Reports of draft products appearing in recommendation widgets and recommendations linking to non-product pages are also common.",
+  "meta": {
+    "product": "LimeSpot Personalizer",
+    "sentiment": "negative",
+    "issue_type": [
+      "Pricing_Complexity",
+      "Performance"
+    ],
+    "source": "Shopify App Store reviews aggregated",
+    "collected_date": "2026-06-16"
+  }
+}

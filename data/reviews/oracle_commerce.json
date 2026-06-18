@@ -1,0 +1,17 @@
+{
+  "source_type": "seed_review",
+  "ext_id": "seed_review_oracle_commerce",
+  "title": "Oracle Commerce Cloud - High implementation cost requiring multiple partners",
+  "clean_text": "Users report that initial implementation is particularly expensive and typically requires multiple implementation partners to complete. Pricing models are considered harsh and difficult to evaluate against actual usage needs. The page-view based pricing metric means licensing cost grows directly with ecommerce traffic growth, creating unpredictable cost escalation. Onboarding and initial build out can take significant time before the platform delivers value.",
+  "meta": {
+    "product": "Oracle Commerce Cloud",
+    "sentiment": "negative",
+    "issue_type": [
+      "Price",
+      "Pricing_Complexity",
+      "Implementation_Complexity"
+    ],
+    "source": "trustradius.com + gartner.com",
+    "collected_date": "2026-06-17"
+  }
+}

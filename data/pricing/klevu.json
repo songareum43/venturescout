@@ -1,0 +1,17 @@
+{
+  "source_type": "seed_pricing",
+  "ext_id": "seed_pricing_klevu",
+  "title": "Klevu pricing - Modular add-ons, Site Search from $649/month",
+  "clean_text": "Klevu's Site Search plan starts at $649 per month including 50,000 search requests, available standalone or as part of a suite. Recommendations are sold as an add-on to Site Search starting at $449 per month for 500,000 impressions, with additional volume tiers available. Category Merchandising is priced at $549 per month for 250,000 category page views. A 14-day free trial is available on Shopify App Store listings.",
+  "meta": {
+    "product": "Klevu",
+    "pricing_model": "modular add-on subscription",
+    "site_search_monthly_usd": 649,
+    "recommendations_addon_monthly_usd": 449,
+    "category_merch_monthly_usd": 549,
+    "source": "apps.shopify.com/klevu-smart-search",
+    "collected_date": "2026-06-17",
+    "min_price_usd": 449,
+    "max_price_usd": 1647
+  }
+}

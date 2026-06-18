@@ -1,0 +1,19 @@
+{
+  "source_type": "seed_competitor",
+  "ext_id": "seed_competitor_algolia_recommend",
+  "title": "Algolia Recommend - AI recommendation layer for search-as-a-service",
+  "clean_text": "Algolia Recommend is the product recommendation module built on top of Algolia's AI-native search-as-a-service platform, serving over 18,000 businesses processing 1.75 trillion searches annually. Offers frequently bought together, related products, and trending items recommendation models, requiring an existing Algolia Search subscription. Recommendation models are trained using the same catalog and behavioral event data already indexed for search. No self-hosting option is available, creating platform lock-in. Targets developers and mid-to-large ecommerce companies already invested in the Algolia search ecosystem.",
+  "meta": {
+    "product": "Algolia Recommend",
+    "category": "recommendation_engine",
+    "parent": "Algolia",
+    "platform": [
+      "web",
+      "mobile via API"
+    ],
+    "target": "developers, mid to large ecommerce",
+    "pricing_model": "usage-based add-on",
+    "source": "bigsur.ai/blog/algolia-pricing + meilisearch.com/blog/algolia-pricing",
+    "collected_date": "2026-06-17"
+  }
+}

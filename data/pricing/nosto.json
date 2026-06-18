@@ -1,0 +1,15 @@
+{
+  "source_type": "seed_pricing",
+  "ext_id": "seed_pricing_nosto",
+  "title": "Nosto pricing - Custom quote averaging $47,591/year",
+  "clean_text": "Nosto does not publish pricing and uses a flexible custom quote model based on site traffic, feature usage, and business size. Industry data indicates an average contract value of approximately $47,591 per year. Pricing scales with transaction volume, and brands can start with core features before expanding usage as their ecommerce strategy grows.",
+  "meta": {
+    "product": "Nosto",
+    "pricing_model": "custom quote, traffic-based",
+    "average_annual_contract_usd": 47591,
+    "source": "vendr.com/marketplace/nosto-solutions",
+    "collected_date": "2026-06-17",
+    "min_price_usd": 3966,
+    "max_price_usd": null
+  }
+}

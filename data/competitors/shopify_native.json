@@ -1,0 +1,18 @@
+{
+  "source_type": "seed_competitor",
+  "ext_id": "seed_competitor_shopify_native",
+  "title": "Shopify Native Product Recommendations - Built-in related products engine",
+  "clean_text": "Shopify includes a native product recommendation system built into the platform, offering related products and complementary products intents through the Storefront API. The algorithm predicts relevant products based on purchase history, product description similarity, and related collections, with no manual setup required. Available to all Shopify merchants through theme Liquid templates without additional app installation. Shopify also offers Shopify Magic for AI-assisted store management and has partnered with Liquid AI for advanced product search and recommendations as of late 2025.",
+  "meta": {
+    "product": "Shopify Native Recommendations",
+    "category": "recommendation_engine",
+    "parent": "Shopify",
+    "platform": [
+      "Shopify"
+    ],
+    "target": "all Shopify merchants",
+    "pricing_model": "included with Shopify subscription",
+    "source": "shopify.dev/docs/storefronts/themes/product-merchandising/recommendations",
+    "collected_date": "2026-06-17"
+  }
+}

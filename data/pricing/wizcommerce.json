@@ -1,0 +1,15 @@
+{
+  "source_type": "seed_pricing",
+  "ext_id": "seed_pricing_wizcommerce",
+  "title": "WizCommerce pricing - Custom quote model, no published rate card",
+  "clean_text": "WizCommerce does not publish a fixed pricing tier or rate card. Pricing is provided via a personalized quote process based on each prospect's needs. One add-on observed in user reviews, custom sender domain for order emails, carries a separate fee of $20 per month; this is not part of the core published pricing structure and was sourced from a customer review rather than an official rate card.",
+  "meta": {
+    "product": "WizCommerce",
+    "pricing_model": "custom quote, no published rate card",
+    "addon_custom_domain_email_usd_per_month": 20,
+    "source": "softwareadvice.com/ecommerce/wizcommerce-profile, capterra.com",
+    "collected_date": "2026-06-17",
+    "min_price_usd": null,
+    "max_price_usd": null
+  }
+}

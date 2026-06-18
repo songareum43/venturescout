@@ -1,0 +1,17 @@
+{
+  "source_type": "seed_review",
+  "ext_id": "seed_review_hcl_commerce",
+  "title": "HCL Commerce - High cost with integration complexity",
+  "clean_text": "Users report that pricing does not work for most clients and limits the ability to gain market share against competitors. IBM support is required even after the HCL acquisition, adding another expense layer on top of already expensive licensing. Multiple reviewers cite platform complexity and difficulty integrating with external marketing and analytics tools, including lack of native plugins for common services like PayPal or shopping feeds. Some users report lingering technical issues tied to the legacy Watson Commerce integration and slow content manager performance.",
+  "meta": {
+    "product": "HCL Commerce",
+    "sentiment": "negative",
+    "issue_type": [
+      "Price",
+      "Implementation_Complexity",
+      "Product_Stability"
+    ],
+    "source": "trustradius.com",
+    "collected_date": "2026-06-17"
+  }
+}

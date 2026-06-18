@@ -1,0 +1,16 @@
+{
+  "source_type": "seed_review",
+  "ext_id": "seed_review_bloomreach",
+  "title": "Bloomreach - Technical complexity and usage tier upselling",
+  "clean_text": "Users report that Bloomreach is highly technical and often requires hiring a Bloomreach consultant to build out personalization scenarios, adding extra cost. Multiple reviewers describe a pattern where initial sales negotiations underestimate the processed events required, and once signed, customers are pushed to upgrade several usage tiers above their original quote, leading to significant unplanned cost increases. Implementation of Bloomreach Content specifically is described as complex and slow to deploy.",
+  "meta": {
+    "product": "Bloomreach Discovery",
+    "sentiment": "negative",
+    "issue_type": [
+      "Implementation_Complexity",
+      "Pricing_Complexity"
+    ],
+    "source": "g2.com/products/bloomreach-bloomreach/pricing",
+    "collected_date": "2026-06-17"
+  }
+}

@@ -1,0 +1,20 @@
+{
+  "source_type": "seed_competitor",
+  "ext_id": "seed_competitor_bloomreach",
+  "title": "Bloomreach Discovery - AI-driven product discovery and recommendations",
+  "clean_text": "Bloomreach Discovery is an AI-driven commerce experience platform combining personalized site search, merchandising, and product recommendations. It uses Loomi, Bloomreach's proprietary AI, to power frequently-bought-together and personalized recommendation models alongside search relevance tuning. The platform is split into separately priced modules: Site Search, Merchandising, Recommendations, and SEO. Integrates with Shopify, BigCommerce, and custom storefronts via API. Bloomreach also offers a separate Engagement product for email and marketing automation, and Content for headless CMS. Targets mid-to-large enterprise retailers requiring unified search and personalization.",
+  "meta": {
+    "product": "Bloomreach Discovery",
+    "category": "search_discovery",
+    "parent": "Bloomreach",
+    "platform": [
+      "Shopify",
+      "BigCommerce",
+      "custom"
+    ],
+    "target": "mid to large enterprise retailers",
+    "pricing_model": "modular, usage-based",
+    "source": "g2.com + bigsur.ai/blog/bloomreach-pricing",
+    "collected_date": "2026-06-17"
+  }
+}

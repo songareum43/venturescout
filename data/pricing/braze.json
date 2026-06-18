@@ -1,0 +1,17 @@
+{
+  "source_type": "seed_pricing",
+  "ext_id": "seed_pricing_braze",
+  "title": "Braze pricing - MAU and message-based, $60K to $1M+ annually",
+  "clean_text": "Braze pricing is based on monthly active users (MAU), message volume, and platform edition (Core, Pro, Enterprise), with no published flat-rate list price. Entry-level contracts typically start around $60,000 per year. Pro tier pricing ranges from $80,000 to $250,000 annually for growth-stage and mid-market companies. Enterprise deployments with 2 million or more MAUs and multi-channel advanced features range from $300,000 to over $1,000,000 annually.",
+  "meta": {
+    "product": "Braze",
+    "pricing_model": "MAU and message-volume based, tiered",
+    "entry_annual_usd": 60000,
+    "pro_tier_annual_usd": "80000-250000",
+    "enterprise_annual_usd": "300000-1000000+",
+    "source": "vendr.com/marketplace/braze",
+    "collected_date": "2026-06-17",
+    "min_price_usd": 5000,
+    "max_price_usd": 83333
+  }
+}

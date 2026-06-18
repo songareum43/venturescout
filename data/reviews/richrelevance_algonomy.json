@@ -1,0 +1,17 @@
+{
+  "source_type": "seed_review",
+  "ext_id": "seed_review_richrelevance_algonomy",
+  "title": "RichRelevance (Algonomy) - Pricing transparency lacking",
+  "clean_text": "Pricing details for RichRelevance are not publicly disclosed on major review platforms, requiring direct vendor contact for any quote. The rebranding to Algonomy following the Manthan merger has created naming confusion among prospective buyers comparing it to other personalization tools. As an enterprise-focused platform serving primarily large retailers with 200+ major brand customers, the solution is not positioned or priced for small to mid-size ecommerce merchants.",
+  "meta": {
+    "product": "RichRelevance",
+    "sentiment": "negative",
+    "issue_type": [
+      "Pricing_Complexity",
+      "Product_Stability",
+      "Feature_Limitation"
+    ],
+    "source": "g2.com + softwaresuggest.com",
+    "collected_date": "2026-06-17"
+  }
+}

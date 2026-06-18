@@ -1,0 +1,21 @@
+{
+  "source_type": "seed_competitor",
+  "ext_id": "seed_competitor_limespot",
+  "title": "LimeSpot Personalizer - Shopify AI personalization app",
+  "clean_text": "LimeSpot Personalizer is an AI personalization platform offering product recommendations, Frequently Bought Together suggestions, upsell and cross-sell bundles, A/B testing, email and SMS personalization, and customer segmentation. The platform integrates with Shopify, Shopify Plus, BigCommerce, Maropost, Magento, and WooCommerce.",
+  "meta": {
+    "product": "LimeSpot Personalizer",
+    "category": "recommendation_engine",
+    "platform": [
+      "Shopify",
+      "Shopify Plus",
+      "BigCommerce",
+      "Magento",
+      "WooCommerce",
+      "Maropost"
+    ],
+    "target": "small to mid ecommerce",
+    "source": "limespot.com",
+    "collected_date": "2026-06-16"
+  }
+}

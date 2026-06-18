@@ -1,0 +1,17 @@
+{
+  "source_type": "seed_pricing",
+  "ext_id": "seed_pricing_findify",
+  "title": "Findify pricing - Tiered from $499 to $1,199/month",
+  "clean_text": "Findify's entry plan starts at $499 per month for up to 20,000 products in one store and language, without personalized recommendations. The Professional tier costs $799 per month, supporting up to 100,000 visits and 50,000 products with multiple stores and languages, but still without the recommendations feature. The Enterprise tier at $1,199 per month adds Personalized Recommendations along with custom visit and product limits and full account management support. A 14-day free trial is available across all tiers.",
+  "meta": {
+    "product": "Findify",
+    "pricing_model": "tiered subscription",
+    "entry_monthly_usd": 499,
+    "professional_monthly_usd": 799,
+    "enterprise_monthly_usd": 1199,
+    "source": "apps.shopify.com/findify-search-personalize",
+    "collected_date": "2026-06-17",
+    "min_price_usd": 499,
+    "max_price_usd": 1199
+  }
+}

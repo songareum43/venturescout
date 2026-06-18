@@ -1,0 +1,21 @@
+{
+  "source_type": "seed_competitor",
+  "ext_id": "seed_competitor_dynamic_yield",
+  "title": "Dynamic Yield by Mastercard - Enterprise AI personalization platform",
+  "clean_text": "Dynamic Yield is an enterprise AI personalization and experimentation platform acquired by Mastercard in 2022, having previously been owned by McDonald's. Its Experience OS algorithmically matches content, products, and offers to individual customers across web, mobile, and email. Core capabilities include deep learning product recommendations, audience segmentation, A/B testing, and Experience Search, an AI-driven search function launched to better unite shopper intent with results. Forrester has recognized Dynamic Yield as a Leader among Experience Optimization Solutions vendors. Targets large enterprise brands and multi-region retailers requiring journey orchestration and real-time analytics at scale.",
+  "meta": {
+    "product": "Dynamic Yield",
+    "parent": "Mastercard",
+    "category": "personalization_platform",
+    "platform": [
+      "web",
+      "mobile",
+      "email",
+      "headless/commercetools"
+    ],
+    "target": "large enterprise, multi-region retailers",
+    "pricing_model": "custom enterprise quote",
+    "source": "dynamicyield.com + checkthat.ai/brands/mastercard-dynamic-yield",
+    "collected_date": "2026-06-17"
+  }
+}

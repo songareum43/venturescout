@@ -1,0 +1,15 @@
+{
+  "source_type": "seed_pricing",
+  "ext_id": "seed_pricing_richrelevance_algonomy",
+  "title": "RichRelevance (Algonomy) pricing - Custom enterprise quote",
+  "clean_text": "RichRelevance, now Algonomy, does not publish pricing on its website or major software review platforms. Pricing is fully custom and quote-based, determined through direct sales engagement. Given the platform's enterprise focus and customer base of major global retail brands, total cost is expected to be comparable to other enterprise personalization platforms in the five to six figure annual range.",
+  "meta": {
+    "product": "RichRelevance",
+    "pricing_model": "custom enterprise quote",
+    "publicly_disclosed": false,
+    "source": "g2.com/products/richrelevance/reviews",
+    "collected_date": "2026-06-17",
+    "min_price_usd": null,
+    "max_price_usd": null
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "source_type": "seed_pricing",
+  "ext_id": "seed_pricing_clerk_io",
+  "title": "Clerk.io pricing - Per-feature modular, starting around $99-119/month",
+  "clean_text": "Clerk.io pricing starts around $99 to $119 per month per feature module, with each capability such as search, recommendations, or email priced and selected separately. Custom quotes are required for exact pricing based on store size and selected modules. A free trial is available on Capterra-listed plans, though some sources indicate no free trial on certain tiers.",
+  "meta": {
+    "product": "Clerk.io",
+    "pricing_model": "per-feature modular subscription",
+    "entry_monthly_usd": "99-119",
+    "source": "capterra.com/p/184765/Clerk-io + softwarefinder.com/artificial-intelligence/clerk-io",
+    "collected_date": "2026-06-17",
+    "min_price_usd": 99,
+    "max_price_usd": null
+  }
+}

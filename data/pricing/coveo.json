@@ -1,0 +1,17 @@
+{
+  "source_type": "seed_pricing",
+  "ext_id": "seed_pricing_coveo",
+  "title": "Coveo Relevance Cloud pricing - Tiered entry plus custom enterprise",
+  "clean_text": "Coveo Relevance Cloud has a published entry-level Base plan starting at $600 per month and a Pro plan at $1,320 per month, with a custom enterprise plan available above that for larger deployments. No free plan is offered, though a free trial is available. Full enterprise relevance deployments spanning commerce, service, and workplace search typically scale well beyond the published entry tiers through custom contracts.",
+  "meta": {
+    "product": "Coveo Relevance Cloud",
+    "pricing_model": "tiered plus custom enterprise",
+    "base_plan_monthly_usd": 600,
+    "pro_plan_monthly_usd": 1320,
+    "free_tier": false,
+    "source": "saasworthy.com/product/coveo-relevance-cloud/pricing",
+    "collected_date": "2026-06-17",
+    "min_price_usd": 600,
+    "max_price_usd": 1320
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "source_type": "seed_review",
+  "ext_id": "seed_review_shopify_native",
+  "title": "Shopify Native Recommendations - No customization of underlying algorithm",
+  "clean_text": "Merchants cannot customize the recommendation algorithm to exclude specific products from results, only able to filter the returned list using JavaScript after the fact. The algorithm does not use orders imported from another ecommerce platform, putting migrated stores at a disadvantage until sufficient native order history accumulates. For stores requiring more control over recommendation logic, placement, or promotional rules, merchants frequently turn to third-party apps as the native system is largely automated and standardized.",
+  "meta": {
+    "product": "Shopify Native Recommendations",
+    "sentiment": "negative",
+    "issue_type": [
+      "Feature_Limitation",
+      "Vendor_Lock_in"
+    ],
+    "source": "shopify.dev + litos.io",
+    "collected_date": "2026-06-17"
+  }
+}

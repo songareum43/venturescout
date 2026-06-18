@@ -1,0 +1,16 @@
+{
+  "source_type": "seed_pricing",
+  "ext_id": "seed_pricing_bloomreach",
+  "title": "Bloomreach pricing - Modular enterprise pricing, opaque structure",
+  "clean_text": "Bloomreach pricing is split across separately purchased modules including Site Search, Merchandising, Recommendations, and SEO, with cost increasing as more modules and customer volume are added. The only publicly available reference point is Bloomreach Engagement on the Shopify App Store, starting from $19,020 per year per module. No standard pricing is published for the Discovery product line, and customers report negotiating down from initial quotes.",
+  "meta": {
+    "product": "Bloomreach Discovery",
+    "pricing_model": "modular, custom enterprise quote",
+    "shopify_engagement_annual_usd": 19020,
+    "publicly_disclosed": "partial (Shopify App Store only)",
+    "source": "bigsur.ai/blog/bloomreach-pricing",
+    "collected_date": "2026-06-17",
+    "min_price_usd": 1585,
+    "max_price_usd": null
+  }
+}

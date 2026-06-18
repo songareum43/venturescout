@@ -1,0 +1,18 @@
+{
+  "source_type": "seed_pricing",
+  "ext_id": "seed_pricing_sap_emarsys",
+  "title": "SAP Emarsys pricing - Two-edition contact-based model",
+  "clean_text": "Emarsys Edition costs $1,500 to $5,000+ per month depending on contact database size, ranging from $18K/year for up to 50K contacts to $144K+/year for 1M+ contacts. Enterprise Edition costs $5,000 to $15,000+ per month and requires an existing SAP CX footprint. Implementation costs range from $30K to $80K for standard Emarsys Edition deployments, $80K to $200K for advanced deployments, and $100K to $300K+ for Enterprise Edition with full SAP integration.",
+  "meta": {
+    "product": "SAP Emarsys",
+    "pricing_model": "contact-based with channel add-ons, two editions",
+    "emarsys_edition_monthly_usd": "1500-5000+",
+    "enterprise_edition_monthly_usd": "5000-15000+",
+    "implementation_standard_usd": "30000-80000",
+    "implementation_enterprise_usd": "100000-300000+",
+    "source": "spadoom.com/en/blog/sap-engagement-cloud-pricing-cost-guide",
+    "collected_date": "2026-06-17",
+    "min_price_usd": 1500,
+    "max_price_usd": 15000
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "source_type": "seed_competitor",
+  "ext_id": "seed_competitor_richrelevance_algonomy",
+  "title": "RichRelevance (now Algonomy) - Omnichannel personalization platform",
+  "clean_text": "RichRelevance, now operating as Algonomy following a merger with Manthan, is an omnichannel personalization platform offering product recommendations, search, navigation, and content personalization. Its Relevance Cloud uses a Personalization Graph that aggregates customer behavior, content, context, and product data, rebuilding recommendation models multiple times per day to adapt to shifting shopping behavior and inventory. Serves over 200 large B2C and B2B retail and brand customers globally. Targets enterprise retailers across travel, hospitality, financial services, and branded manufacturing in addition to core retail.",
+  "meta": {
+    "product": "RichRelevance",
+    "current_name": "Algonomy",
+    "category": "personalization_platform",
+    "parent": "Algonomy (formerly Manthan)",
+    "platform": [
+      "enterprise commerce platforms"
+    ],
+    "target": "large enterprise B2C and B2B retailers",
+    "pricing_model": "custom enterprise quote",
+    "source": "g2.com + cuspera.com + getapp.com",
+    "collected_date": "2026-06-17"
+  }
+}

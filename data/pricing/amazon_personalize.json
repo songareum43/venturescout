@@ -1,0 +1,18 @@
+{
+  "source_type": "seed_pricing",
+  "ext_id": "seed_pricing_amazon_personalize",
+  "title": "Amazon Personalize pricing - Consumption-based AWS service",
+  "clean_text": "Amazon Personalize charges $0.05 per GB of data uploaded, $0.24 per training hour, and $0.15 per 1,000 recommendation requests. Minimum billing of 1 TPS per active campaign applies regardless of actual traffic. Free tier for first 2 months: up to 20 GB data, 100 training hours, 180,000 recommendation requests.",
+  "meta": {
+    "product": "Amazon Personalize",
+    "pricing_model": "consumption-based",
+    "data_per_gb_usd": 0.05,
+    "training_per_hour_usd": 0.24,
+    "inference_per_1k_usd": 0.15,
+    "free_tier": "2 months",
+    "source": "aws.amazon.com/personalize/pricing",
+    "collected_date": "2026-06-17",
+    "min_price_usd": 0,
+    "max_price_usd": null
+  }
+}

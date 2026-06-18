@@ -1,0 +1,17 @@
+{
+  "source_type": "seed_review",
+  "ext_id": "seed_review_clerk_io",
+  "title": "Clerk.io - Integration issues with major platforms reported",
+  "clean_text": "At least one verified reviewer describes the Clerk.io integration with Magento 2 as deeply problematic. The platform's per-feature pricing model, while modular, means customization options outside the predefined feature set can be limited, requiring users to choose between multiple separately priced modules rather than a single all-inclusive plan. No free trial is offered on some plan structures, requiring direct quote requests for accurate pricing.",
+  "meta": {
+    "product": "Clerk.io",
+    "sentiment": "negative",
+    "issue_type": [
+      "Implementation_Complexity",
+      "Feature_Limitation",
+      "Pricing_Complexity"
+    ],
+    "source": "getapp.com/website-ecommerce-software/a/clerk-io",
+    "collected_date": "2026-06-17"
+  }
+}

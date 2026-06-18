@@ -1,0 +1,17 @@
+{
+  "source_type": "seed_pricing",
+  "ext_id": "seed_pricing_rebuy",
+  "title": "Rebuy pricing - Modular subscription tiers from free to $584/month",
+  "clean_text": "Rebuy offers a free tier for development stores, a Build Your Plan option starting at $25 per month, and Platform One tiers at $538 and $584 per month depending on configuration. Pricing is modular across four core package categories, allowing brands to combine only the features they need. Rebuy guarantees positive ROI by comparing platform spend against Rebuy-attributed revenue generated through widgets, links, search, or recommendation workflows.",
+  "meta": {
+    "product": "Rebuy",
+    "pricing_model": "modular tiered subscription",
+    "entry_monthly_usd": 25,
+    "platform_one_monthly_usd": "538-584",
+    "free_tier": true,
+    "source": "storecensus.com/shopify-apps/rebuy + rebuyengine.com/pricing",
+    "collected_date": "2026-06-17",
+    "min_price_usd": 0,
+    "max_price_usd": null
+  }
+}

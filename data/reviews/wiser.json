@@ -1,0 +1,16 @@
+{
+  "source_type": "seed_review",
+  "ext_id": "seed_review_wiser",
+  "title": "Wiser - Cost concern for smaller stores, occasional bugs",
+  "clean_text": "Some users mention the app's cost as a concern, particularly for smaller stores as order volume grows into higher pricing tiers. Occasional bugs in the recommendation features have also been noted by reviewers, though these issues are described as overshadowed by overall effectiveness and customer support quality. The app maintains a high satisfaction rating of 4.9 stars from 657 reviews on the Shopify App Store as of the most recent check.",
+  "meta": {
+    "product": "Wiser (GetWiser.ai)",
+    "sentiment": "negative",
+    "issue_type": [
+      "Price",
+      "Performance"
+    ],
+    "source": "digismoothie.com/app/wiser",
+    "collected_date": "2026-06-17"
+  }
+}

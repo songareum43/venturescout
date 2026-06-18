@@ -1,0 +1,22 @@
+{
+  "source_type": "seed_competitor",
+  "ext_id": "seed_competitor_insider",
+  "title": "Insider One - AI-powered omnichannel growth management platform",
+  "clean_text": "Insider One, formerly the Insider Growth Management Platform, is an AI-powered customer engagement platform integrating a Customer Data Platform (CDP), personalization, and journey orchestration across WhatsApp, SMS, email, web, app, and site search. The Smart Recommender module delivers AI-driven product recommendations as part of the broader suite. Unifies data from 100+ sources into real-time customer profiles. Targets large enterprises with complex omnichannel requirements, mature data infrastructure, and dedicated technical teams, serving over 2,000 customers including Samsung, L'Oreal, and Unilever.",
+  "meta": {
+    "product": "Insider One",
+    "former_name": "Insider Growth Management Platform (GMP)",
+    "category": "marketing_automation",
+    "platform": [
+      "web",
+      "app",
+      "WhatsApp",
+      "SMS",
+      "email"
+    ],
+    "target": "large enterprise, complex omnichannel needs",
+    "pricing_model": "custom enterprise quote",
+    "source": "g2.com/products/insider-one + gartner.com",
+    "collected_date": "2026-06-17"
+  }
+}

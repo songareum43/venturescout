@@ -1,0 +1,20 @@
+{
+  "source_type": "seed_competitor",
+  "ext_id": "seed_competitor_salesforce_einstein",
+  "title": "Salesforce Einstein Recommendations - Commerce Cloud AI personalization",
+  "clean_text": "Salesforce Einstein Recommendations is an AI-powered product recommendation engine built into Salesforce Commerce Cloud, now rebranded as Agentforce Commerce. It uses machine learning to personalize product suggestions based on real-time browsing behavior, purchase history, and search queries. Integrates natively with Salesforce CRM, Marketing Cloud, and Data Cloud for unified customer profiles. Supports omnichannel recommendations across web, mobile, email, and in-store. Targets mid-to-large retailers requiring deep CRM integration with their ecommerce personalization. Requires Salesforce Commerce Cloud as the underlying platform — not available as a standalone tool.",
+  "meta": {
+    "product": "Salesforce Einstein Recommendations",
+    "current_platform": "Agentforce Commerce",
+    "category": "recommendation_engine",
+    "parent": "Salesforce",
+    "platform": [
+      "Salesforce Commerce Cloud",
+      "Agentforce Commerce"
+    ],
+    "target": "mid to large enterprise retailers",
+    "pricing_model": "GMV-based, bundled with Commerce Cloud",
+    "source": "salesforce.com/products/commerce-cloud/commerce-cloud-einstein + trailhead.salesforce.com",
+    "collected_date": "2026-06-17"
+  }
+}

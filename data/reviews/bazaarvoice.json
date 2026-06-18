@@ -1,0 +1,16 @@
+{
+  "source_type": "seed_review",
+  "ext_id": "seed_review_bazaarvoice",
+  "title": "Bazaarvoice - High and opaque pricing relative to core review function",
+  "clean_text": "Bazaarvoice does not publish pricing and requires a sales call to obtain any quote. Implementation and onboarding fees alone typically range from $10,000 to $50,000 or more, with annual platform fees added on top and each retail syndication destination priced separately. Smaller and growing ecommerce brands frequently find the dashboard and feature set built for much larger enterprise teams, with several essential features such as review syndication locked behind higher-tier plans. The interface is also described by some users as feeling dated despite the underlying infrastructure handling large catalogs reliably.",
+  "meta": {
+    "product": "Bazaarvoice",
+    "sentiment": "negative",
+    "issue_type": [
+      "Pricing_Complexity",
+      "Price"
+    ],
+    "source": "wiserreview.com/blog/bazaarvoice-pricing + wiserreview.com/blog/bazaarvoice-alternatives",
+    "collected_date": "2026-06-17"
+  }
+}

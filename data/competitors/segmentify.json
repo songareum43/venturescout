@@ -1,0 +1,19 @@
+{
+  "source_type": "seed_competitor",
+  "ext_id": "seed_competitor_segmentify",
+  "title": "Segmentify - AI-powered ecommerce personalization and recommendations",
+  "clean_text": "Segmentify is an ecommerce personalization platform using machine learning to analyze visitor behavior in real time and deliver personalized product recommendations across the homepage, product page, category page, and basket page. Offers trending, most-purchased, and most-viewed product recommendation logic, along with last-minute discount triggers to drive conversion. Delivers personalized offers through onsite widgets, pop-ups, web push notifications, and email. Integrates with Shopify, Adobe Commerce, and PrestaShop. Supports 12 languages including Turkish, German, and Hungarian. Targets small to mid-size ecommerce retailers across Europe and emerging markets.",
+  "meta": {
+    "product": "Segmentify",
+    "category": "personalization_platform",
+    "platform": [
+      "Shopify",
+      "Adobe Commerce",
+      "PrestaShop"
+    ],
+    "target": "small to mid-size ecommerce",
+    "pricing_model": "per-feature subscription",
+    "source": "capterra.com/p/151750/Segmentify + getapp.com/website-ecommerce-software/a/segmentify",
+    "collected_date": "2026-06-17"
+  }
+}
