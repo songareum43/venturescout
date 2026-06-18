@@ -25,7 +25,12 @@ from typing import Any
 
 from langgraph.graph import END, START, StateGraph
 
-from agents.llm import current_model_name, invoke_claude_json, llm_enabled
+from agents.llm import (
+    current_model_name,
+    invoke_claude_json,
+    llm_enabled,
+    model_tier_for_agent,
+)
 from agents.logger import (
     get_logger,
     log_completion,
@@ -167,6 +172,19 @@ def _document_map() -> dict[str, DocumentRecord]:
     }
 
 
+def _hypothesis_query(
+    state: VentureScoutState,
+    code: str,
+    fallback: str,
+) -> str:
+    """Use the current run's structured hypothesis as the retrieval query."""
+
+    for hypothesis in state.get("hypotheses", []):
+        if hypothesis.code == code:
+            return hypothesis.statement
+    return fallback
+
+
 def _json_context(payload: dict[str, Any]) -> str:
     """Claude 프롬프트에 넣기 좋게 Pydantic 객체를 JSON 문자열로 바꾼다."""
 
@@ -197,7 +215,9 @@ def _agent_output_with_llm(
         f"담당 가설: {hypothesis_id}\n"
         f"역할: {role}\n\n"
         "아래 context와 default_output을 바탕으로 output_json을 더 전문가답게 보강해라. "
-        "grounded_on은 바꾸지 말고, 새 evidence_id를 만들지 마라.\n\n"
+        "default_output의 모든 키를 유지하고, [MOCK] 접두 값은 context에 근거한 "
+        "실제 분석 문장으로 반드시 교체해라. grounded_on은 바꾸지 말고, "
+        "새 evidence_id를 만들지 마라.\n\n"
         f"CONTEXT:\n{_json_context(context)}\n\n"
         f"DEFAULT_OUTPUT:\n{_json_context(default_output)}"
     )
@@ -208,6 +228,7 @@ def _agent_output_with_llm(
         system=system,
         user=user,
         fallback=default_output,
+        model_tier=model_tier_for_agent(agent_name),
     )
 
 
@@ -262,7 +283,12 @@ def _structured_idea_payload(
         "}\n\n"
         f"job_id={job_id}\nidea_id={idea_id}\nraw_input:\n{raw_input}"
     )
-    parsed = invoke_claude_json(system=system, user=user, fallback=fallback)
+    parsed = invoke_claude_json(
+        system=system,
+        user=user,
+        fallback=fallback,
+        model_tier="haiku",
+    )
     # Claude가 일부 필드를 빼먹어도 fallback_idea가 기본값을 채운다.
     # 조정 가능 지점:
     # 실제 운영에서는 fallback을 조용히 쓰기보다 user_confirmed=false 상태로 돌려
@@ -302,7 +328,7 @@ def _agent_run(
         job_id=job_id,
         hypothesis_id=hypothesis_id,
         agent_name=agent_name,
-        model_name=current_model_name(),
+        model_name=current_model_name(agent_name),
         depth=depth,
         confidence=confidence,
         grounded_on=[item.evidence_id for item in evidence],
@@ -396,7 +422,7 @@ def structuring_node(state: VentureScoutState) -> dict:
         "idea": idea,
         "analysis_job": analysis_job,
         "hypotheses": hypotheses,
-        "documents": _document_map(),
+        "documents": _document_map() if not llm_enabled() else {},
     }
 
     log_output(logger, {
@@ -424,7 +450,8 @@ def market_node(state: VentureScoutState) -> dict:
     log_processing(logger, "H1 관련 근거 검색 중...", {"query": "meeting follow-up pain"})
     # 실제 데이터 전환 지점:
     # retrieve() 내부가 실제 검색으로 바뀌면 이 노드는 별도 수정 없이 실제 H1 evidence를 받는다.
-    evidence = retrieve("H1", "meeting follow-up pain", job_id=job_id)
+    query = _hypothesis_query(state, "H1", "meeting follow-up pain")
+    evidence = retrieve("H1", query, job_id=job_id)
     log_processing(logger, "근거 수집 완료", {"evidence_count": len(evidence)})
 
     default_output = {
@@ -482,7 +509,8 @@ def competitor_node(state: VentureScoutState) -> dict:
     job_id = state["analysis_job"].job_id
     # 실제 데이터 전환 지점:
     # 경쟁사/대안 자료가 documents/evidence_items에 적재되면 retrieve()가 해당 근거를 반환한다.
-    evidence = retrieve("H2", "adjacent meeting tools", job_id=job_id)
+    query = _hypothesis_query(state, "H2", "adjacent meeting tools")
+    evidence = retrieve("H2", query, job_id=job_id)
     default_output = {
         "summary": "Adjacent tools exist; differentiation is not yet proven.",
         "key_findings": ["Competition requires workflow-level positioning."],
@@ -526,7 +554,12 @@ def tech_node(state: VentureScoutState) -> dict:
     log_processing(logger, "H4 관련 근거 검색 중...", {"query": "STT LLM summarization latency cost"})
     # 실제 데이터 전환 지점:
     # 기술 문서, PoC 결과, 벤치마크 로그를 evidence_items로 적재하면 여기서 실제 H4 근거를 받는다.
-    evidence = retrieve("H4", "STT LLM summarization latency cost", job_id=job_id)
+    query = _hypothesis_query(
+        state,
+        "H4",
+        "STT LLM summarization latency cost",
+    )
+    evidence = retrieve("H4", query, job_id=job_id)
     log_processing(logger, "근거 수집 완료", {"evidence_count": len(evidence)})
 
     log_processing(logger, "증거 분석 중...")
@@ -655,7 +688,12 @@ def ip_node(state: VentureScoutState) -> dict:
     log_processing(logger, "H5 관련 근거 검색 중...", {"query": "meeting summarization patent limitations"})
     # 실제 데이터 전환 지점:
     # 특허 documents/claim_limitations가 적재되면 retrieve()가 실제 H5 근거를 반환한다.
-    evidence = retrieve("H5", "meeting summarization patent limitations", job_id=job_id)
+    query = _hypothesis_query(
+        state,
+        "H5",
+        "meeting summarization patent limitations",
+    )
+    evidence = retrieve("H5", query, job_id=job_id)
     log_processing(logger, "근거 수집 완료", {"evidence_count": len(evidence)})
 
     log_processing(logger, "IP 특허 후보 벡터 검색 중...", {"elements": idea.technical_elements})
@@ -787,7 +825,12 @@ def bm_node(state: VentureScoutState) -> dict:
     job_id = state["analysis_job"].job_id
     # 실제 데이터 전환 지점:
     # 가격 인터뷰, 결제 의향, 경쟁 가격 자료를 evidence_items로 적재하면 실제 H3 근거가 들어온다.
-    evidence = retrieve("H3", "per-seat SaaS pricing willingness", job_id=job_id)
+    query = _hypothesis_query(
+        state,
+        "H3",
+        "per-seat SaaS pricing willingness",
+    )
+    evidence = retrieve("H3", query, job_id=job_id)
     default_output = {
         "summary": "Per-seat SaaS is plausible but unvalidated.",
         "key_findings": ["Pricing evidence is only a placeholder."],
@@ -1064,7 +1107,7 @@ def critic_node(state: VentureScoutState) -> dict:
         job_id=job_id,
         hypothesis_id=None,
         agent_name="critic",
-        model_name=current_model_name(),
+        model_name=current_model_name("critic"),
         depth="full",
         confidence=critic.confidence,
         grounded_on=grounded_on or ["ev_mock_handoff"],

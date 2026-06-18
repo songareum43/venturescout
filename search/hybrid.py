@@ -23,7 +23,10 @@ class HybridSearcher:
     @property
     def conn(self):
         if self._conn is None or self._conn.closed:
-            self._conn = psycopg2.connect(config.db_dsn)
+            self._conn = psycopg2.connect(
+                config.db_dsn,
+                connect_timeout=config.db_connect_timeout,
+            )
             register_vector(self._conn)
         return self._conn
 

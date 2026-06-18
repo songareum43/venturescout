@@ -38,7 +38,10 @@ def _is_real_uuid(value: str) -> bool:
 
 
 def get_connection() -> psycopg2.extensions.connection:
-    conn = psycopg2.connect(config.db_dsn)
+    conn = psycopg2.connect(
+        config.db_dsn,
+        connect_timeout=config.db_connect_timeout,
+    )
     register_vector(conn)
     return conn
 

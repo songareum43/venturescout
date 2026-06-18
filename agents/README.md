@@ -583,11 +583,45 @@ Bedrock Claude를 실제 호출하려면 환경변수로 provider를 바꾼다.
 ```bash
 $env:AGENT_LLM_PROVIDER="bedrock"
 $env:AWS_REGION="us-east-1"
-$env:BEDROCK_MODEL_ID="anthropic.claude-3-5-sonnet-20240620-v1:0"
+$env:BEDROCK_HAIKU_MODEL_ID="계정에서 허용된 Haiku model/profile ID"
 python scripts/run_bedrock_graph.py
 ```
 
-Bedrock 모드에서는 `agents/llm.py`가 AWS Bedrock Runtime Converse API를 호출한다. 각 `AgentRun.model_name`에는 `bedrock:{BEDROCK_MODEL_ID}`가 기록된다.
+에이전트별 모델 라우팅:
+
+```text
+Structuring / Market / Competitor / BM / Tech / IP / Critic
+  -> 모두 Haiku
+```
+
+Bedrock 모드에서는 `agents/llm.py`가 AWS Bedrock Runtime Converse API를 호출한다. 각 `AgentRun.model_name`에는 모델 등급과 실제 ID가 함께 기록된다.
+
+```text
+bedrock:haiku:{model_id}
+```
+
+`run_bedrock_graph.py`는 단순 실행이 아니라 Bedrock 승격 검증 스크립트다.
+
+```text
+1. AGENT_LLM_PROVIDER=bedrock 강제
+2. AWS 자격증명 존재 여부 사전 점검
+3. 전체 graph에서 Claude Converse 호출
+4. AgentRun별 llm_succeeded / fallback 여부 확인
+5. BM 5필드가 존재하고 [MOCK] 값이 제거됐는지 확인
+6. 하나라도 실패하면 종료코드 실패 반환
+```
+
+BM 승격 검증 필드:
+
+```text
+revenue_model
+pricing_hypothesis
+market_size_signal
+unit_economics
+key_risk
+```
+
+따라서 P2의 코드 작업은 완료됐고, 실제 완료에 필요한 외부 조건은 AWS 자격증명과 해당 region/model의 Bedrock 접근 권한이다.
 
 현재 Bedrock 연결 방식:
 
