@@ -4,6 +4,7 @@ langchain
 langchain-aws            # ChatBedrockConverse
 boto3
 
+
 # ── 서빙 / UI ──
 fastapi
 uvicorn[standard]

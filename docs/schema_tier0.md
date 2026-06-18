@@ -2,7 +2,7 @@
 
 > 기존 22-테이블 DBML은 **목표 ERD(부록)**로 보관. 실제 Day 1 구현은 아래 **9개(기본 6 + 시그니처 3)**로 시작.
 > 설계 3원칙:
-> 1. **계약 필드는 단단히, payload는 느슨하게** — cross-team 필드(evidence_id·grounded_on·confidence·depth·stance)만 strict, 분석 본문은 `output_json` 하나로 흘림.
+> 1. **계약 필드는 단단히, output_json은 느슨하게** — cross-team 필드(evidence_id·grounded_on·confidence·depth·stance)만 strict, 분석 본문은 `output_json` 하나로 흘림.
 > 2. **pgvector 단일 스토어** — 별도 벡터DB 없음. 임베딩은 Postgres 컬럼. (Chroma 동기화 문제 소거)
 > 3. **입력 = `ideas.raw_input` 텍스트** — 파일 업로드·OCR·페이지·섹션 5종 테이블은 Tier 3(천장)로 분리.
 
@@ -12,7 +12,7 @@
 
 ```dbml
 // VentureScout Tier 0 — 9 tables (기본 6 + 시그니처 3)
-// 원칙: 계약 strict / payload JSON / pgvector 단일 스토어
+// 원칙: 계약 strict / output_json / pgvector 단일 스토어
 
 Table ideas {                       // ① Structuring 출력 = 입력 단일 진입점
   idea_id uuid [pk]
@@ -144,7 +144,7 @@ Ref: evidence_items.evidence_id < ip_overlap_candidates.evidence_id
 
 ## 2. 코드 계약 (C가 Day 1에 레포에 올림)
 
-DB 테이블과 1:1로 매핑되지만, **런타임/tool이 주고받는 계약**. strict 필드만 pydantic 검증, `payload`는 검증 안 함.
+DB 테이블과 1:1로 매핑되지만, **런타임/tool이 주고받는 계약**. strict 필드만 pydantic 검증하고, 분석 본문은 `agent_runs.output_json` 안에 둠.
 
 ```python
 from typing import TypedDict, Literal, Optional
@@ -174,22 +174,26 @@ class Hypothesis(BaseModel):
     next_validation: str
 
 # ★ 에이전트 출력 공통 envelope (→ agent_runs)
-class AgentFinding(BaseModel):
-    agent: str                      # market|competitor|tech|ip|bm|critic
+class AgentRun(BaseModel):
+    agent_run_id: str | None = None
+    job_id: str
+    agent_name: str                 # market|competitor|tech|ip|bm|critic
     hypothesis_id: str
-    signal: str                     # 핵심 주장 한 줄
     grounded_on: list[str]          # evidence_id (required; 비면 검증 실패)
     confidence: Confidence          # 계약
     depth: Depth                    # full|light (혼합 스코프)
-    next_experiment: Optional[str] = None
-    payload: dict = Field(default_factory=dict)   # 분석 본문 전부(느슨)
+    output_json: dict = Field(default_factory=dict)   # 분석 본문 전부(느슨)
 
 # 시그니처 기계 출력: B가 produce, ⑤가 read (→ ip_overlap_candidates)
-class OverlapCandidate(BaseModel):
+class IPOverlapCandidate(BaseModel):
     candidate_id: str
+    job_id: str
+    hypothesis_id: str
     limitation_id: str
     evidence_id: str
     plan_technical_element: str
+    lexical_score: float
+    similarity_score: float
     hybrid_score: float
     rank: int
 
@@ -197,13 +201,14 @@ class OverlapCandidate(BaseModel):
 class VentureScoutState(TypedDict):
     idea: dict
     hypotheses: list[Hypothesis]
-    evidence_pool: dict[str, EvidenceItem]   # evidence_id → item
-    findings: list[AgentFinding]             # ②③④⑤⑥ 누적
+    evidence_items: dict[str, EvidenceItem]  # evidence_id → item
+    agent_runs: list[AgentRun]               # ②③④⑤⑥⑦ 누적
+    ip_overlap_candidates: list[IPOverlapCandidate]
     critic: dict                             # ⑦
     final_report: str
 ```
 
-> **계약/느슨 경계**: strict = `evidence_id·grounded_on·confidence·stance·depth`(이게 통합 면). 느슨 = `payload`·`output_json`(에이전트별 자유, 프롬프트 바뀌어도 마이그레이션 없음).
+> **계약/느슨 경계**: strict = `evidence_id·grounded_on·confidence·stance·depth`(이게 통합 면). 느슨 = `agent_runs.output_json`(에이전트별 자유, 프롬프트 바뀌어도 마이그레이션 없음).
 
 ---
 
@@ -259,15 +264,15 @@ CREATE INDEX ON documents         USING gin (to_tsvector('simple', clean_text));
 | `agent_runs` | 에이전트 소유자(②③→B, ①④⑤⑦→C, ⑥→D) | D(보드·평가) |
 | `analysis_jobs` | **D**(FastAPI) | Chainlit·평가 |
 
-> **mock 병렬**: C가 위 계약(§2)을 Day 1에 올리면, A는 `documents`/`claim_limitations`를, B는 검색 tool이 `OverlapCandidate`·`EvidenceItem`을 반환하도록, D는 평가 하네스를 — 전부 실데이터 없이 mock으로 동시에 짠다. ⑤ 에이전트도 `OverlapCandidate` mock만 있으면 판정 프롬프트 완성.
+> **mock 병렬**: C가 위 계약(§2)을 Day 1에 올리면, A는 `documents`/`claim_limitations`를, B는 검색 tool이 `IPOverlapCandidate`·`EvidenceItem`을 반환하도록, D는 평가 하네스를 — 전부 실데이터 없이 mock으로 동시에 짠다. ⑤ 에이전트도 `IPOverlapCandidate` mock만 있으면 판정 프롬프트 완성.
 
 ---
 
 ## 6. Day 1 체크리스트
 
-1. **C** — `EvidenceItem·Hypothesis·AgentFinding·OverlapCandidate·State` 코드를 레포에 commit(§2)
+1. **C** — `EvidenceItem·Hypothesis·AgentRun·IPOverlapCandidate·State` 코드를 레포에 commit(§2)
 2. **A** — `ideas·documents·patent_claims·claim_limitations` DDL + 적재 스텁
-3. **B** — `vector_search() → list[OverlapCandidate]`, `retrieve() → list[EvidenceItem]` tool 시그니처 확정(mock 반환)
+3. **B** — `vector_search() → list[IPOverlapCandidate]`, `retrieve() → list[EvidenceItem]` tool 시그니처 확정(mock 반환)
 4. **D** — `analysis_jobs` + FastAPI 스트리밍 이벤트 포맷 + 평가 하네스 mock
 5. 데이터 소스(영어/한국어) 확정 → `documents.source_type`·임베딩 모델 결정
 
