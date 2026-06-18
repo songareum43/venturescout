@@ -21,6 +21,7 @@ class Config:
     db_name: str = os.getenv("POSTGRES_DB", "venturescout")
     db_user: str = os.getenv("POSTGRES_USER", "vs")
     db_password: str = os.getenv("POSTGRES_PASSWORD", "")
+    db_connect_timeout: int = int(os.getenv("DB_CONNECT_TIMEOUT", "10"))
 
     # ── 임베딩 (소스 결정 전 기본값, __post_init__에서 덮어씀) ────
     embedding_model: str = ""
@@ -51,8 +52,11 @@ class Config:
     # ── AWS Bedrock ───────────────────────────────────────────
     bedrock_region: str = os.getenv("AWS_REGION", "us-east-1")
     bedrock_model_id: str = os.getenv(
-        "BEDROCK_MODEL_ID",
-        "anthropic.claude-3-5-sonnet-20240620-v1:0"
+        "BEDROCK_HAIKU_MODEL_ID",
+        os.getenv(
+            "BEDROCK_MODEL_ID",
+            "anthropic.claude-3-haiku-20240307-v1:0",
+        ),
     )
 
     def __post_init__(self):

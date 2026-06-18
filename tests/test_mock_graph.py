@@ -1,9 +1,53 @@
-from agents.graph import build_graph
+import pytest
+
+from agents import graph
 from agents.mock_data import MOCK_DOCUMENTS, MOCK_EVIDENCE, MOCK_IP_CANDIDATES
+from shared.contracts import EvidenceItem, IPOverlapCandidate
+
+
+@pytest.fixture(autouse=True)
+def isolate_mock_graph_from_external_search(monkeypatch):
+    """mock graph 테스트가 RDS/pgvector에 접근하지 않도록 검색 경계를 고정한다."""
+
+    def mock_retrieve(hypothesis_id, query, *, job_id="", k=5):
+        return [
+            EvidenceItem(job_id=job_id, **item)
+            for item in MOCK_EVIDENCE
+            if item["hypothesis_id"] == hypothesis_id
+        ][:k]
+
+    def mock_vector_search(
+        technical_elements,
+        *,
+        job_id="",
+        hypothesis_id="H5",
+        k=10,
+    ):
+        elements = set(technical_elements)
+        return [
+            IPOverlapCandidate(
+                job_id=job_id,
+                **{
+                    key: value
+                    for key, value in item.items()
+                    if key != "limitation_text"
+                },
+            )
+            for item in MOCK_IP_CANDIDATES
+            if item["hypothesis_id"] == hypothesis_id
+            and (
+                not elements
+                or item["plan_technical_element"] in elements
+            )
+        ][:k]
+
+    monkeypatch.setenv("AGENT_LLM_PROVIDER", "mock")
+    monkeypatch.setattr(graph, "retrieve", mock_retrieve)
+    monkeypatch.setattr(graph, "vector_search", mock_vector_search)
 
 
 def test_mock_graph_uses_mock_data_as_source():
-    result = build_graph().invoke(
+    result = graph.build_graph().invoke(
         {
             "job_id": "job_test",
             "idea_id": "idea_test",
@@ -18,7 +62,7 @@ def test_mock_graph_uses_mock_data_as_source():
 
 
 def test_every_agent_run_cites_existing_mock_evidence():
-    result = build_graph().invoke(
+    result = graph.build_graph().invoke(
         {
             "job_id": "job_test",
             "idea_id": "idea_test",

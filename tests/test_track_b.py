@@ -97,6 +97,7 @@ class TestD3Gate:
     @patch("pipeline.indexer.register_vector")
     def test_sync_ok(self, mock_reg, mock_connect):
         mock_conn = MagicMock()
+        mock_conn.closed = 0
         mock_connect.return_value = mock_conn
         mock_cursor = MagicMock()
         mock_conn.cursor.return_value.__enter__ = lambda s: mock_cursor
@@ -107,6 +108,7 @@ class TestD3Gate:
 
         from pipeline.indexer import PatentIndexer
         indexer = PatentIndexer()
+        indexer._conn = mock_conn
         result = indexer.verify_sync()
 
         assert result["gate_pass"] is True
@@ -116,6 +118,7 @@ class TestD3Gate:
     @patch("pipeline.indexer.register_vector")
     def test_sync_fail(self, mock_reg, mock_connect):
         mock_conn = MagicMock()
+        mock_conn.closed = 0
         mock_connect.return_value = mock_conn
         mock_cursor = MagicMock()
         mock_conn.cursor.return_value.__enter__ = lambda s: mock_cursor
@@ -126,6 +129,7 @@ class TestD3Gate:
 
         from pipeline.indexer import PatentIndexer
         indexer = PatentIndexer()
+        indexer._conn = mock_conn
         result = indexer.verify_sync()
 
         assert result["gate_pass"] is False
@@ -165,7 +169,7 @@ class TestPersistence:
         run_id = create_agent_run(
             conn,
             job_id="job-1", hypothesis_id="hyp-1",
-            agent_name="market", model_name="claude-3-5-sonnet",
+            agent_name="market", model_name="claude-3-haiku",
             depth="full", confidence="mid",
             grounded_on=["ev-1", "ev-2"],
             output_json={"pain_signal": {"summary": "x"}},
