@@ -1210,6 +1210,7 @@ def build_graph():
         ("ip", ip_node),
         ("bm", bm_node),
         ("critic", critic_node),
+        ("alternatives", alternatives_node),
     ]:
         graph.add_node(name, fn)
 
@@ -1219,7 +1220,11 @@ def build_graph():
         graph.add_edge("structuring", node)
         # 각 분석 노드가 agent_runs/evidence_items를 state에 누적하면 Critic이 마지막에 전체를 검수한다.
         graph.add_edge(node, "critic")
-    graph.add_edge("critic", END)
+    # decision == "kill"일 때만 alternatives_node로 이어진다(그 외엔 그래프 종료).
+    graph.add_conditional_edges(
+        "critic", _route_after_critic, {"alternatives": "alternatives", END: END}
+    )
+    graph.add_edge("alternatives", END)
     return graph.compile()
 
 

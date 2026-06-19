@@ -109,3 +109,16 @@ def test_alternatives_node_skips_when_no_matching_evidence():
     }
     result = alternatives_node(state)
     assert result == {"agent_runs": []}
+
+
+def test_build_graph_routes_critic_conditionally_to_alternatives():
+    from agents.graph import build_graph
+
+    app = build_graph()
+    g = app.get_graph()
+    assert "alternatives" in g.nodes
+
+    edge_conditional = {(e.source, e.target): e.conditional for e in g.edges}
+    assert edge_conditional[("critic", "alternatives")] is True
+    assert edge_conditional[("critic", "__end__")] is True
+    assert edge_conditional[("alternatives", "__end__")] is False
