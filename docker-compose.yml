@@ -6,6 +6,7 @@ services:
       - "8000:8000"
     volumes:
       - .:/app
+      - hf_cache:/root/.cache/huggingface   # 임베딩 모델 캐시 — 빌드 시 구운 모델이 볼륨에 복제·유지
 
   ui:
     build: .
@@ -19,3 +20,6 @@ services:
       - "8001:8001"
     volumes:
       - .:/app
+
+volumes:
+  hf_cache:   # 임베딩 모델(HuggingFace) 캐시 — api 재시작/재빌드에도 재다운로드 방지

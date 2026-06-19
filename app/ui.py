@@ -34,7 +34,9 @@ async def stream_events(idea: str) -> AsyncIterator[dict]:
 
     ※ Chainlit 비의존 순수 함수 → 단위 테스트/Streamlit 폴백에서 재사용.
     """
-    async with httpx.AsyncClient(timeout=httpx.Timeout(120.0)) as client:
+    # read 타임아웃을 넉넉히(10분) — 실 LLM(Bedrock)·대용량 RDS 하이브리드 검색은
+    # 분석 1건이 길어질 수 있다. connect는 짧게 유지해 api 미기동은 빨리 감지.
+    async with httpx.AsyncClient(timeout=httpx.Timeout(600.0, connect=10.0)) as client:
         async with client.stream(
             "POST", f"{API_URL}/analyze", json={"idea": idea}
         ) as resp:
