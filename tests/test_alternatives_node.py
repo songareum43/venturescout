@@ -89,3 +89,23 @@ def test_route_after_critic_goes_to_end_for_other_decisions():
     assert _route_after_critic({"decision": "pivot"}) == END
     assert _route_after_critic({"decision": "more_research"}) == END
     assert _route_after_critic({}) == END
+
+
+def test_alternatives_node_skips_when_no_matching_evidence():
+    from shared.contracts import AnalysisJob
+
+    from agents.graph import alternatives_node
+
+    state = {
+        "analysis_job": AnalysisJob(job_id="job_1", idea_id="idea_1"),
+        "critic_scorecard": {
+            "high_ip_candidates": ["cand_1"],
+            "contradicting_evidence": ["ev_missing"],
+            "low_confidence_agents": [],
+        },
+        "agent_runs": [],
+        "evidence_items": {},  # ev_missing이 없어 evidence 0건 -> graceful skip
+        "ip_overlap_candidates": [],
+    }
+    result = alternatives_node(state)
+    assert result == {"agent_runs": []}

@@ -1125,6 +1125,71 @@ def critic_node(state: VentureScoutState) -> dict:
     return result
 
 
+def alternatives_node(state: VentureScoutState) -> dict:
+    """decision == 'kill'일 때만 critic 다음에 실행되어, kill 원인별로 대안을 제안한다."""
+    start_time = time.time()
+    log_stage(logger, "8️⃣", "Alternatives (kill 대안 제안)")
+
+    job_id = state["analysis_job"].job_id
+    scorecard = state.get("critic_scorecard", {})
+    agent_runs = state.get("agent_runs", [])
+    evidence_items = state.get("evidence_items", {})
+    candidates = state.get("ip_overlap_candidates", [])
+
+    log_input(logger, {"job_id": job_id, "scorecard": scorecard})
+
+    kill_reason = _kill_reason(scorecard)
+    evidence_ids = _alternatives_evidence_ids(kill_reason, scorecard, agent_runs, candidates)
+    evidence = [evidence_items[eid] for eid in evidence_ids if eid in evidence_items]
+
+    log_processing(logger, "대안 근거 선택 완료", {
+        "kill_reason": kill_reason,
+        "evidence_count": len(evidence),
+    })
+
+    if not evidence:                       # graceful: 인용 가능 근거 0건 -> run 생략
+        log_processing(logger, "대안 근거 0건 — alternatives run 생략(graceful)")
+        return {"agent_runs": []}
+
+    role = (
+        "IP 시그니처 후보와 반박 근거가 동시에 있어 kill로 판정됐다. "
+        "특허 회피 설계 또는 vertical 범위 축소 중심으로, 기존 아이디어의 핵심은 유지한 채 "
+        "조정 가능한 대안 2~3개를 제안한다."
+        if kill_reason == "ip_conflict" else
+        "대부분의 핵심 가설이 low confidence라 근거가 약해 kill로 판정됐다. "
+        "더 강한 근거가 있는 타겟/포지셔닝/가격정책으로 전환하는 대안 2~3개를 제안한다."
+    )
+
+    output_json = _agent_output_with_llm(
+        agent_name="alternatives",
+        hypothesis_id="all",
+        role=role,
+        required_fields=["kill_reason", "alternatives"],
+        context={
+            "idea": state.get("idea"),
+            "kill_reason": kill_reason,
+            "critic_objections": state["critic"].objections,
+            "evidence": evidence,
+        },
+    )
+    output_json["kill_reason"] = kill_reason
+
+    agent_run = _agent_run(
+        job_id=job_id,
+        agent_name="alternatives",
+        hypothesis_id="all",
+        depth="light",
+        confidence="low",
+        evidence=evidence,
+        output_json=output_json,
+    )
+
+    duration_ms = (time.time() - start_time) * 1000
+    log_completion(logger, "Alternatives", duration_ms)
+
+    return {"agent_runs": [agent_run]}
+
+
 def _route_after_critic(state: VentureScoutState) -> str:
     """critic 직후 라우팅: kill이면 alternatives로, 그 외엔 그래프를 끝낸다."""
     return "alternatives" if state.get("decision") == "kill" else END
