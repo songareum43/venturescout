@@ -169,7 +169,7 @@ class TestPersistence:
         run_id = create_agent_run(
             conn,
             job_id="job-1", hypothesis_id="hyp-1",
-            agent_name="market", model_name="claude-3-haiku",
+            agent_name="market", model_name="claude-sonnet-4-6",
             depth="full", confidence="mid",
             grounded_on=["ev-1", "ev-2"],
             output_json={"pain_signal": {"summary": "x"}},

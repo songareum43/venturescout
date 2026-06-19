@@ -52,10 +52,10 @@ class Config:
     # ── AWS Bedrock ───────────────────────────────────────────
     bedrock_region: str = os.getenv("AWS_REGION", "us-east-1")
     bedrock_model_id: str = os.getenv(
-        "BEDROCK_HAIKU_MODEL_ID",
+        "BEDROCK_SONNET_MODEL_ID",
         os.getenv(
             "BEDROCK_MODEL_ID",
-            "anthropic.claude-3-haiku-20240307-v1:0",
+            "us.anthropic.claude-sonnet-4-6",
         ),
     )
 

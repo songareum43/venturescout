@@ -170,7 +170,7 @@ try:
                 "| 🟡 **PIVOT** (방향 전환) | 근거는 있으나 경쟁·IP·리스크 신호로 범위를 좁혀야 함 |\n"
                 "| 🔴 **KILL** (중단) | 근거가 약하거나 치명적 문제로 현재 형태 추진 부적합 |\n"
                 "| 🔵 **MORE RESEARCH** (추가 검증) | 근거·가설 커버리지가 부족해 더 조사 필요 |\n\n"
-                "아이디어를 한 줄로 입력해 보세요.  예) `AI 기반 이커머스 개인화 추천 엔진`"
+                "대상 고객, 해결하려는 문제, 제공할 제품·서비스와 수익 방식을 포함해 자세히 입력해 주세요."
             )
         ).send()
 
@@ -204,6 +204,9 @@ try:
                     report = ev
 
                 elif etype == "job" and ev.get("status") == "failed":
+                    if ev.get("error_code") == "insufficient_input":
+                        await cl.Message(content=ev.get("error", "")).send()
+                        return
                     await cl.Message(
                         content=f"⚠️ 분석 실패: {ev.get('error', 'unknown')}"
                     ).send()

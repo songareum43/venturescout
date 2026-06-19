@@ -29,22 +29,11 @@ def test_bedrock_status_accepts_successful_bm_fields():
     assert status["bm_fields_generated_by_claude"] is True
 
 
-def test_bedrock_status_rejects_fallback_and_mock_bm_fields():
-    bm_fields = {
-        field: f"[MOCK] {field}"
-        for field in BM_DOMAIN_FIELDS
-    }
+def test_bedrock_status_rejects_failed_agent_and_missing_bm_fields():
     result = {
         "agent_runs": [
-            _run(
-                "market",
-                {
-                    "llm_succeeded": False,
-                    "llm_fallback_used": True,
-                    "llm_error": "AccessDeniedException",
-                },
-            ),
-            _run("bm", {"llm_succeeded": True, **bm_fields}),
+            _run("market", {"llm_succeeded": False}),
+            _run("bm", {"llm_succeeded": True}),
         ]
     }
 
@@ -53,4 +42,4 @@ def test_bedrock_status_rejects_fallback_and_mock_bm_fields():
     assert status["bedrock_verified"] is False
     assert status["failed_agents"] == ["market"]
     assert status["bm_fields_generated_by_claude"] is False
-    assert sorted(status["bm_mock_fields"]) == sorted(BM_DOMAIN_FIELDS)
+    assert sorted(status["bm_missing_fields"]) == sorted(BM_DOMAIN_FIELDS)

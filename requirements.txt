@@ -1,36 +1,35 @@
-# ── 에이전트 / LLM ──
+# Agents / LLM
 langgraph
 langchain
 langchain-aws            # ChatBedrockConverse
 boto3
 
-
-# ── 서빙 / UI ──
+# API / UI
 fastapi
 uvicorn[standard]
 chainlit
-httpx                    # ui.py SSE 클라이언트
+httpx                    # Chainlit SSE client
 
-# ── DB / 검색 ──
+# Database / search
 psycopg2-binary
 sqlalchemy
 pgvector
-rank-bm25                # 키워드 보조(또는 tsvector)
+rank-bm25                # Keyword fallback
 
-# ── 임베딩 ──
+# Embeddings
 sentence-transformers
 transformers
 torch
 numpy
 
-# ── 계약 / 검증 ──
+# Contracts / validation
 pydantic>=2
 python-dotenv
 
-# ── 데이터 수집 / 정제 ──
+# Data collection / parsing
 requests
 lxml
 
-# ── 개발 ──
+# Development
 pytest
 ruff

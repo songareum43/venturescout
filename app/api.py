@@ -21,6 +21,7 @@ from fastapi.responses import StreamingResponse
 from pydantic import BaseModel
 
 from agents.graph import build_graph
+from agents.input_validation import InsufficientInputError, validate_input_detail
 
 app = FastAPI(title="VentureScout API")
 
@@ -116,6 +117,18 @@ async def analyze(req: AnalyzeRequest) -> StreamingResponse:
     """
 
     async def event_stream() -> AsyncIterator[str]:
+        try:
+            validate_input_detail(req.idea)
+        except InsufficientInputError as exc:
+            yield _sse({
+                "type": "job",
+                "status": "failed",
+                "stage": None,
+                "error_code": "insufficient_input",
+                "error": str(exc),
+            })
+            return
+
         # ① job_id 발급 (ideas+analysis_jobs INSERT). 실패하면 바로 봉투로 보고.
         try:
             job_id, idea_id = await asyncio.to_thread(_create_job, req.idea)
@@ -179,6 +192,17 @@ async def analyze(req: AnalyzeRequest) -> StreamingResponse:
                         "label": STAGE_LABELS[name], "status": "done",
                     })
 
+        except InsufficientInputError as exc:
+            await asyncio.to_thread(_finish_job, job_id, "failed", None, None)
+            yield _sse({
+                "type": "job",
+                "status": "failed",
+                "stage": None,
+                "job_id": job_id,
+                "error_code": "insufficient_input",
+                "error": str(exc),
+            })
+            return
         except Exception as exc:  # noqa: BLE001 — 데모용 광역 캐치 후 봉투로 보고
             await asyncio.to_thread(_finish_job, job_id, "failed", None, None)
             yield _sse({"type": "job", "status": "failed", "stage": None, "job_id": job_id,
@@ -186,8 +210,19 @@ async def analyze(req: AnalyzeRequest) -> StreamingResponse:
             return
 
         # 최종 리포트 (critic 판단 + 누적 agent_runs = Evidence Board 소스)
-        decision = (critic or {}).get("decision", "more_research")
-        summary = (critic or {}).get("summary", "근거 부족 — 추가 검증 필요")
+        if critic is None:
+            await asyncio.to_thread(_finish_job, job_id, "failed", None, None)
+            yield _sse({
+                "type": "job",
+                "status": "failed",
+                "stage": None,
+                "job_id": job_id,
+                "error": "Critic 결과가 생성되지 않아 분석을 중단했습니다.",
+            })
+            return
+
+        decision = critic["decision"]
+        summary = critic["summary"]
 
         # 잡 종료 기록 (status=done, decision 저장)
         await asyncio.to_thread(_finish_job, job_id, "done", decision, summary)

@@ -48,6 +48,6 @@ pytest                        # 계약 green 확인
 ## 개발 규율
 
 - **계약 우선** — `shared/contracts.py`가 cross-team 면. strict 필드(evidence_id·grounded_on·confidence·stance·depth)는 안 바꿈, 분석 본문은 `payload`/`output_json`로 느슨하게.
-- **mock 우선** — `retrieval/tools.py`가 mock 반환. A 실데이터 전 B/C/D 병렬 착수.
+- **live 실행** — `retrieval/tools.py`가 PostgreSQL/pgvector 실제 검색 결과만 반환.
 - **Tier 0 하드게이트** — ②⑤ full + ③④⑥ light + ⑦ + Evidence Board E2E 전까지 Tier 1+ 금지.
 - `.env`·데이터·모델은 `.gitignore`로 보호. 커밋 전 `git status` 확인.

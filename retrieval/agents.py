@@ -34,12 +34,12 @@ def _get_llm() -> ChatBedrockConverse:
 
 
 def _pick_hypothesis_id(state: VentureScoutState, axes: set[str]) -> str:
-    """hypotheses 중 axis가 axes에 속하는 첫 항목의 id. 없으면 'H0'(척추 mock과 동일)."""
+    """Return the matching live hypothesis id."""
     for h in state.get("hypotheses", []):
         axis = h.axis if hasattr(h, "axis") else h.get("axis")
         if axis in axes:
             return h.hypothesis_id if hasattr(h, "hypothesis_id") else h["hypothesis_id"]
-    return "H0"
+    raise RuntimeError(f"No hypothesis found for axes: {sorted(axes)}")
 
 
 def _idea_query(state: VentureScoutState) -> str:

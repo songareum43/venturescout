@@ -11,31 +11,31 @@ from agents.llm import (
 
 
 def test_agent_model_tiers():
-    assert model_tier_for_agent("structuring") == "haiku"
-    assert model_tier_for_agent("market") == "haiku"
-    assert model_tier_for_agent("competitor") == "haiku"
-    assert model_tier_for_agent("bm") == "haiku"
-    assert model_tier_for_agent("tech") == "haiku"
-    assert model_tier_for_agent("ip") == "haiku"
-    assert model_tier_for_agent("critic") == "haiku"
+    assert model_tier_for_agent("structuring") == "sonnet"
+    assert model_tier_for_agent("market") == "sonnet"
+    assert model_tier_for_agent("competitor") == "sonnet"
+    assert model_tier_for_agent("bm") == "sonnet"
+    assert model_tier_for_agent("tech") == "sonnet"
+    assert model_tier_for_agent("ip") == "sonnet"
+    assert model_tier_for_agent("critic") == "sonnet"
 
 
-def test_all_agents_use_same_haiku_model(monkeypatch):
+def test_all_agents_use_same_sonnet_model(monkeypatch):
     monkeypatch.setenv("AGENT_LLM_PROVIDER", "bedrock")
-    monkeypatch.setenv("BEDROCK_HAIKU_MODEL_ID", "haiku-test")
+    monkeypatch.setenv("BEDROCK_SONNET_MODEL_ID", "sonnet-test")
 
-    assert load_claude_config("haiku").model_id == "haiku-test"
-    assert current_model_name("tech") == "bedrock:haiku:haiku-test"
-    assert current_model_name("ip") == "bedrock:haiku:haiku-test"
-    assert current_model_name("critic") == "bedrock:haiku:haiku-test"
+    assert load_claude_config("sonnet").model_id == "sonnet-test"
+    assert current_model_name("tech") == "bedrock:sonnet:sonnet-test"
+    assert current_model_name("ip") == "bedrock:sonnet:sonnet-test"
+    assert current_model_name("critic") == "bedrock:sonnet:sonnet-test"
 
 
 def test_graph_passes_agent_tier_to_llm(monkeypatch):
     called_tiers = []
 
-    def fake_invoke_claude_json(*, system, user, fallback, model_tier):
+    def fake_invoke_claude_json(*, system, user, model_tier):
         called_tiers.append(model_tier)
-        return fallback
+        return {"summary": "test"}
 
     monkeypatch.setattr(graph, "invoke_claude_json", fake_invoke_claude_json)
 
@@ -44,17 +44,17 @@ def test_graph_passes_agent_tier_to_llm(monkeypatch):
             agent_name=agent_name,
             hypothesis_id="H-test",
             role="test",
-            default_output={"summary": "test"},
+            required_fields=["summary"],
             context={},
         )
 
     assert called_tiers == [
-        "haiku",
-        "haiku",
-        "haiku",
-        "haiku",
-        "haiku",
-        "haiku",
+        "sonnet",
+        "sonnet",
+        "sonnet",
+        "sonnet",
+        "sonnet",
+        "sonnet",
     ]
 
 
@@ -77,16 +77,15 @@ def test_invoke_uses_selected_tier_model_id(monkeypatch):
     )
     monkeypatch.setitem(sys.modules, "boto3", fake_boto3)
     monkeypatch.setenv("AGENT_LLM_PROVIDER", "bedrock")
-    monkeypatch.setenv("BEDROCK_HAIKU_MODEL_ID", "haiku-selected")
+    monkeypatch.setenv("BEDROCK_SONNET_MODEL_ID", "sonnet-selected")
 
     output = invoke_claude_json(
         system="system",
         user="user",
-        fallback={"summary": "fallback"},
-        model_tier="haiku",
+        model_tier="sonnet",
     )
 
-    assert requested_model_ids == ["haiku-selected"]
+    assert requested_model_ids == ["sonnet-selected"]
     assert output["summary"] == "ok"
-    assert output["llm_model_id"] == "haiku-selected"
+    assert output["llm_model_id"] == "sonnet-selected"
     assert output["llm_succeeded"] is True

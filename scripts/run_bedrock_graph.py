@@ -15,8 +15,9 @@ PROJECT_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 if PROJECT_ROOT not in sys.path:
     sys.path.insert(0, PROJECT_ROOT)
 
-# 검증 전용 실행 파일이므로 기존 shell 값이 mock이어도 Bedrock으로 강제한다.
+# Live 검증 스크립트는 Bedrock과 실제 검색만 허용한다.
 os.environ["AGENT_LLM_PROVIDER"] = "bedrock"
+os.environ["RETRIEVAL"] = "live"
 
 from agents.bedrock_status import summarize_bedrock_run
 from agents.graph import build_graph
@@ -32,14 +33,11 @@ def main() -> None:
     if not raw_input:
         raise SystemExit(
             "VENTURESCOUT_RAW_INPUT is required for a live run. "
-            "No mock input fallback is used."
+            "Include the target customer, problem, solution, and business model."
         )
 
     run_token = uuid.uuid4().hex
     initial_state = {
-        # 실제 데이터 전환 지점:
-        # 지금은 mock ID와 raw_input으로 Bedrock 연결을 검증한다.
-        # 운영에서는 FastAPI/Chainlit이 만든 ID와 파일 파싱 결과를 넣는다.
         "job_id": os.getenv("VENTURESCOUT_JOB_ID", f"live_job_{run_token}"),
         "idea_id": os.getenv("VENTURESCOUT_IDEA_ID", f"live_idea_{run_token}"),
         "raw_input": raw_input,
@@ -63,9 +61,7 @@ def main() -> None:
     )
 
     if not verification["bedrock_verified"]:
-        raise SystemExit(
-            "Bedrock 호출에 실패한 에이전트가 있어 fallback 결과를 사용했습니다."
-        )
+        raise SystemExit("Bedrock 호출에 실패한 에이전트가 있습니다.")
     if not verification["bm_fields_generated_by_claude"]:
         raise SystemExit(
             "BM 5필드가 Claude 분석값으로 완전히 승격되지 않았습니다."

@@ -1,8 +1,7 @@
-"""Tier 0 스키마 계약에 맞춘 Track C LangGraph.
+"""Tier 0 스키마 계약에 맞춘 live Track C LangGraph.
 
 이 파일은 현재 VentureScout 에이전트 실행의 중심이다.
-scripts/run_mock_graph.py와 scripts/run_bedrock_graph.py는 이 파일의 build_graph()를
-호출하는 실행 스크립트이고, 실제 에이전트 순서와 판단 로직은 여기서 정의된다.
+실제 에이전트 순서와 판단 로직은 여기서 정의된다.
 
 전체 흐름:
 1. structuring_node가 raw_input을 ideas + H1~H5 hypotheses로 구조화한다.
@@ -14,13 +13,14 @@ scripts/run_mock_graph.py와 scripts/run_bedrock_graph.py는 이 파일의 build
 - confidence threshold: _confidence_from_strength()
 - IP risk threshold: ip_node(), critic_node()의 hybrid_score 기준
 - Critic 최종 판정 규칙: critic_node()의 if/elif decision rule
-- 실제 데이터 연결부: mock_data import, _document_map(), retrieval.tools.retrieve()
+- 실제 데이터 연결부: retrieval.tools.retrieve()
 """
 
 from __future__ import annotations
 
 import json
 import time
+import uuid
 from typing import Any
 
 from langgraph.graph import END, START, StateGraph
@@ -28,9 +28,9 @@ from langgraph.graph import END, START, StateGraph
 from agents.llm import (
     current_model_name,
     invoke_claude_json,
-    llm_enabled,
     model_tier_for_agent,
 )
+from agents.input_validation import InsufficientInputError, validate_input_detail
 from agents.logger import (
     get_logger,
     log_completion,
@@ -39,18 +39,6 @@ from agents.logger import (
     log_output,
     log_processing,
     log_stage,
-)
-# 실제 데이터 전환 지점:
-# 이 mock_data import는 개발/테스트용 기본값이다.
-# 운영에서는 raw_input/job_id/idea_id는 API/DB에서 받고,
-# documents/evidence/IP 후보는 repository 또는 retrieval 계층에서 조회한다.
-from agents.mock_data import (
-    MOCK_DOCUMENTS,
-    MOCK_HYPOTHESES,
-    MOCK_IDEA_ID,
-    MOCK_JOB_ID,
-    MOCK_RAW_INPUT,
-    MOCK_STRUCTURED_IDEA,
 )
 from retrieval.tools import retrieve, vector_search
 from shared.contracts import (
@@ -61,7 +49,6 @@ from shared.contracts import (
     CriticResult,
     Decision,
     Depth,
-    DocumentRecord,
     EvidenceItem,
     Hypothesis,
     IdeaRecord,
@@ -69,15 +56,6 @@ from shared.contracts import (
 from shared.state import VentureScoutState
 
 logger = get_logger("graph")
-
-
-def _mock_hypotheses(job_id: str, idea_id: str) -> list[Hypothesis]:
-    # 현재는 mock_data의 H1~H5를 job_id/idea_id만 붙여 Pydantic 모델로 바꾼다.
-    # 실제 데이터 전환 후에는 Structuring 결과를 hypotheses 테이블에 저장한 뒤 조회하는 쪽이 자연스럽다.
-    return [
-        Hypothesis(job_id=job_id, idea_id=idea_id, **item)
-        for item in MOCK_HYPOTHESES
-    ]
 
 
 def _evidence_map(items: list[EvidenceItem]) -> dict[str, EvidenceItem]:
@@ -116,7 +94,7 @@ def _confidence_from_strength(strength: float) -> Confidence:
     # 조정 가능 지점:
     # 현재 high는 0.75 이상, mid는 0.45 이상이다.
     # 팀 기준이 더 보수적이면 high 기준을 0.80 또는 0.85로 올릴 수 있다.
-    # 반대로 mock/demo에서 high가 거의 안 나오면 0.70으로 낮출 수도 있다.
+    # 운영 데이터 분포에 따라 임계값을 조정할 수 있다.
     if strength >= 0.75:
         return "high"
     if strength >= 0.45:
@@ -163,27 +141,16 @@ def _validate_structured_idea(idea: IdeaRecord, hypotheses: list[Hypothesis]) ->
     }
 
 
-def _document_map() -> dict[str, DocumentRecord]:
-    # 실제 데이터 전환 지점:
-    # MOCK_DOCUMENTS 대신 documents 테이블에서 job/idea와 관련된 출처를 조회한다.
-    # 반환 형태를 dict[str, DocumentRecord]로 유지하면 뒤쪽 agent 코드는 그대로 동작한다.
-    return {
-        item["document_id"]: DocumentRecord(**item)
-        for item in MOCK_DOCUMENTS
-    }
-
-
 def _hypothesis_query(
     state: VentureScoutState,
     code: str,
-    fallback: str,
 ) -> str:
     """Use the current run's structured hypothesis as the retrieval query."""
 
     for hypothesis in state.get("hypotheses", []):
         if hypothesis.code == code:
             return hypothesis.statement
-    return fallback
+    raise RuntimeError(f"Structured hypothesis {code} is missing.")
 
 
 def _json_context(payload: dict[str, Any]) -> str:
@@ -197,10 +164,10 @@ def _agent_output_with_llm(
     agent_name: AgentName,
     hypothesis_id: str,
     role: str,
-    default_output: dict[str, Any],
+    required_fields: list[str],
     context: dict[str, Any],
 ) -> dict[str, Any]:
-    """근거 계약은 코드가 지키고, 분석 문장만 Claude로 보강한다."""
+    """Generate live analysis output and reject incomplete model responses."""
 
     # 중요한 설계 포인트:
     # LLM에게 "결정권"을 전부 주지 않고, evidence/context 안에서 output_json만 보강하게 한다.
@@ -218,22 +185,22 @@ def _agent_output_with_llm(
         f"에이전트: {agent_name}\n"
         f"담당 가설: {hypothesis_id}\n"
         f"역할: {role}\n\n"
-        "아래 context와 default_output을 바탕으로 output_json을 더 전문가답게 보강해라. "
-        "default_output의 모든 키를 유지하고, [MOCK] 접두 값은 context에 근거한 "
-        "실제 분석 문장으로 반드시 교체해라. grounded_on은 바꾸지 말고, "
-        "새 evidence_id를 만들지 마라.\n\n"
-        f"CONTEXT:\n{_json_context(context)}\n\n"
-        f"DEFAULT_OUTPUT:\n{_json_context(default_output)}"
+        f"반드시 다음 키를 모두 포함하라: {required_fields}. "
+        "아래 실제 context에 있는 정보만 사용하고 새 evidence_id를 만들지 마라. "
+        "근거가 부족하면 그 사실을 명시하되 임의의 사업·시장·기술 내용을 만들지 마라.\n\n"
+        f"CONTEXT:\n{_json_context(context)}"
     )
-    # AGENT_LLM_PROVIDER=mock이면 fallback이 그대로 반환된다.
-    # AGENT_LLM_PROVIDER=bedrock이면 Bedrock Claude를 호출하고,
-    # 인증/권한/JSON 파싱 실패 시에도 그래프가 죽지 않도록 fallback을 반환한다.
-    return invoke_claude_json(
+    output = invoke_claude_json(
         system=system,
         user=user,
-        fallback=default_output,
         model_tier=model_tier_for_agent(agent_name),
     )
+    missing = [field for field in required_fields if field not in output]
+    if missing:
+        raise RuntimeError(
+            f"{agent_name} response is missing required fields: {missing}"
+        )
+    return output
 
 
 def _structured_idea_payload(
@@ -244,32 +211,18 @@ def _structured_idea_payload(
 ) -> tuple[dict[str, Any], list[dict[str, Any]]]:
     """raw_input을 ideas + hypotheses 형태로 구조화한다."""
 
-    fallback_idea = {
-        # 실제 데이터 전환 지점:
-        # Bedrock/Claude 구조화가 성공하면 MOCK_STRUCTURED_IDEA는 fallback으로만 쓰인다.
-        # 운영에서는 파일 파서가 만든 raw_input과 LLM 구조화 결과를 ideas 테이블에 저장한다.
-        **MOCK_STRUCTURED_IDEA,
-        "idea_id": idea_id,
-        "raw_input": raw_input,
-    }
-    fallback = {
-        "idea": fallback_idea,
-        "hypotheses": MOCK_HYPOTHESES,
-    }
-    # mock 모드에서는 Claude를 부르지 않고 고정 구조화 결과를 사용한다.
-    # run_mock_graph.py가 항상 AWS 없이 돌아가야 하기 때문이다.
-    if not llm_enabled():
-        return fallback_idea, MOCK_HYPOTHESES
-
     system = (
         "너는 VentureScout의 Structuring 에이전트다. 사용자의 사업계획/파일 추출 텍스트를 "
         "분석 가능한 ideas와 H1~H5 hypotheses로 구조화한다. "
+        "사용자가 명시하지 않은 고객, 문제, 해결책, 수익모델을 추측해서 채우지 마라. "
         "응답은 설명 없이 JSON object 하나만 반환한다."
     )
     user = (
         "다음 raw_input을 구조화해라.\n\n"
         "반환 JSON 형식:\n"
         "{\n"
+        '  "input_sufficient": true,\n'
+        '  "missing_details": [],\n'
         '  "idea": {\n'
         '    "title": "...", "idea_type": "...", "target_customer": "...",\n'
         '    "problem_statement": "...", "solution_summary": "...",\n'
@@ -290,20 +243,26 @@ def _structured_idea_payload(
     parsed = invoke_claude_json(
         system=system,
         user=user,
-        fallback=fallback,
-        model_tier="haiku",
+        model_tier="sonnet",
     )
-    # Claude가 일부 필드를 빼먹어도 fallback_idea가 기본값을 채운다.
-    # 조정 가능 지점:
-    # 실제 운영에서는 fallback을 조용히 쓰기보다 user_confirmed=false 상태로 돌려
-    # 사용자 확인 화면을 띄우는 편이 더 안전하다.
+    if parsed.get("input_sufficient") is not True:
+        missing = parsed.get("missing_details")
+        if not isinstance(missing, list) or not missing:
+            missing = ["대상 고객", "해결하려는 문제", "제공할 제품 또는 서비스"]
+        raise InsufficientInputError([str(item) for item in missing])
+
+    idea_from_model = parsed.get("idea")
+    hypotheses_payload = parsed.get("hypotheses")
+    if not isinstance(idea_from_model, dict):
+        raise RuntimeError("Structuring response is missing the idea object.")
+    if not isinstance(hypotheses_payload, list):
+        raise RuntimeError("Structuring response is missing the hypotheses list.")
+
     idea_payload = {
-        **fallback_idea,
-        **parsed.get("idea", {}),
+        **idea_from_model,
         "idea_id": idea_id,
         "raw_input": raw_input,
     }
-    hypotheses_payload = parsed.get("hypotheses") or MOCK_HYPOTHESES
     return idea_payload, hypotheses_payload
 
 
@@ -325,10 +284,7 @@ def _agent_run(
     - 적재 실패 시에도 AgentRun을 반환하므로 그래프 흐름이 끊기지 않는다.
     """
     run = AgentRun(
-        # 실제 데이터 전환 지점:
-        # DB에 INSERT 성공하면 try_persist_agent_run()이 실제 UUID를 반환한다.
-        # 지금은 fallback으로 mock ID를 유지한다.
-        agent_run_id=f"run_mock_{agent_name}_{hypothesis_id}",
+        agent_run_id=str(uuid.uuid4()),
         job_id=job_id,
         hypothesis_id=hypothesis_id,
         agent_name=agent_name,
@@ -342,8 +298,6 @@ def _agent_run(
         status="done",
     )
 
-    # DB 적재 배선 — DB가 미설정(mock 모드)이면 내부에서 조용히 건너뛴다.
-    # try_persist_agent_run은 절대 예외를 던지지 않으므로 여기서 try/except 불필요.
     from pipeline.persistence import try_persist_agent_run  # 순환 import 방지용 지연 import
     db_run_id = try_persist_agent_run(run, evidence)
     if db_run_id:
@@ -362,9 +316,14 @@ def structuring_node(state: VentureScoutState) -> dict:
     start_time = time.time()
     log_stage(logger, "1️⃣", "Structuring (구조화)")
 
-    job_id = state.get("job_id", MOCK_JOB_ID)
-    idea_id = state.get("idea_id", MOCK_IDEA_ID)
-    raw_input = state.get("raw_input", MOCK_RAW_INPUT)
+    try:
+        job_id = state["job_id"]
+        idea_id = state["idea_id"]
+        raw_input = state["raw_input"]
+    except KeyError as exc:
+        raise RuntimeError(f"Required graph input is missing: {exc.args[0]}") from exc
+
+    validate_input_detail(raw_input)
     # 실제 데이터 전환 지점:
     # job_id/idea_id는 analysis_jobs, ideas insert 결과에서 온다.
     # raw_input은 업로드 파일 파싱 결과 또는 API request body에서 온다.
@@ -376,8 +335,6 @@ def structuring_node(state: VentureScoutState) -> dict:
     })
 
     log_processing(logger, "구조화된 아이디어 payload 생성 중...")
-    # Bedrock 모드면 Claude가 raw_input을 구조화하고,
-    # mock 모드 또는 Bedrock 실패 시에는 MOCK_STRUCTURED_IDEA/MOCK_HYPOTHESES를 fallback으로 쓴다.
     idea_payload, hypotheses_payload = _structured_idea_payload(
         job_id=job_id,
         idea_id=idea_id,
@@ -420,13 +377,17 @@ def structuring_node(state: VentureScoutState) -> dict:
     )
 
     if not structuring_quality["ready_for_analysis"]:
-        raise ValueError(f"Structuring mock data is incomplete: {structuring_quality}")
+        missing = [
+            *structuring_quality["missing_fields"],
+            *structuring_quality["missing_axes"],
+        ]
+        raise InsufficientInputError(missing)
 
     result = {
         "idea": idea,
         "analysis_job": analysis_job,
         "hypotheses": hypotheses,
-        "documents": _document_map() if not llm_enabled() else {},
+        "documents": {},
     }
 
     log_output(logger, {
@@ -451,8 +412,8 @@ def market_node(state: VentureScoutState) -> dict:
     job_id = state["analysis_job"].job_id
     log_input(logger, {"job_id": job_id, "hypothesis": "H1"})
 
-    log_processing(logger, "H1 관련 근거 검색 중...", {"query": "meeting follow-up pain"})
-    query = _hypothesis_query(state, "H1", "meeting follow-up pain")
+    query = _hypothesis_query(state, "H1")
+    log_processing(logger, "H1 관련 근거 검색 중...", {"query": query})
     # H1(고객 문제/수요) 근거는 고객 리뷰 시드에서 — 특허 제외
     evidence = retrieve("H1", query, job_id=job_id, source_types=["seed_review"])
     log_processing(logger, "근거 수집 완료", {"evidence_count": len(evidence)})
@@ -466,13 +427,6 @@ def market_node(state: VentureScoutState) -> dict:
     strength = _evidence_strength(evidence)
     confidence = _confidence_from_strength(strength)
 
-    default_output = {
-        "summary": "시장 수요 신호는 보이나 직접 고객 인터뷰로는 아직 검증되지 않았다.",
-        "key_findings": ["근거가 시드 데이터 기반이라 실제 사용자 검증은 아직 없다."],
-        "risks": ["고객의 문제 강도와 구매 시급성이 입증되지 않았다."],
-        "recommendations": ["타깃 고객 10명을 인터뷰해 문제 강도를 확인한다."],
-    }
-
     agent_run = _agent_run(
         job_id=job_id,
         agent_name="market",
@@ -484,7 +438,10 @@ def market_node(state: VentureScoutState) -> dict:
             agent_name="market",
             hypothesis_id="H1",
             role="고객 문제와 시장 수요 신호를 검토한다.",
-            default_output=default_output,
+            required_fields=[
+                "summary", "signal", "key_findings", "risks",
+                "recommendations", "next_experiment",
+            ],
             context={
                 "idea": state.get("idea"),
                 "evidence": evidence,
@@ -516,7 +473,7 @@ def competitor_node(state: VentureScoutState) -> dict:
     # 조정 가능 지점:
     # 나중에는 Market/Tech/IP처럼 start_time/log_input/log_output 패턴을 맞추면 추적성이 좋아진다.
     job_id = state["analysis_job"].job_id
-    query = _hypothesis_query(state, "H2", "adjacent meeting tools")
+    query = _hypothesis_query(state, "H2")
     # H2(경쟁/대안) 근거는 경쟁사 시드에서 — 특허 제외
     evidence = retrieve("H2", query, job_id=job_id, source_types=["seed_competitor"])
 
@@ -526,12 +483,6 @@ def competitor_node(state: VentureScoutState) -> dict:
     strength = _evidence_strength(evidence)
     confidence = _confidence_from_strength(strength)
 
-    default_output = {
-        "summary": "유사 대안 도구가 이미 존재하며 차별점이 아직 입증되지 않았다.",
-        "key_findings": ["워크플로우 수준의 포지셔닝으로 경쟁을 돌파해야 한다."],
-        "risks": ["범용 요약 시장은 이미 경쟁이 치열하다."],
-        "recommendations": ["하나의 버티컬 워크플로우로 범위를 좁힌다."],
-    }
     return {
         "evidence_items": _evidence_map(evidence),
         "agent_runs": [
@@ -546,7 +497,10 @@ def competitor_node(state: VentureScoutState) -> dict:
                     agent_name="competitor",
                     hypothesis_id="H2",
                     role="경쟁 대안과 차별화 가능성을 검토한다.",
-                    default_output=default_output,
+                    required_fields=[
+                        "summary", "signal", "key_findings", "risks",
+                        "recommendations", "next_experiment",
+                    ],
                     context={
                         "idea": state.get("idea"),
                         "evidence": evidence,
@@ -566,14 +520,8 @@ def tech_node(state: VentureScoutState) -> dict:
     job_id = state["analysis_job"].job_id
     log_input(logger, {"job_id": job_id, "hypothesis": "H4"})
 
-    log_processing(logger, "H4 관련 근거 검색 중...", {"query": "STT LLM summarization latency cost"})
-    # 실제 데이터 전환 지점:
-    # 기술 문서, PoC 결과, 벤치마크 로그를 evidence_items로 적재하면 여기서 실제 H4 근거를 받는다.
-    query = _hypothesis_query(
-        state,
-        "H4",
-        "STT LLM summarization latency cost",
-    )
+    query = _hypothesis_query(state, "H4")
+    log_processing(logger, "H4 관련 근거 검색 중...", {"query": query})
     evidence = retrieve("H4", query, job_id=job_id)
     log_processing(logger, "근거 수집 완료", {"evidence_count": len(evidence)})
 
@@ -622,69 +570,21 @@ def tech_node(state: VentureScoutState) -> dict:
                     agent_name="tech",
                     hypothesis_id="H4",
                     role="기술 구현 가능성, 비용, 지연시간, 보안 리스크를 light depth로 검토한다.",
-                    default_output={
-                    "summary": (
-                        "STT와 LLM 조합으로 프로토타입 경로는 열려 있지만, "
-                        "긴 회의에서 지연시간과 단위 비용을 검증해야 한다."
-                    ),
-                    "feasibility_signal": feasibility_signal,
-                    "evidence_strength": strength,
-                    "stance_counts": stance_counts,
-                    "supporting_evidence": supporting_ids,
-                    "risk_evidence": risk_ids,
-                    "architecture_assumption": [
-                        "음성 파일은 STT API로 텍스트화한다.",
-                        "요약과 액션 아이템 추출은 LLM API를 분리 호출한다.",
-                        "Slack/Notion 동기화는 비동기 worker로 처리한다.",
+                    required_fields=[
+                        "summary", "signal", "feasibility_signal",
+                        "architecture_assumption", "required_models_or_apis",
+                        "risk_register", "validation_plan", "go_no_go_metrics",
+                        "recommendations", "next_experiment",
                     ],
-                    "required_models_or_apis": [
-                        "STT API",
-                        "LLM summarization API",
-                        "LLM action-item extraction prompt",
-                        "Slack/Notion integration API",
-                    ],
-                    "risk_register": [
-                        {
-                            "risk": "긴 회의 처리 지연",
-                            "why_it_matters": "사용자가 회의 직후 결과를 기대하면 UX를 해칠 수 있다.",
-                            "mitigation": "구간별 요약, 비동기 처리, 진행률 표시를 실험한다.",
-                        },
-                        {
-                            "risk": "토큰/전사 비용 증가",
-                            "why_it_matters": "좌석 단위 SaaS 마진을 갉아먹을 수 있다.",
-                            "mitigation": "회의 길이별 원가표와 사용량 제한 정책을 만든다.",
-                        },
-                        {
-                            "risk": "회의 데이터 보안",
-                            "why_it_matters": "B2B 고객 도입의 핵심 구매 기준이다.",
-                            "mitigation": "저장 최소화, 암호화, tenant 분리를 MVP 요구사항에 포함한다.",
-                        },
-                    ],
-                    "validation_plan": [
-                        "30분 회의 10건으로 STT+요약 end-to-end 지연시간 측정",
-                        "회의 1시간당 전사 비용과 LLM 토큰 비용 산출",
-                        "액션 아이템 precision/recall을 수동 라벨 30개로 비교",
-                    ],
-                    "go_no_go_metrics": {
-                        # 조정 가능 지점:
-                        # 이 값들은 제품/고객군에 따라 바뀌는 MVP 통과 기준이다.
-                        # 예: 엔터프라이즈 비동기 리포트라면 p95_latency_minutes를 10~30분으로 완화할 수 있고,
-                        # 실시간 회의 비서라면 1분 이하로 강화해야 한다.
-                        "p95_latency_minutes": "<= 5",
-                        "cost_per_meeting_usd": "<= 0.50",
-                        "action_item_precision": ">= 0.80",
-                    },
-                    "recommendations": [
-                        "먼저 회의 요약보다 액션 아이템 정확도를 제품 차별화 기준으로 잡는다.",
-                        "비용 검증 전에는 무제한 요금제를 가정하지 않는다.",
-                    ],
-                    },
                     context={
                         "idea": state.get("idea"),
                         "hypothesis_id": "H4",
                         "evidence": evidence,
                         "stance_counts": stance_counts,
                         "evidence_strength": strength,
+                        "feasibility_signal": feasibility_signal,
+                        "supporting_evidence": supporting_ids,
+                        "risk_evidence": risk_ids,
                     },
                 ),
             )
@@ -704,14 +604,8 @@ def ip_node(state: VentureScoutState) -> dict:
 
     log_input(logger, {"job_id": job_id, "hypothesis": "H5", "technical_elements": len(idea.technical_elements)})
 
-    log_processing(logger, "H5 관련 근거 검색 중...", {"query": "meeting summarization patent limitations"})
-    # 실제 데이터 전환 지점:
-    # 특허 documents/claim_limitations가 적재되면 retrieve()가 실제 H5 근거를 반환한다.
-    query = _hypothesis_query(
-        state,
-        "H5",
-        "meeting summarization patent limitations",
-    )
+    query = _hypothesis_query(state, "H5")
+    log_processing(logger, "H5 관련 근거 검색 중...", {"query": query})
     evidence = retrieve("H5", query, job_id=job_id)
     log_processing(logger, "근거 수집 완료", {"evidence_count": len(evidence)})
 
@@ -792,47 +686,22 @@ def ip_node(state: VentureScoutState) -> dict:
                     agent_name="ip",
                     hypothesis_id="H5",
                     role="특허 claim limitation 중첩 후보를 full depth로 검토하되 법적 침해 판단은 하지 않는다.",
-                    default_output={
-                    "summary": (
-                        "시그니처 검색 후보에서 일부 claim limitation 중첩 신호가 보인다. "
-                        "이는 법적 침해 판단이 아니라, 수동 검토와 회피 설계를 위한 우선순위 신호다."
-                    ),
-                    "overlap_signal": overlap_signal,
-                    "evidence_strength": strength,
-                    "stance_counts": stance_counts,
-                    "high_overlap_elements": high_overlap,
-                    "design_around_options": [
-                        "범용 회의 요약 대신 특정 직무/산업 workflow 후속 조치로 범위를 좁힌다.",
-                        "요약 생성 자체보다 action item 상태 추적, 담당자 배정, 완료 검증을 핵심 차별점으로 둔다.",
-                        "claim chart에서 speech-to-text, summary generation, task extraction 구성요소를 분리해 검토한다.",
+                    required_fields=[
+                        "summary", "signal", "overlap_signal",
+                        "high_overlap_elements", "design_around_options",
+                        "claim_review_queue", "legal_guardrail_note",
+                        "manual_review_questions", "next_experiment",
                     ],
-                    "claim_review_queue": [
-                        {
-                            "candidate_id": row["candidate_id"],
-                            "element": row["plan_technical_element"],
-                            "hybrid_score": row["hybrid_score"],
-                            "risk_band": row["risk_band"],
-                            "evidence_id": row["evidence_id"],
-                        }
-                        for row in candidate_rows
-                    ],
-                    "legal_guardrail_note": (
-                        "특허 침해 여부를 단정하지 않는다. 현재 출력은 claim limitation 유사도와 "
-                        "evidence_id에 기반한 사전 리스크 신호다."
-                    ),
-                    "manual_review_questions": [
-                        "독립항 기준으로 필수 구성요소가 모두 제품 구현에 들어가는가?",
-                        "요약 생성과 action item 추출이 같은 claim family에 묶이는가?",
-                        "workflow-specific 후속 조치 중심으로 claim 요소를 회피할 수 있는가?",
-                    ],
-                    "candidates": candidate_rows,
-                    },
                     context={
                         "idea": idea,
                         "hypothesis_id": "H5",
                         "evidence": evidence,
                         "ip_overlap_candidates": candidates,
                         "candidate_rows": candidate_rows,
+                        "overlap_signal": overlap_signal,
+                        "evidence_strength": strength,
+                        "stance_counts": stance_counts,
+                        "high_overlap_elements": high_overlap,
                     },
                 ),
             )
@@ -851,11 +720,7 @@ def bm_node(state: VentureScoutState) -> dict:
     job_id = state["analysis_job"].job_id
     log_input(logger, {"job_id": job_id, "hypothesis": "H3"})
 
-    query = _hypothesis_query(
-        state,
-        "H3",
-        "per-seat SaaS pricing willingness",
-    )
+    query = _hypothesis_query(state, "H3")
     # BM 관련 근거만 — seed_pricing/seed_review/seed_competitor (특허 제외)
     evidence = retrieve(
         "H3", query, job_id=job_id,
@@ -878,22 +743,6 @@ def bm_node(state: VentureScoutState) -> dict:
         "neutral": stance_counts["neutral"],
     })
 
-    default_output = {
-        "summary": "Per-seat SaaS is plausible but unvalidated.",
-        "key_findings": ["Pricing evidence is only a placeholder."],
-        "risks": ["Buyer willingness and budget owner are unknown."],
-        "recommendations": ["Run pricing interviews."],
-        # ── D 작업분(ADR-028/032): BM 도메인 5필드 + signal/next_experiment ──
-        # C의 _agent_output_with_llm 프레임워크 안으로 합침. mock이면 아래 값이,
-        # AGENT_LLM_PROVIDER=bedrock이면 Claude가 이 키들을 채워 반환한다(loose, ADR-016).
-        "signal": "[MOCK] 거래 수수료+구독 혼합 수익모델, 단위경제 미검증",
-        "next_experiment": "[MOCK] 가격 민감도 테스트(랜딩 A/B)로 과금단위·전환율 검증",
-        "revenue_model": "[MOCK] 거래 수수료 + 프리미엄 구독 혼합",
-        "pricing_hypothesis": "[MOCK] 거래액 3% 수수료 / 팀 단위 월 $29 구독",
-        "market_size_signal": "[MOCK] 추천 커머스 SaaS TAM 확대 추세(우상향)",
-        "unit_economics": "[MOCK] LTV > CAC 추정(구독 리텐션 가정) — 미검증",
-        "key_risk": "[MOCK] 무료 대체재·플랫폼 자체 추천기능에 마진 잠식",
-    }
     return {
         "evidence_items": _evidence_map(evidence),
         "agent_runs": [
@@ -908,10 +757,17 @@ def bm_node(state: VentureScoutState) -> dict:
                     agent_name="bm",
                     hypothesis_id="H3",
                     role="수익모델과 가격 검증 필요성을 검토한다.",
-                    default_output=default_output,
+                    required_fields=[
+                        "summary", "signal", "key_findings", "risks",
+                        "recommendations", "next_experiment", "revenue_model",
+                        "pricing_hypothesis", "market_size_signal",
+                        "unit_economics", "key_risk",
+                    ],
                     context={
                         "idea": state.get("idea"),
                         "evidence": evidence,
+                        "evidence_strength": strength,
+                        "stance_counts": stance_counts,
                     },
                 ),
             )
@@ -1106,50 +962,11 @@ def critic_node(state: VentureScoutState) -> dict:
 
     log_processing(logger, f"🎯 최종 판단: {decision.upper()} (신뢰도: {confidence})")
 
-    # 반론은 한국어 서술형으로 — UUID 나열 대신 '무엇이/왜 문제인지'를 담는다.
-    # (live에서는 아래 기본 반론을 critic LLM이 더 구체적으로 보강한다.)
-    _agent_ko = {"market": "시장", "competitor": "경쟁", "tech": "기술",
-                 "ip": "IP(특허)", "bm": "비즈니스모델"}
-    objections = []
-    if low_confidence:
-        names = ", ".join(_agent_ko.get(a, a) for a in low_confidence)
-        objections.append(
-            f"{names} 분석의 근거가 약해 신뢰도가 낮음 — 해당 가설은 현재 결론을 확신하기 어렵고 "
-            f"직접 데이터(인터뷰·실측)로 보강이 필요하다."
-        )
-    if contradicting_evidence:
-        objections.append(
-            f"가설을 반박하는 근거가 {len(contradicting_evidence)}건 발견됨 — 낙관적 결론을 그대로 "
-            f"받아들이기 전에 이 반대 근거의 타당성과 치명도를 먼저 검토해야 한다."
-        )
-    if high_ip_candidates:
-        objections.append(
-            f"특허 청구항 중첩 위험 신호가 {len(high_ip_candidates)}건 — 법적 침해 단정은 아니나 "
-            f"수동 claim chart 검토와 회피 설계가 선행되어야 한다."
+    if not grounded_on:
+        raise RuntimeError(
+            "Live retrieval returned no usable evidence. Analysis was stopped."
         )
 
-    critic = CriticResult(
-        decision=decision,
-        confidence=confidence,
-        summary=summary,
-        grounded_on=grounded_on,
-        objections=objections,
-        missing_evidence=missing_evidence
-        + [
-            f"{item['agent_name']} cites unknown evidence ids: {item['invalid_evidence_ids']}"
-            for item in invalid_grounding
-        ]
-        + [
-            f"No agent run covered hypothesis {hypothesis_id}"
-            for hypothesis_id in uncovered_hypotheses
-        ],
-        next_experiments=[
-            "H1: 타깃 고객 10명에게 회의 후속 업무 pain intensity를 인터뷰한다.",
-            "H3: 구매 담당자 기준 좌석당 지불 의사와 예산 출처를 확인한다.",
-            "H4: 30분 회의 10건으로 지연시간, 전사 비용, LLM 비용을 측정한다.",
-            "H5: high_watch IP 후보에 대해 claim chart를 수동 작성한다.",
-        ],
-    )
     # 사람이 README 없이도 규칙을 이해할 수 있게 output_json에도 decision_rule을 남긴다.
     # 나중에 dashboard/Evidence Board에서 "왜 more_research가 나왔는지" 보여주는 데 쓸 수 있다.
     decision_rule = (
@@ -1168,11 +985,9 @@ def critic_node(state: VentureScoutState) -> dict:
             "next_experiments는 비전문가도 바로 실행할 수 있게 '무엇을·누구에게·어떻게·무엇을 보면 검증되는지'를 "
             "각 항목 한 문장으로 한국어로 쓴다."
         ),
-        default_output={
-            **critic.model_dump(),
-            "scorecard": scorecard,
-            "decision_rule": decision_rule,
-        },
+        required_fields=[
+            "summary", "objections", "missing_evidence", "next_experiments",
+        ],
         context={
             "agent_runs": agent_runs,
             "evidence_items": evidence_items,
@@ -1180,40 +995,35 @@ def critic_node(state: VentureScoutState) -> dict:
             "scorecard": scorecard,
             "fixed_decision": decision,
             "fixed_confidence": confidence,
+            "rule_summary": summary,
+            "decision_rule": decision_rule,
+            "missing_evidence": missing_evidence,
+            "invalid_grounding": invalid_grounding,
+            "uncovered_hypotheses": uncovered_hypotheses,
         },
     )
-    # Claude가 summary/objections/next_experiments를 더 좋은 문장으로 보강할 수는 있지만,
-    # decision/confidence 자체는 위 코드 규칙으로 계산한 값을 유지한다.
-    # 조정 가능 지점:
-    # 장기적으로는 Critic LLM에게 대안 decision을 제안하게 하고,
-    # 코드 decision과 다를 때 human review queue로 보내는 구조도 가능하다.
-    critic = critic.model_copy(
-        update={
-            "summary": critic_output_json.get("summary", critic.summary),
-            "objections": critic_output_json.get("objections", critic.objections),
-            "missing_evidence": critic_output_json.get(
-                "missing_evidence",
-                critic.missing_evidence,
-            ),
-            "next_experiments": critic_output_json.get(
-                "next_experiments",
-                critic.next_experiments,
-            ),
-        }
+    critic = CriticResult(
+        decision=decision,
+        confidence=confidence,
+        summary=str(critic_output_json["summary"]),
+        grounded_on=grounded_on,
+        objections=list(critic_output_json["objections"]),
+        missing_evidence=list(critic_output_json["missing_evidence"]),
+        next_experiments=list(critic_output_json["next_experiments"]),
     )
     critic_output_json.update(critic.model_dump())
     critic_output_json["scorecard"] = scorecard
     critic_output_json["decision_rule"] = decision_rule
 
     critic_run = AgentRun(
-        agent_run_id="run_mock_critic",
+        agent_run_id=str(uuid.uuid4()),
         job_id=job_id,
         hypothesis_id=None,
         agent_name="critic",
         model_name=current_model_name("critic"),
         depth="full",
         confidence=critic.confidence,
-        grounded_on=grounded_on or ["ev_mock_handoff"],
+        grounded_on=grounded_on,
         output_json=critic_output_json,
         groundedness_score=1.0 if grounded_on else 0.0,
         overclaim_flag=False,
