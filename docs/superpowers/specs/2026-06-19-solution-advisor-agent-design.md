@@ -13,6 +13,13 @@ VentureScout의 ⑦ Critic(`critic_node`, `agents/graph.py`)은 `go`/`pivot`/`ki
 피벗하면 좋을지 제안하는 후속 에이전트가 필요하다는 요청이 있었다. ⑦ Critic 바로 뒤에 붙는 8번째
 에이전트로, `decision == "kill"`일 때만 실행되고 그 외에는 그래프에서 완전히 건너뛴다.
 
+추가로, 별도 브랜치(`fix/persistence-hypothesis-uuid`)에서 `try_persist_agent_run()`의 기존 결함을
+고친 작업을 이 브랜치에 머지했다(커밋 `a22e184`) — 그래프는 `hypothesis_id`로 `'H1'` 같은 코드를
+넘기는데 DB 컬럼은 uuid라 evidence_items INSERT가 타입 오류로 실패하고, 이후 트랜잭션 abort로
+evidence_items·agent_runs가 통째로 0건 저장되던 문제였다. `solution_advisor_node`는
+`hypothesis_id=None`으로 `try_persist_agent_run()`을 직접 호출하는 **첫 호출부**라 이 결함을 그대로
+밟았을 것이다(아래 "4. 노드 로직" 끝의 영향 분석 참조) — 그래서 구현 전에 먼저 머지해 두었다.
+
 ## 목표
 
 - `kill` 판정일 때만 실행되는 light 에이전트 `solution_advisor`를 추가한다.
@@ -178,6 +185,18 @@ def solution_advisor_node(state: VentureScoutState) -> dict:
   공통으로 받는 동작이고, `_agent_run()` 헬퍼의 독스트링도 원래 모든 노드가 이 동작을 공유하는
   것을 의도하고 있다. `critic_run`이 빠뜨린 것은 "알려진 한계"로 분리하고 새 노드는 정상적으로
   영속화되게 만든다.
+
+**영향 분석 — `fix/persistence-hypothesis-uuid` 머지가 왜 선행되어야 했는가**: `solution_advisor_node`는
+`hypothesis_id=None`으로 `try_persist_agent_run()`을 호출하는 첫 호출부다. 머지 전 코드는 evidence
+INSERT 시 `hypothesis_id=agent_run.hypothesis_id or ""`(빈 문자열)을 uuid 컬럼에 넣어 타입 오류를
+내고, 그 실패를 rollback 없이 다음 INSERT로 넘겨 트랜잭션이 abort된 채로 `create_agent_run()`까지
+실패시켰을 것이다 — 즉 live 모드에서 `solution_advisor`의 AgentRun 자체가 저장되지 않았을 것이다.
+머지한 수정은 `_resolve_hypothesis_uuid()`가 `hypothesis_id`가 없으면 즉시 `None`을 반환하게 하고,
+`real_hyp is None`인 경우 evidence INSERT를 건너뛰며(이미 DB에 있는 evidence를 중복 생성하지 않음),
+개별 INSERT 실패 시 `conn.rollback()`으로 연쇄 실패를 차단한다. 따라서 `solution_advisor_node`가
+넘기는 `grounding_evidence`(이미 상위 노드가 저장했을 실 evidence)는 재삽입되지 않고 원본
+`evidence_id`가 그대로 `grounded_on`에 쓰이며, `agent_runs` INSERT는 `hypothesis_id=NULL`로 정상
+완료된다.
 
 ### 5. 그래프 와이어링 — 조건부 엣지
 
