@@ -52,6 +52,7 @@ from shared.contracts import (
     EvidenceItem,
     Hypothesis,
     IdeaRecord,
+    IPOverlapCandidate,
 )
 from shared.state import VentureScoutState
 
@@ -868,6 +869,32 @@ def _kill_reason(scorecard: dict[str, Any]) -> Literal["ip_conflict", "weak_evid
     if scorecard.get("high_ip_candidates") and scorecard.get("contradicting_evidence"):
         return "ip_conflict"
     return "weak_evidence"
+
+
+def _alternatives_evidence_ids(
+    kill_reason: str,
+    scorecard: dict[str, Any],
+    agent_runs: list[AgentRun],
+    candidates: list[IPOverlapCandidate],
+) -> list[str]:
+    """대안 제안이 인용할 수 있는 evidence_id를 kill 원인별로 코드가 직접 고른다.
+
+    LLM이 임의로 근거를 인용하지 못하게, 어떤 evidence_id를 써도 되는지 여기서 먼저 정한다.
+    """
+    if kill_reason == "ip_conflict":
+        ip_evidence_ids = {
+            candidate.evidence_id
+            for candidate in candidates
+            if candidate.candidate_id in scorecard.get("high_ip_candidates", [])
+        }
+        return sorted(set(scorecard.get("contradicting_evidence", [])) | ip_evidence_ids)
+    low_confidence_names = set(scorecard.get("low_confidence_agents", []))
+    return sorted({
+        evidence_id
+        for run in agent_runs
+        if run.agent_name in low_confidence_names
+        for evidence_id in run.grounded_on
+    })
 
 
 def critic_node(state: VentureScoutState) -> dict:
