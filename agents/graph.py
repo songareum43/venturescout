@@ -21,7 +21,7 @@ from __future__ import annotations
 import json
 import time
 import uuid
-from typing import Any
+from typing import Any, Literal
 
 from langgraph.graph import END, START, StateGraph
 
@@ -861,6 +861,13 @@ def _decide(
         "근거는 있으나 반박 신호가 있어 포지셔닝과 검증 범위를 좁혀야 한다.",
         "mid",
     )
+
+
+def _kill_reason(scorecard: dict[str, Any]) -> Literal["ip_conflict", "weak_evidence"]:
+    """kill이 _decide()의 어느 경로(치명적 문제/근거 약함)에서 나왔는지 scorecard로 되짚는다."""
+    if scorecard.get("high_ip_candidates") and scorecard.get("contradicting_evidence"):
+        return "ip_conflict"
+    return "weak_evidence"
 
 
 def critic_node(state: VentureScoutState) -> dict:
