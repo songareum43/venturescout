@@ -273,6 +273,82 @@ def _db_configured() -> bool:
     )
 
 
+def persist_hypotheses(job_id: str, idea_id: str, hypotheses) -> None:
+    """job의 hypotheses를 hypotheses 테이블에 저장한다(아직 없을 때만).
+
+    evidence_items.hypothesis_id가 NOT NULL uuid FK이므로, agent_run·evidence를
+    적재하려면 먼저 이 행들이 존재해야 코드('H1')를 실제 uuid로 변환할 수 있다.
+    mock/미설정 환경(job_id가 uuid 아님)에서는 조용히 건너뛴다.
+    """
+    if not _db_configured() or not _is_real_uuid(job_id):
+        return
+    try:
+        conn = get_connection()
+    except Exception as exc:
+        _logger.warning("[PERSIST SKIP] hypotheses DB 연결 실패 — job=%s error=%s", job_id, exc)
+        return
+    try:
+        with conn.cursor() as cur:
+            # 같은 job에 이미 있으면 재실행 시 중복 INSERT를 막는다.
+            cur.execute("SELECT count(*) FROM hypotheses WHERE job_id=%s", (job_id,))
+            if cur.fetchone()[0]:
+                return
+            for h in hypotheses:
+                code = getattr(h, "code", None) or getattr(h, "hypothesis_id", None)
+                cur.execute(
+                    """
+                    INSERT INTO hypotheses
+                        (job_id, idea_id, code, axis, statement, confidence, next_validation)
+                    VALUES (%s, %s, %s, %s, %s, %s, %s)
+                    """,
+                    (job_id, idea_id, code, getattr(h, "axis", None),
+                     getattr(h, "statement", None), getattr(h, "confidence", None) or "low",
+                     getattr(h, "next_validation", None)),
+                )
+        conn.commit()
+        _logger.info("[PERSIST OK] hypotheses %d건 저장 — job=%s", len(hypotheses), job_id)
+    except Exception as exc:
+        conn.rollback()
+        _logger.error("[PERSIST ERROR] hypotheses INSERT 실패 — job=%s error=%s", job_id, exc)
+    finally:
+        conn.close()
+
+
+# job_id별 code→uuid 캐시. 같은 job의 여러 agent_run이 같은 코드를 반복 조회하지 않게 한다.
+_HYP_UUID_CACHE: dict[tuple[str, str], str] = {}
+
+
+def _resolve_hypothesis_uuid(conn, job_id: str, hypothesis_id: str | None) -> str | None:
+    """그래프가 넘기는 hypothesis 코드('H1' 등)를 hypotheses 테이블의 실제 uuid로 변환한다.
+
+    - 이미 uuid면 그대로 반환한다.
+    - 'H1' 같은 코드면 (job_id, code)로 조회한다. 행이 없으면 None.
+    - critic의 'all'/None 처럼 매칭이 없으면 None을 반환한다
+      (agent_runs.hypothesis_id는 nullable이라 None 저장 가능).
+    """
+    if not hypothesis_id:
+        return None
+    if _is_real_uuid(hypothesis_id):
+        return hypothesis_id
+    key = (str(job_id), hypothesis_id)
+    if key in _HYP_UUID_CACHE:
+        return _HYP_UUID_CACHE[key]
+    try:
+        with conn.cursor() as cur:
+            cur.execute(
+                "SELECT hypothesis_id FROM hypotheses WHERE job_id=%s AND code=%s LIMIT 1",
+                (job_id, hypothesis_id),
+            )
+            row = cur.fetchone()
+    except Exception:
+        conn.rollback()
+        return None
+    uuid_val = str(row[0]) if row else None
+    if uuid_val:
+        _HYP_UUID_CACHE[key] = uuid_val
+    return uuid_val
+
+
 def try_persist_agent_run(agent_run, evidence) -> str | None:
     """AgentRun Pydantic 모델을 DB에 저장 시도한다. (Track C 노드 전용)
 
@@ -326,14 +402,20 @@ def try_persist_agent_run(agent_run, evidence) -> str | None:
         return None
 
     try:
+        # 그래프는 hypothesis_id로 코드('H1')를 넘기지만 DB 컬럼은 uuid다.
+        # structuring이 저장한 hypotheses 행에서 실제 uuid를 찾아 변환한다.
+        # 매칭이 없으면 None(critic의 'all' 등) — evidence INSERT는 건너뛰고
+        # agent_runs에는 NULL(nullable)로 저장한다.
+        real_hyp = _resolve_hypothesis_uuid(conn, agent_run.job_id, agent_run.hypothesis_id)
+
         # ── 1단계: evidence_items INSERT ──────────────────────────────────
         # agent_runs.grounded_on이 실제 evidence_id를 참조해야 하므로
         # 반드시 agent_runs INSERT 전에 실행한다.
         persisted_ids: list[str] = []
         for ev in evidence:
-            if ev.evidence_id.startswith("ev_mock_"):
-                # mock evidence → documents 테이블에 없으므로 FK 위반 방지.
-                # 실제 검색으로 교체되면 이 분기는 자동으로 사라진다.
+            if ev.evidence_id.startswith("ev_mock_") or real_hyp is None:
+                # mock evidence(documents에 행 없음 → FK 위반) 또는
+                # hypothesis uuid 미해결(NOT NULL 위반) → INSERT 건너뛰고 원본 ID 보존.
                 persisted_ids.append(ev.evidence_id)
                 continue
 
@@ -341,7 +423,7 @@ def try_persist_agent_run(agent_run, evidence) -> str | None:
                 real_id = create_evidence_item(
                     conn,
                     job_id=agent_run.job_id,
-                    hypothesis_id=agent_run.hypothesis_id or "",
+                    hypothesis_id=real_hyp,
                     document_id=ev.document_id,
                     source_type=ev.source_type,
                     evidence_text=ev.evidence_text,
@@ -351,8 +433,9 @@ def try_persist_agent_run(agent_run, evidence) -> str | None:
                 )
                 persisted_ids.append(real_id)
             except Exception as exc:
-                # 개별 evidence INSERT 실패 → 해당 항목만 건너뜀.
-                # 나머지 evidence와 agent_run은 계속 저장한다.
+                # 개별 evidence INSERT 실패 → 트랜잭션을 rollback해 다음 INSERT가
+                # "current transaction is aborted"로 연쇄 실패하지 않게 한다.
+                conn.rollback()
                 _logger.warning(
                     "[PERSIST SKIP] evidence_item INSERT 실패 — id=%s error=%s",
                     ev.evidence_id, exc,
@@ -366,7 +449,7 @@ def try_persist_agent_run(agent_run, evidence) -> str | None:
         run_id = create_agent_run(
             conn,
             job_id=agent_run.job_id,
-            hypothesis_id=agent_run.hypothesis_id,
+            hypothesis_id=real_hyp,
             agent_name=agent_run.agent_name,
             model_name=agent_run.model_name or config.bedrock_model_id,
             depth=agent_run.depth,
