@@ -15,7 +15,7 @@ load_dotenv()
 ModelTier = Literal["sonnet"]
 
 DEFAULT_MODEL_IDS: dict[ModelTier, str] = {
-    "sonnet": "us.anthropic.claude-sonnet-4-6",
+    "sonnet": "anthropic.claude-sonnet-4-6",
 }
 
 MODEL_TIER_BY_AGENT: dict[str, ModelTier] = {
