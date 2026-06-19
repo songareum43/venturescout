@@ -1160,18 +1160,27 @@ def alternatives_node(state: VentureScoutState) -> dict:
         "더 강한 근거가 있는 타겟/포지셔닝/가격정책으로 전환하는 대안 2~3개를 제안한다."
     )
 
-    output_json = _agent_output_with_llm(
-        agent_name="alternatives",
-        hypothesis_id="all",
-        role=role,
-        required_fields=["kill_reason", "alternatives"],
-        context={
-            "idea": state.get("idea"),
-            "kill_reason": kill_reason,
-            "critic_objections": state["critic"].objections,
-            "evidence": evidence,
-        },
-    )
+    try:
+        output_json = _agent_output_with_llm(
+            agent_name="alternatives",
+            hypothesis_id="all",
+            role=role,
+            required_fields=["kill_reason", "alternatives"],
+            context={
+                "idea": state.get("idea"),
+                "kill_reason": kill_reason,
+                "critic_objections": state["critic"].objections,
+                "evidence": evidence,
+            },
+        )
+    except Exception as exc:  # noqa: BLE001
+        # alternatives는 kill 리포트에 곁들이는 보조 제안이다.
+        # 여기서 실패해도 이미 완성된 critic의 kill 판정/리포트 자체는 살려야 하므로
+        # (api.py가 전체 astream_events를 broad except로 감싸 job을 failed로 덮어쓴다)
+        # 다른 노드처럼 예외를 던지지 않고 evidence 0건과 같은 방식으로 graceful skip한다.
+        log_processing(logger, f"⚠️  alternatives LLM 호출 실패 — run 생략(graceful): {exc}")
+        return {"agent_runs": []}
+
     output_json["kill_reason"] = kill_reason
 
     agent_run = _agent_run(

@@ -111,6 +111,45 @@ def test_alternatives_node_skips_when_no_matching_evidence():
     assert result == {"agent_runs": []}
 
 
+def test_alternatives_node_skips_gracefully_when_llm_call_fails(monkeypatch):
+    """alternatives는 보조 제안이라, LLM 호출이 실패해도 이미 완성된 kill 리포트를
+    무너뜨리면 안 된다 — 다른 노드처럼 예외를 그대로 던지지 않고 graceful skip해야 한다.
+    """
+    from agents import graph
+    from shared.contracts import AnalysisJob, CriticResult, EvidenceItem
+
+    def boom(**kwargs):
+        raise RuntimeError("bedrock timeout")
+
+    monkeypatch.setattr(graph, "_agent_output_with_llm", boom)
+
+    evidence_item = EvidenceItem(
+        evidence_id="ev_contra",
+        job_id="job_1",
+        hypothesis_id="H1",
+        document_id="doc_1",
+        source_type="seed_review",
+        evidence_text="...",
+        stance="contradicts",
+        relevance_score=0.9,
+        reliability_score=0.9,
+    )
+    state = {
+        "analysis_job": AnalysisJob(job_id="job_1", idea_id="idea_1"),
+        "critic": CriticResult(decision="kill", confidence="low", summary="..."),
+        "critic_scorecard": {
+            "high_ip_candidates": ["cand_1"],
+            "contradicting_evidence": ["ev_contra"],
+            "low_confidence_agents": [],
+        },
+        "agent_runs": [],
+        "evidence_items": {"ev_contra": evidence_item},
+        "ip_overlap_candidates": [],
+    }
+    result = graph.alternatives_node(state)
+    assert result == {"agent_runs": []}
+
+
 def test_build_graph_routes_critic_conditionally_to_alternatives():
     from agents.graph import build_graph
 
