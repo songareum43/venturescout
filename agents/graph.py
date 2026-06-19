@@ -357,6 +357,12 @@ def structuring_node(state: VentureScoutState) -> dict:
         for item in hypotheses_payload
     ]
 
+    # 실제 데이터 전환 지점: hypotheses를 DB에 저장해야 뒤쪽 노드의 evidence/agent_run
+    # 적재 시 코드('H1')를 hypotheses.hypothesis_id(uuid)로 변환할 수 있다.
+    # mock/미설정 환경(job_id가 uuid 아님)에서는 내부에서 조용히 건너뛴다.
+    from pipeline.persistence import persist_hypotheses  # 순환 import 방지용 지연 import
+    persist_hypotheses(job_id, idea_id, hypotheses)
+
     log_processing(logger, "구조화 품질 검증 중...")
     structuring_quality = _validate_structured_idea(idea, hypotheses)
 
