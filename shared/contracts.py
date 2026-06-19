@@ -31,6 +31,7 @@ AgentName = Literal[
     "ip",
     "bm",
     "critic",
+    "alternatives",
 ]
 
 

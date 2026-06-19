@@ -1,6 +1,7 @@
 from pydantic import ValidationError
 
 from shared.contracts import AgentRun, EvidenceItem, IPOverlapCandidate
+from shared.state import VentureScoutState
 
 
 def test_agent_run_requires_grounding():
@@ -62,3 +63,20 @@ def test_ip_overlap_candidate_matches_signature_table():
         rank=1,
     )
     assert candidate.hybrid_score == 0.8
+
+
+def test_agent_run_accepts_alternatives_agent_name():
+    run = AgentRun(
+        agent_run_id="run_1",
+        job_id="job_1",
+        hypothesis_id="all",
+        agent_name="alternatives",
+        grounded_on=["ev_1"],
+        confidence="low",
+        depth="light",
+    )
+    assert run.agent_name == "alternatives"
+
+
+def test_venture_scout_state_has_critic_scorecard_field():
+    assert "critic_scorecard" in VentureScoutState.__annotations__
