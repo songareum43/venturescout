@@ -420,61 +420,25 @@ if __name__ == "__main__":
 
 ---
 
-## 6. `search/tool.py` — LangChain @tool 데코레이터
+## 6. 검색 모듈 정리 — `retrieval/tools.py`가 canonical
 
-### 역할
-`retrieval/tools.py`가 에이전트에서 직접 호출하는 Python 함수라면, `search/tool.py`는 **LangChain/LangGraph 도구 프로토콜**로 래핑한 버전이다. C팀 에이전트가 LLM Tool Use 방식으로 검색을 호출할 때 사용한다.
+초기엔 검색 진입점이 두 갈래로 중복돼 있었다:
 
-### `@tool` 데코레이터 이해
+- `retrieval/tools.py` — `retrieve()` / `vector_search()`, **contract 타입**(`EvidenceItem`, `IPOverlapCandidate`) 반환. `agents/graph.py`·`retrieval/agents.py`가 실제로 import.
+- ~~`search/tool.py`~~ — `@tool` 래핑 버전, raw `dict` 반환. **어디서도 import되지 않는 죽은 중복 코드**였다.
 
-```python
-from langchain_core.tools import tool
+둘 다 `HybridSearcher`+`ReRanker`를 똑같이 래핑하고 특허 dedup 로직까지 중복 구현했기 때문에, live LangGraph 경로에 연결돼 있고 계약 타입을 반환하는 **`retrieval/tools.py`를 canonical로 확정**하고 `search/tool.py`를 삭제했다.
 
-@tool
-def vector_search(
-    query: str,
-    top_k: int = 10,
-    code_filter: str | None = None,
-    prefer_contradicting: bool = True,
-) -> list[dict]:
-    """
-    특허 청구항 limitation 하이브리드 검색 + rerank.
-    C의 ⑤ IP 에이전트가 기술 요소별 청구항 중첩 분석에 사용.
-    ← 이 docstring이 LLM에게 "이 도구는 이런 역할" 으로 전달됨
-    """
-    ...
-```
+검색 스택의 최종 레이어 구조:
 
-`@tool`이 하는 일:
-1. 함수 시그니처를 LLM이 이해하는 **JSON Schema**로 자동 변환
-2. LLM이 `{"name": "vector_search", "args": {"query": "STT"}}` 형태로 호출 요청
-3. LangGraph가 실제 Python 함수를 실행해 결과 반환
+| 레이어 | 모듈 | 책임 |
+|--------|------|------|
+| 엔진 (SQL) | `search/hybrid.py` | pgvector + tsvector 하이브리드 쿼리 |
+| 엔진 (rerank) | `search/reranker.py` | relevance·reliability·freshness·contradiction 4축 재정렬 |
+| 툴 인터페이스 | `retrieval/tools.py` | 엔진 래핑 + 특허 dedup → **contract 타입 반환** |
+| 에이전트 | `retrieval/agents.py` | ② Market / ③ Competitor |
 
-```python
-# ① frozenset — 불변(변경 불가) set
-_INTERNAL_KEYS = frozenset({
-    "_debug", "meta", "lexical_score",    # hybrid.py 내부 점수 (계약 외)
-})
-# frozenset은 dict key나 set 원소로 사용 가능 (set은 불가)
-
-# ② dict comprehension으로 불필요한 키 제거
-def _clean(item: dict) -> dict:
-    return {k: v for k, v in item.items() if k not in _INTERNAL_KEYS}
-    # {k: v for ...}: dict comprehension — 조건에 맞는 키:값만 새 dict로
-
-# ③ 도구 목록을 리스트로 내보내기 (agents/graph.py에서 바인딩)
-TRACK_B_TOOLS = [vector_search, evidence_search]
-# graph.py에서: agent = llm.bind_tools(TRACK_B_TOOLS)
-```
-
-### `retrieval/tools.py` vs `search/tool.py` 차이
-
-| 항목 | `retrieval/tools.py` | `search/tool.py` |
-|------|---------------------|-----------------|
-| 반환 타입 | `list[EvidenceItem]`, `list[IPOverlapCandidate]` | `list[dict]` (LLM 친화적) |
-| 호출 방식 | Python 직접 호출 | LangChain `@tool` (LLM Tool Use) |
-| 계약 타입 | Pydantic 모델 반환 | 내부 키 제거한 dict |
-| 주 소비자 | B팀 에이전트 (`retrieval/agents.py`) | C팀 에이전트 (LangGraph Tool Use) |
+> C팀이 LLM Tool Use(`@tool` + `bind_tools`)로 검색을 호출하고 싶다면, `retrieval/tools.py`의 함수를 `@tool`로 얇게 감싸기만 하면 된다 — 검색 로직을 다시 구현할 필요는 없다.
 
 ---
 
@@ -774,7 +738,6 @@ graph LR
         B5[pipeline/persistence.py]
         B6[search/hybrid.py]
         B7[search/reranker.py]
-        B8[search/tool.py]
         B9[retrieval/tools.py]
         B10[retrieval/agents.py]
     end
@@ -882,8 +845,7 @@ chainlit run app/ui.py
 | `pipeline/persistence.py` | B | evidence_items / agent_runs / ip_overlap_candidates DB 쓰기 |
 | `search/hybrid.py` | B | pgvector + tsvector 0.6:0.4 하이브리드 검색 |
 | `search/reranker.py` | B | 4축 재정렬 (반박 근거 상위 부스트) |
-| `search/tool.py` | B | `@tool` 래핑 (C팀 LangGraph Tool Use용) |
-| `retrieval/tools.py` | B | retrieve() / vector_search() Python 직접 호출 API |
+| `retrieval/tools.py` | B | retrieve() / vector_search() — 검색 툴 canonical (contract 타입 반환) |
 | `retrieval/agents.py` | B | ② Market(Full) + ③ Competitor(Light) 에이전트 본체 |
 | `app/api.py` | D | FastAPI POST /analyze + SSE 스트리밍 |
 | `app/ui.py` | D | Chainlit Evidence Board UI |

@@ -88,7 +88,7 @@ def create_evidence_items_for_documents(
     text_limit: int = 2000,
 ) -> dict[str, str]:
     """
-    evidence_search()/search_documents() 결과(document_id, source_type, clean_text,
+    search_documents() 결과(document_id, source_type, clean_text,
     reliability_score, hybrid_score 포함)를 받아 evidence_items를 일괄 생성.
 
     Returns: {document_id: evidence_id} 매핑
