@@ -59,6 +59,7 @@ from shared.contracts import (
     AnalysisJob,
     Confidence,
     CriticResult,
+    Decision,
     Depth,
     DocumentRecord,
     EvidenceItem,
@@ -918,6 +919,73 @@ def bm_node(state: VentureScoutState) -> dict:
     }
 
 
+def _decide(
+    *,
+    missing_evidence: list[str],
+    invalid_grounding: list[dict],
+    uncovered_hypotheses: list[str],
+    low_confidence: list[str],
+    high_ip_candidates: list[str],
+    contradicting_evidence: list[str],
+) -> tuple[Decision, str, Confidence]:
+    """최종 판정 규칙. 우선순위: 커버리지 공백 > 치명적 문제 > 근거 약함 > IP 리스크 > go > 기타 pivot.
+
+    KILL의 두 경로(치명적 문제 / 근거 약함)는 "근거가 약하거나 치명적 문제로 현재
+    형태 추진 부적합"이라는 합의된 정의를 따른다. MORE_RESEARCH는 근거·가설
+    커버리지 자체가 비어있는 경우로 한정해 KILL과 구분한다.
+    """
+    if missing_evidence or invalid_grounding or uncovered_hypotheses:
+        logger.info("→ 규칙 1: 근거 미연결 또는 가설 미검증 → more_research")
+        return (
+            "more_research",
+            "근거 연결 또는 가설 커버리지에 빈틈이 있어 추가 검증이 필요하다.",
+            "low",
+        )
+    if high_ip_candidates and contradicting_evidence:
+        logger.info("→ 규칙 2: IP 고위험 후보 + 반박 근거 동시 존재(치명적 문제) → kill")
+        return (
+            "kill",
+            "IP 고위험 후보와 반박 근거가 동시에 있어 치명적 문제로 본다. 현재 형태로는 추진이 부적합하다.",
+            "mid",
+        )
+    # 조정 가능 지점:
+    # 현재는 low confidence agent가 3개 이상이면 근거가 약하다고 보고 kill이다.
+    # 팀이 더 공격적으로 MVP를 밀고 싶으면 4개 이상으로 완화할 수 있고,
+    # 더 보수적으로 보려면 2개 이상으로 강화할 수 있다.
+    if len(low_confidence) >= 3:
+        logger.info("→ 규칙 3: 신뢰도 낮은 에이전트 ≥3개(근거 약함) → kill")
+        return (
+            "kill",
+            "대부분의 핵심 가설이 low confidence라 근거가 약해 현재 형태로는 추진이 부적합하다.",
+            "low",
+        )
+    # high IP candidate는 법적 결론이 아니라 "회피 설계나 수동 claim chart가 먼저"라는 신호다.
+    if high_ip_candidates:
+        logger.info("→ 규칙 4: 고위험 IP 후보 있음 → pivot")
+        return (
+            "pivot",
+            "IP 시그니처 후보가 있어 범용 회의 요약보다 vertical workflow 중심으로 좁혀 검증하는 편이 낫다.",
+            "mid",
+        )
+    # 조정 가능 지점:
+    # go 조건은 현재 꽤 보수적이다.
+    # 반박 근거가 없고 low confidence가 1개 이하일 때만 제한적 go를 허용한다.
+    # 실제 운영에서는 "치명도 낮은 contradicts는 허용" 같은 severity 필드를 추가할 수 있다.
+    if not contradicting_evidence and len(low_confidence) <= 1:
+        logger.info("→ 규칙 5: 반박 근거 없음, 신뢰도 높음 → go")
+        return (
+            "go",
+            "현재 근거 기준으로 치명적 반박이 적어 제한된 MVP 진행이 가능하다.",
+            "mid",
+        )
+    logger.info("→ 규칙 6: 반박 신호 있음 → pivot")
+    return (
+        "pivot",
+        "근거는 있으나 반박 신호가 있어 포지셔닝과 검증 범위를 좁혀야 한다.",
+        "mid",
+    )
+
+
 def critic_node(state: VentureScoutState) -> dict:
     """agent_runs를 모아 grounding을 확인하고 최종 결정을 기록한다."""
 
@@ -1026,42 +1094,15 @@ def critic_node(state: VentureScoutState) -> dict:
 
     log_processing(logger, "최종 판정 규칙 적용 중...")
 
-    # 판정 규칙은 위에서부터 우선순위가 높다.
-    # 예를 들어 high IP candidate가 있어도, 근거 연결 자체가 깨졌다면 먼저 more_research가 된다.
-    if missing_evidence or invalid_grounding or uncovered_hypotheses:
-        decision = "more_research"
-        summary = "근거 연결 또는 가설 커버리지에 빈틈이 있어 추가 검증이 필요하다."
-        confidence: Confidence = "low"
-        logger.info("→ 규칙 1: 근거 미연결 또는 가설 미검증 → more_research")
-    # 조정 가능 지점:
-    # 현재는 low confidence agent가 3개 이상이면 more_research다.
-    # 팀이 더 공격적으로 MVP를 밀고 싶으면 4개 이상으로 완화할 수 있고,
-    # 더 보수적으로 보려면 2개 이상으로 강화할 수 있다.
-    elif len(low_confidence) >= 3:
-        decision = "more_research"
-        summary = "대부분의 핵심 가설이 low confidence라 고객/가격/기술 근거를 더 수집해야 한다."
-        confidence = "low"
-        logger.info("→ 규칙 2: 신뢰도 낮은 에이전트 ≥3개 → more_research")
-    # high IP candidate는 법적 결론이 아니라 "회피 설계나 수동 claim chart가 먼저"라는 신호다.
-    elif high_ip_candidates:
-        decision = "pivot"
-        summary = "IP 시그니처 후보가 있어 범용 회의 요약보다 vertical workflow 중심으로 좁혀 검증하는 편이 낫다."
-        confidence = "mid"
-        logger.info("→ 규칙 3: 고위험 IP 후보 있음 → pivot")
-    # 조정 가능 지점:
-    # go 조건은 현재 꽤 보수적이다.
-    # 반박 근거가 없고 low confidence가 1개 이하일 때만 제한적 go를 허용한다.
-    # 실제 운영에서는 "치명도 낮은 contradicts는 허용" 같은 severity 필드를 추가할 수 있다.
-    elif not contradicting_evidence and len(low_confidence) <= 1:
-        decision = "go"
-        summary = "현재 근거 기준으로 치명적 반박이 적어 제한된 MVP 진행이 가능하다."
-        confidence = "mid"
-        logger.info("→ 규칙 4: 반박 근거 없음, 신뢰도 높음 → go")
-    else:
-        decision = "pivot"
-        summary = "근거는 있으나 반박 신호가 있어 포지셔닝과 검증 범위를 좁혀야 한다."
-        confidence = "mid"
-        logger.info("→ 규칙 5: 반박 신호 있음 → pivot")
+    # 판정 규칙은 _decide()에 모아 단위 테스트로 검증한다(tests/test_critic_decision.py).
+    decision, summary, confidence = _decide(
+        missing_evidence=missing_evidence,
+        invalid_grounding=invalid_grounding,
+        uncovered_hypotheses=uncovered_hypotheses,
+        low_confidence=low_confidence,
+        high_ip_candidates=high_ip_candidates,
+        contradicting_evidence=contradicting_evidence,
+    )
 
     log_processing(logger, f"🎯 최종 판단: {decision.upper()} (신뢰도: {confidence})")
 
