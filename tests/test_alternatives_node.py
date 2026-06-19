@@ -70,3 +70,22 @@ def test_alternatives_evidence_ids_for_weak_evidence_collects_low_confidence_gro
     ]
     result = _alternatives_evidence_ids("weak_evidence", scorecard, agent_runs, [])
     assert result == ["ev_c1", "ev_m1", "ev_m2"]
+
+
+def test_route_after_critic_goes_to_alternatives_on_kill():
+    from langgraph.graph import END
+
+    from agents.graph import _route_after_critic
+
+    assert _route_after_critic({"decision": "kill"}) == "alternatives"
+
+
+def test_route_after_critic_goes_to_end_for_other_decisions():
+    from langgraph.graph import END
+
+    from agents.graph import _route_after_critic
+
+    assert _route_after_critic({"decision": "go"}) == END
+    assert _route_after_critic({"decision": "pivot"}) == END
+    assert _route_after_critic({"decision": "more_research"}) == END
+    assert _route_after_critic({}) == END

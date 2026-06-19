@@ -1124,6 +1124,11 @@ def critic_node(state: VentureScoutState) -> dict:
     return result
 
 
+def _route_after_critic(state: VentureScoutState) -> str:
+    """critic 직후 라우팅: kill이면 alternatives로, 그 외엔 그래프를 끝낸다."""
+    return "alternatives" if state.get("decision") == "kill" else END
+
+
 def build_graph():
     # LangGraph에 노드를 등록하고 실행 순서를 연결한다.
     # 현재 구조는 Structuring 이후 5개 분석 노드가 병렬로 실행되고, 마지막에 Critic이 합친다.
