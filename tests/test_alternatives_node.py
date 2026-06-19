@@ -129,3 +129,52 @@ def test_alternatives_stage_registered_in_api():
 
     assert "alternatives" in STAGE_LABELS
     assert "alternatives" in KNOWN_NODES
+
+
+def test_agent_ko_label_for_alternatives():
+    from app.ui import AGENT_KO
+
+    assert AGENT_KO["alternatives"] == "대안 제안"
+
+
+def test_render_board_shows_alternatives_section_on_kill():
+    from app.ui import _render_board
+
+    report = {
+        "decision": "kill",
+        "summary": "근거가 약해 kill",
+        "agent_runs": [
+            {
+                "agent_name": "alternatives",
+                "confidence": "low",
+                "grounded_on": ["ev_1"],
+                "output_json": {
+                    "alternatives": [
+                        {"title": "B2B 전환", "rationale": "...", "next_experiment": "..."},
+                    ]
+                },
+            },
+        ],
+    }
+    board = _render_board(report)
+    assert "🔁 대안 제안" in board
+    assert "B2B 전환" in board
+
+
+def test_render_board_hides_alternatives_section_when_not_kill():
+    from app.ui import _render_board
+
+    report = {
+        "decision": "go",
+        "summary": "근거 충분",
+        "agent_runs": [
+            {
+                "agent_name": "alternatives",
+                "confidence": "low",
+                "grounded_on": ["ev_1"],
+                "output_json": {"alternatives": [{"title": "X"}]},
+            },
+        ],
+    }
+    board = _render_board(report)
+    assert "🔁 대안 제안" not in board

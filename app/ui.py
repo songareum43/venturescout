@@ -39,7 +39,7 @@ STANCE_MARK = {"supports": "찬", "contradicts": "반", "neutral": "중립"}
 AGENT_KO = {
     "market": "시장", "competitor": "경쟁", "tech": "기술",
     "ip": "IP(특허)", "bm": "비즈니스모델", "critic": "Critic",
-    "structuring": "구조화",
+    "structuring": "구조화", "alternatives": "대안 제안",
 }
 # 근거 출처(source_type) → 한글 (UUID 대신 표시)
 SOURCE_KO = {
@@ -148,6 +148,15 @@ def _render_board(report: dict) -> str:
         lines.append("")
         for e in exps:
             lines.append(f"- {e}")
+        lines.append("")
+
+    alt_run = next((r for r in runs if r.get("agent_name") == "alternatives"), None)
+    if decision == "kill" and alt_run:
+        alts = (alt_run.get("output_json") or {}).get("alternatives", [])
+        lines.append("### 🔁 대안 제안 (이 방향이면 다시 검토할 만함)")
+        for a in alts:
+            lines.append(f"- **{a.get('title', '')}** — {a.get('rationale', '')}")
+            lines.append(f"  - 다음 실험: {a.get('next_experiment', '')}")
         lines.append("")
 
     return "\n".join(lines)
