@@ -3,6 +3,13 @@
 
 - search_claim_limitations: claim_limitations(시그니처 검색 단위) → ⑤ IP 에이전트
 - search_documents:          documents(evidence 검색 단위)        → ② Market, ③ Competitor
+
+성능 설계 (2단계 후보생성):
+  ① vec CTE  — `ORDER BY embedding <=> v LIMIT pool` → HNSW 인덱스 사용 (순수 거리)
+  ① kw  CTE  — `WHERE tsv @@ q ORDER BY ts_rank LIMIT pool` → GIN(tsvector) 인덱스 사용
+  ② 두 후보 합집합(≤2*pool 행)에만 합성 hybrid_score 계산·정렬 → top_k
+합성식을 전체 테이블 ORDER BY에 직접 걸면(이전 방식) 인덱스를 못 타 풀스캔이 된다.
+후보를 인덱스로 먼저 좁히는 게 핵심. (HNSW 인덱스가 (재)생성돼 있어야 효과 발생)
 """
 from __future__ import annotations
 
@@ -30,6 +37,12 @@ class HybridSearcher:
             register_vector(self._conn)
         return self._conn
 
+    @staticmethod
+    def _candidate_pool(top_k: int) -> int:
+        """인덱스로 뽑을 후보 풀 크기(vec/kw 각각). top_k보다 넉넉히 — 후보생성 뒤
+        필터(source_type·independent_only·code_filter)로 줄어도 top_k를 채우게."""
+        return max(top_k * 10, 200)
+
     def search_claim_limitations(
         self,
         query: str,
@@ -51,22 +64,47 @@ class HybridSearcher:
             claim_no, is_independent, meta, hybrid_score 포함 dict 리스트
         """
         top_k = top_k or config.top_k_fetch
+        pool = self._candidate_pool(top_k)
         query_vec = self.embedder.embed(query)
         ts_lang = "korean" if config.is_korean else "english"
 
-        conditions = ["cl.embedding IS NOT NULL", "d.source_type = 'patent'"]
-        params: dict = dict(vec=query_vec.tolist(), query=query, top_k=top_k)
+        # 필터는 후보생성(인덱스) 뒤, 작은 후보군에만 적용한다.
+        outer_conditions = ["d.source_type = 'patent'"]
+        params: dict = dict(vec=query_vec.tolist(), query=query, top_k=top_k, pool=pool)
 
         if independent_only:
-            conditions.append("pc.is_independent = TRUE")
+            outer_conditions.append("pc.is_independent = TRUE")
         if code_filter:
-            conditions.append("d.meta->>'cpc_code' LIKE %(code)s")
+            outer_conditions.append("d.meta->>'cpc_code' LIKE %(code)s")
             params["code"] = f"{code_filter}%"
 
-        where_clause = " AND ".join(conditions)
+        outer_where = " AND ".join(outer_conditions)
 
         sql = f"""
-            SELECT
+            WITH vec AS (                          -- ① 벡터 후보 (HNSW)
+                SELECT limitation_id
+                FROM claim_limitations
+                WHERE embedding IS NOT NULL
+                ORDER BY embedding <=> %(vec)s::vector
+                LIMIT %(pool)s
+            ),
+            kw AS (                                -- ① 키워드 후보 (GIN/tsvector)
+                SELECT limitation_id
+                FROM claim_limitations
+                WHERE to_tsvector('{ts_lang}', normalized_text)
+                      @@ plainto_tsquery('{ts_lang}', %(query)s)
+                ORDER BY ts_rank(
+                    to_tsvector('{ts_lang}', normalized_text),
+                    plainto_tsquery('{ts_lang}', %(query)s)
+                ) DESC
+                LIMIT %(pool)s
+            ),
+            cand AS (                              -- 후보 합집합 (≤ 2*pool)
+                SELECT limitation_id FROM vec
+                UNION
+                SELECT limitation_id FROM kw
+            )
+            SELECT                                 -- ② 후보군에만 합성식 계산
                 cl.limitation_id,
                 cl.claim_id,
                 cl.normalized_text,
@@ -77,14 +115,11 @@ class HybridSearcher:
                 d.ext_id  AS patent_id,
                 d.title,
                 d.meta,
-                -- ① vector 유사도 (cosine distance → similarity)
                 1 - (cl.embedding <=> %(vec)s::vector)              AS similarity_score,
-                -- ② keyword 점수
                 ts_rank(
                     to_tsvector('{ts_lang}', cl.normalized_text),
                     plainto_tsquery('{ts_lang}', %(query)s)
                 )                                                    AS lexical_score,
-                -- ③ 하이브리드 합산
                 (
                     {config.vector_weight}  * (1 - (cl.embedding <=> %(vec)s::vector))
                   + {config.keyword_weight} * ts_rank(
@@ -92,10 +127,11 @@ class HybridSearcher:
                         plainto_tsquery('{ts_lang}', %(query)s)
                     )
                 )                                                    AS hybrid_score
-            FROM claim_limitations cl
+            FROM cand
+            JOIN claim_limitations cl ON cl.limitation_id = cand.limitation_id
             JOIN patent_claims pc ON cl.claim_id = pc.claim_id
             JOIN documents d      ON pc.document_id = d.document_id
-            WHERE {where_clause}
+            WHERE {outer_where}
             ORDER BY hybrid_score DESC
             LIMIT %(top_k)s
         """
@@ -160,37 +196,61 @@ class HybridSearcher:
             reliability_score, freshness_score, hybrid_score 포함 dict 리스트
         """
         top_k = top_k or config.top_k_fetch
+        pool = self._candidate_pool(top_k)
         query_vec = self.embedder.embed(query)
         ts_lang = "korean" if config.is_korean else "english"
 
-        conditions = ["embedding IS NOT NULL", "clean_text IS NOT NULL"]
-        params: dict = dict(vec=query_vec.tolist(), query=query, top_k=top_k)
-
+        outer_conditions: list[str] = []
+        params: dict = dict(vec=query_vec.tolist(), query=query, top_k=top_k, pool=pool)
         if source_types:
-            conditions.append("source_type = ANY(%(source_types)s)")
+            outer_conditions.append("d.source_type = ANY(%(source_types)s)")
             params["source_types"] = source_types
-
-        where_clause = " AND ".join(conditions)
+        outer_where = ("WHERE " + " AND ".join(outer_conditions)) if outer_conditions else ""
 
         sql = f"""
-            SELECT
-                document_id,
-                source_type,
-                ext_id,
-                title,
-                clean_text,
-                meta,
-                reliability_score,
-                freshness_score,
+            WITH vec AS (                          -- ① 벡터 후보 (HNSW)
+                SELECT document_id
+                FROM documents
+                WHERE embedding IS NOT NULL
+                ORDER BY embedding <=> %(vec)s::vector
+                LIMIT %(pool)s
+            ),
+            kw AS (                                -- ① 키워드 후보 (GIN/tsvector)
+                SELECT document_id
+                FROM documents
+                WHERE clean_text IS NOT NULL
+                  AND to_tsvector('{ts_lang}', clean_text)
+                      @@ plainto_tsquery('{ts_lang}', %(query)s)
+                ORDER BY ts_rank(
+                    to_tsvector('{ts_lang}', clean_text),
+                    plainto_tsquery('{ts_lang}', %(query)s)
+                ) DESC
+                LIMIT %(pool)s
+            ),
+            cand AS (
+                SELECT document_id FROM vec
+                UNION
+                SELECT document_id FROM kw
+            )
+            SELECT                                 -- ② 후보군에만 합성식 계산
+                d.document_id,
+                d.source_type,
+                d.ext_id,
+                d.title,
+                d.clean_text,
+                d.meta,
+                d.reliability_score,
+                d.freshness_score,
                 (
-                    {config.vector_weight}  * (1 - (embedding <=> %(vec)s::vector))
+                    {config.vector_weight}  * (1 - (d.embedding <=> %(vec)s::vector))
                   + {config.keyword_weight} * ts_rank(
-                        to_tsvector('{ts_lang}', clean_text),
+                        to_tsvector('{ts_lang}', d.clean_text),
                         plainto_tsquery('{ts_lang}', %(query)s)
                     )
                 ) AS hybrid_score
-            FROM documents
-            WHERE {where_clause}
+            FROM cand
+            JOIN documents d ON d.document_id = cand.document_id
+            {outer_where}
             ORDER BY hybrid_score DESC
             LIMIT %(top_k)s
         """
