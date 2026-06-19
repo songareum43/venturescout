@@ -1101,6 +1101,7 @@ def critic_node(state: VentureScoutState) -> dict:
         "analysis_job": analysis_job,
         "decision": critic.decision,
         "final_report": critic.model_dump(),
+        "critic_scorecard": scorecard,
     }
 
     # 최종 리포트 로깅
