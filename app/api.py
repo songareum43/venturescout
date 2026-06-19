@@ -37,6 +37,7 @@ STAGE_LABELS: dict[str, str] = {
     "ip": "⑤ IP 청구항 중첩 (시그니처·full)",
     "bm": "⑥ 비즈니스 모델 (light)",
     "critic": "⑦ Critic — 적대 검증 + 판단",
+    "alternatives": "⑧ 대안 제안 (kill 시에만)",
 }
 KNOWN_NODES = set(STAGE_LABELS)
 

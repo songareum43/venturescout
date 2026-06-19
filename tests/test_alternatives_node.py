@@ -122,3 +122,10 @@ def test_build_graph_routes_critic_conditionally_to_alternatives():
     assert edge_conditional[("critic", "alternatives")] is True
     assert edge_conditional[("critic", "__end__")] is True
     assert edge_conditional[("alternatives", "__end__")] is False
+
+
+def test_alternatives_stage_registered_in_api():
+    from app.api import KNOWN_NODES, STAGE_LABELS
+
+    assert "alternatives" in STAGE_LABELS
+    assert "alternatives" in KNOWN_NODES
