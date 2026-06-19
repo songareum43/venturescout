@@ -73,7 +73,7 @@ def test_invoke_uses_selected_tier_model_id(monkeypatch):
             }
 
     fake_boto3 = SimpleNamespace(
-        client=lambda service_name, region_name: FakeClient()
+        client=lambda service_name, region_name, **kwargs: FakeClient()
     )
     monkeypatch.setitem(sys.modules, "boto3", fake_boto3)
     monkeypatch.setenv("AGENT_LLM_PROVIDER", "bedrock")

@@ -102,6 +102,17 @@ def _confidence_from_strength(strength: float) -> Confidence:
     return "low"
 
 
+_CONFIDENCE_ALIASES: dict[str, str] = {
+    "high": "high", "h": "high",
+    "medium": "mid", "moderate": "mid", "med": "mid", "mid": "mid", "m": "mid",
+    "low": "low", "l": "low",
+}
+
+
+def _normalize_confidence(value: Any, default: Confidence = "low") -> Confidence:
+    return _CONFIDENCE_ALIASES.get(str(value).strip().lower(), default)  # type: ignore[return-value]
+
+
 def _validate_structured_idea(idea: IdeaRecord, hypotheses: list[Hypothesis]) -> dict[str, Any]:
     # Structuring 결과가 뒤쪽 agent들이 분석할 만큼 충분한지 확인한다.
     # 여기서 실패하면 downstream agent가 빈 고객/문제/기술요소를 보고 엉뚱한 분석을 할 수 있다.
@@ -353,7 +364,11 @@ def structuring_node(state: VentureScoutState) -> dict:
         "count": len(hypotheses_payload),
     })
     hypotheses = [
-        Hypothesis(job_id=job_id, idea_id=idea_id, **item)
+        Hypothesis(
+            job_id=job_id,
+            idea_id=idea_id,
+            **{**item, "confidence": _normalize_confidence(item.get("confidence"))},
+        )
         for item in hypotheses_payload
     ]
 
