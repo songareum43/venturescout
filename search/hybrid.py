@@ -200,25 +200,27 @@ class HybridSearcher:
         query_vec = self.embedder.embed(query)
         ts_lang = "korean" if config.is_korean else "english"
 
-        outer_conditions: list[str] = []
         params: dict = dict(vec=query_vec.tolist(), query=query, top_k=top_k, pool=pool)
+        # ⚠️ source_type 필터는 후보생성 CTE 안에 둔다(후보 뒤 필터 금지).
+        #    seed_* 문서는 각 30건 정도라, 전체 top-N 후보(대부분 특허 5만건)를 뽑고
+        #    나중에 필터하면 후보에 안 들어가 0건이 된다 → grounded_on 비어 AgentRun 검증 실패.
+        src_filter = ""
         if source_types:
-            outer_conditions.append("d.source_type = ANY(%(source_types)s)")
+            src_filter = " AND source_type = ANY(%(source_types)s)"
             params["source_types"] = source_types
-        outer_where = ("WHERE " + " AND ".join(outer_conditions)) if outer_conditions else ""
 
         sql = f"""
-            WITH vec AS (                          -- ① 벡터 후보 (HNSW)
+            WITH vec AS (                          -- ① 벡터 후보 (HNSW, 출처 스코프 포함)
                 SELECT document_id
                 FROM documents
-                WHERE embedding IS NOT NULL
+                WHERE embedding IS NOT NULL{src_filter}
                 ORDER BY embedding <=> %(vec)s::vector
                 LIMIT %(pool)s
             ),
-            kw AS (                                -- ① 키워드 후보 (GIN/tsvector)
+            kw AS (                                -- ① 키워드 후보 (GIN/tsvector, 출처 스코프 포함)
                 SELECT document_id
                 FROM documents
-                WHERE clean_text IS NOT NULL
+                WHERE clean_text IS NOT NULL{src_filter}
                   AND to_tsvector('{ts_lang}', clean_text)
                       @@ plainto_tsquery('{ts_lang}', %(query)s)
                 ORDER BY ts_rank(
@@ -250,7 +252,6 @@ class HybridSearcher:
                 ) AS hybrid_score
             FROM cand
             JOIN documents d ON d.document_id = cand.document_id
-            {outer_where}
             ORDER BY hybrid_score DESC
             LIMIT %(top_k)s
         """

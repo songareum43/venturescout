@@ -129,6 +129,8 @@ async def analyze(req: AnalyzeRequest) -> StreamingResponse:
         # astream_events 한 번으로 단계 중계 + agent_runs 누적 (재실행 없음)
         agent_runs: list[dict] = []
         critic: dict | None = None
+        # 근거 출처 맵 {evidence_id: source_type} — UI가 UUID 대신 한글 출처로 보여주게.
+        evidence_sources: dict[str, str] = {}
 
         # ① 입력: job_id/idea_id/raw_input을 초기 state로(C는 state로 읽음).
         init_state = {
@@ -162,6 +164,13 @@ async def analyze(req: AnalyzeRequest) -> StreamingResponse:
                             agent_runs.append(
                                 r.model_dump() if hasattr(r, "model_dump") else r
                             )
+                        # evidence_items {id: EvidenceItem} → {id: source_type} 누적
+                        for eid, ev_item in (out.get("evidence_items") or {}).items():
+                            src = getattr(ev_item, "source_type", None)
+                            if src is None and isinstance(ev_item, dict):
+                                src = ev_item.get("source_type")
+                            if src:
+                                evidence_sources[str(eid)] = src
                         c = out.get("critic")
                         if c is not None:
                             critic = c.model_dump() if hasattr(c, "model_dump") else c
@@ -192,6 +201,7 @@ async def analyze(req: AnalyzeRequest) -> StreamingResponse:
             "objections": (critic or {}).get("objections", []),
             "next_experiments": (critic or {}).get("next_experiments", []),
             "agent_runs": agent_runs,
+            "evidence_sources": evidence_sources,
         })
         yield _sse({"type": "job", "status": "done", "stage": None, "job_id": job_id})
 

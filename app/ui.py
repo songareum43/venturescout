@@ -12,6 +12,7 @@ FastAPI /analyze SSE를 구독 → 에이전트 단계를 cl.Step으로 렌더 �
 from __future__ import annotations
 import json
 import os
+from collections import Counter
 from typing import AsyncIterator
 
 import httpx
@@ -25,8 +26,39 @@ DECISION_BADGE = {
     "kill": "🔴 **KILL** — 중단 권고",
     "more_research": "🔵 **MORE RESEARCH** — 추가 검증 필요",
 }
+# 판정별 한 줄 설명 (처음 쓰는 사용자용)
+DECISION_HELP = {
+    "go": "근거가 충분하고 치명적 반박이 없어 MVP를 진행할 만함",
+    "pivot": "근거는 있으나 경쟁·IP·리스크 신호가 있어 방향/범위를 좁혀야 함",
+    "kill": "근거가 약하거나 치명적 문제가 있어 현재 형태로는 추진 부적합",
+    "more_research": "근거나 가설 커버리지가 부족해 추가 조사가 필요함",
+}
 CONFIDENCE_KO = {"high": "높음", "mid": "중간", "low": "낮음"}
 STANCE_MARK = {"supports": "찬", "contradicts": "반", "neutral": "중립"}
+# 에이전트 코드 → 한글 이름 (표 가독성)
+AGENT_KO = {
+    "market": "시장", "competitor": "경쟁", "tech": "기술",
+    "ip": "IP(특허)", "bm": "비즈니스모델", "critic": "Critic",
+    "structuring": "구조화",
+}
+# 근거 출처(source_type) → 한글 (UUID 대신 표시)
+SOURCE_KO = {
+    "seed_review": "고객 리뷰",
+    "seed_competitor": "경쟁사 자료",
+    "seed_pricing": "가격 자료",
+    "patent": "특허",
+    "web": "웹 문서",
+}
+
+
+def _grounded_ko(ids: list[str], evidence_sources: dict[str, str]) -> str:
+    """grounded_on(evidence_id UUID 목록)을 출처별 한글 건수로 — 'UUID' 대신 '고객 리뷰 3건'."""
+    if not ids:
+        return "—"
+    counts = Counter(
+        SOURCE_KO.get(evidence_sources.get(i, ""), "근거") for i in ids
+    )
+    return ", ".join(f"{label} {n}건" for label, n in counts.items())
 
 
 async def stream_events(idea: str) -> AsyncIterator[dict]:
@@ -73,10 +105,12 @@ def _extract_signal(output: dict) -> str:
 def _render_board(report: dict) -> str:
     """report 이벤트 → Evidence Board 마크다운."""
     decision = report.get("decision", "more_research")
+    evidence_sources = report.get("evidence_sources", {})
     lines = [
         "## 🗂 Evidence Board",
         "",
         DECISION_BADGE.get(decision, decision),
+        f"<sub>{DECISION_HELP.get(decision, '')}</sub>",
         "",
         f"> {report.get('summary', '')}",
         "",
@@ -88,21 +122,20 @@ def _render_board(report: dict) -> str:
     if runs:
         lines.append("### 가설별 근거")
         lines.append("")
-        lines.append("| 에이전트 | 깊이 | 신뢰도 | 신호 | 근거 |")
-        lines.append("|---|---|---|---|---|")
+        lines.append("| 에이전트 | 신뢰도 | 신호 | 근거 |")
+        lines.append("|---|---|---|---|")
         for r in runs:
-            agent = r.get("agent_name", "?")
-            depth = r.get("depth", "")
+            agent = AGENT_KO.get(r.get("agent_name", ""), r.get("agent_name", "?"))
             conf = CONFIDENCE_KO.get(r.get("confidence", ""), r.get("confidence", ""))
             output = r.get("output_json") or {}
             signal = _extract_signal(output)
-            grounded = ", ".join(r.get("grounded_on", [])) or "—"
-            lines.append(f"| {agent} | {depth} | {conf} | {signal} | {grounded} |")
+            grounded = _grounded_ko(r.get("grounded_on", []), evidence_sources)
+            lines.append(f"| {agent} | {conf} | {signal} | {grounded} |")
         lines.append("")
 
     objs = report.get("objections", [])
     if objs:
-        lines.append("### ⑦ Critic 반론")
+        lines.append("### ⑦ Critic 반론 (낙관 편향 점검)")
         for o in objs:
             txt = o.get("text") if isinstance(o, dict) else str(o)
             lines.append(f"- {txt}")
@@ -110,7 +143,9 @@ def _render_board(report: dict) -> str:
 
     exps = report.get("next_experiments", [])
     if exps:
-        lines.append("### 다음 실험")
+        lines.append("### 🔬 다음 실험 (이 판정을 검증/뒤집으려면)")
+        lines.append("아래 검증을 먼저 수행하면 근거가 보강돼 판정이 더 확실해집니다.")
+        lines.append("")
         for e in exps:
             lines.append(f"- {e}")
         lines.append("")
@@ -127,8 +162,15 @@ try:
         await cl.Message(
             content=(
                 "**VentureScout** — 창업 아이디어를 입력하면 멀티 에이전트가 "
-                "가설로 분해하고 근거 기반으로 Go/Pivot/Kill/More Research를 판정합니다.\n\n"
-                "예) `AI 기반 이커머스 개인화 추천 엔진`"
+                "가설로 분해하고 근거 기반으로 **판정**을 내립니다.\n\n"
+                "**판정 4종**\n"
+                "| 판정 | 의미 |\n"
+                "|---|---|\n"
+                "| 🟢 **GO** (진행) | 근거가 충분하고 치명적 반박이 없어 MVP 진행 권고 |\n"
+                "| 🟡 **PIVOT** (방향 전환) | 근거는 있으나 경쟁·IP·리스크 신호로 범위를 좁혀야 함 |\n"
+                "| 🔴 **KILL** (중단) | 근거가 약하거나 치명적 문제로 현재 형태 추진 부적합 |\n"
+                "| 🔵 **MORE RESEARCH** (추가 검증) | 근거·가설 커버리지가 부족해 더 조사 필요 |\n\n"
+                "아이디어를 한 줄로 입력해 보세요.  예) `AI 기반 이커머스 개인화 추천 엔진`"
             )
         ).send()
 

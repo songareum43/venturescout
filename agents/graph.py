@@ -208,7 +208,10 @@ def _agent_output_with_llm(
     system = (
         "너는 VentureScout의 근거 기반 스타트업 검증 에이전트다. "
         "반드시 제공된 evidence_id 안에서만 주장하고, 법률/투자 확정 판단처럼 "
-        "근거를 넘어서는 표현은 피한다. 응답은 설명 없이 JSON object 하나만 반환한다."
+        "근거를 넘어서는 표현은 피한다. "
+        "모든 문자열 값(summary·signal·key_findings·objections·next_experiments 등)은 "
+        "반드시 한국어로 작성한다(영어 혼용 금지). "
+        "응답은 설명 없이 JSON object 하나만 반환한다."
     )
     user = (
         f"에이전트: {agent_name}\n"
@@ -453,14 +456,20 @@ def market_node(state: VentureScoutState) -> dict:
     evidence = retrieve("H1", query, job_id=job_id, source_types=["seed_review"])
     log_processing(logger, "근거 수집 완료", {"evidence_count": len(evidence)})
 
+    # graceful: 근거 0건이면 run을 생략(grounded_on 빈 AgentRun 금지·ADR-014).
+    # 한 에이전트의 빈 근거가 잡 전체를 죽이지 않게 한다 → critic이 미검증 가설로 처리.
+    if not evidence:
+        log_processing(logger, "H1 근거 0건 — market run 생략(graceful)")
+        return {"agent_runs": []}
+
     strength = _evidence_strength(evidence)
     confidence = _confidence_from_strength(strength)
 
     default_output = {
-        "summary": "Mock market signal exists but needs direct interviews.",
-        "key_findings": ["Evidence is seeded, not user-validated."],
-        "risks": ["Pain intensity and buyer urgency are unproven."],
-        "recommendations": ["Interview 10 target customers."],
+        "summary": "시장 수요 신호는 보이나 직접 고객 인터뷰로는 아직 검증되지 않았다.",
+        "key_findings": ["근거가 시드 데이터 기반이라 실제 사용자 검증은 아직 없다."],
+        "risks": ["고객의 문제 강도와 구매 시급성이 입증되지 않았다."],
+        "recommendations": ["타깃 고객 10명을 인터뷰해 문제 강도를 확인한다."],
     }
 
     agent_run = _agent_run(
@@ -510,14 +519,17 @@ def competitor_node(state: VentureScoutState) -> dict:
     # H2(경쟁/대안) 근거는 경쟁사 시드에서 — 특허 제외
     evidence = retrieve("H2", query, job_id=job_id, source_types=["seed_competitor"])
 
+    if not evidence:                       # graceful: 근거 0건 → run 생략
+        return {"agent_runs": []}
+
     strength = _evidence_strength(evidence)
     confidence = _confidence_from_strength(strength)
 
     default_output = {
-        "summary": "Adjacent tools exist; differentiation is not yet proven.",
-        "key_findings": ["Competition requires workflow-level positioning."],
-        "risks": ["Generic summarization is crowded."],
-        "recommendations": ["Narrow to one vertical workflow."],
+        "summary": "유사 대안 도구가 이미 존재하며 차별점이 아직 입증되지 않았다.",
+        "key_findings": ["워크플로우 수준의 포지셔닝으로 경쟁을 돌파해야 한다."],
+        "risks": ["범용 요약 시장은 이미 경쟁이 치열하다."],
+        "recommendations": ["하나의 버티컬 워크플로우로 범위를 좁힌다."],
     }
     return {
         "evidence_items": _evidence_map(evidence),
@@ -563,6 +575,10 @@ def tech_node(state: VentureScoutState) -> dict:
     )
     evidence = retrieve("H4", query, job_id=job_id)
     log_processing(logger, "근거 수집 완료", {"evidence_count": len(evidence)})
+
+    if not evidence:                       # graceful: 근거 0건 → run 생략
+        log_processing(logger, "H4 근거 0건 — tech run 생략(graceful)")
+        return {"agent_runs": []}
 
     log_processing(logger, "증거 분석 중...")
     stance_counts = _stance_counts(evidence)
@@ -697,6 +713,10 @@ def ip_node(state: VentureScoutState) -> dict:
     )
     evidence = retrieve("H5", query, job_id=job_id)
     log_processing(logger, "근거 수집 완료", {"evidence_count": len(evidence)})
+
+    if not evidence:                       # graceful: 근거 0건 → run 생략
+        log_processing(logger, "H5 근거 0건 — ip run 생략(graceful)")
+        return {"agent_runs": []}
 
     log_processing(logger, "IP 특허 후보 벡터 검색 중...", {"elements": idea.technical_elements})
     # 실제 데이터 전환 지점:
@@ -841,6 +861,10 @@ def bm_node(state: VentureScoutState) -> dict:
         source_types=["seed_pricing", "seed_review", "seed_competitor"],
     )
     log_processing(logger, "근거 수집 완료", {"evidence_count": len(evidence)})
+
+    if not evidence:                       # graceful: 근거 0건 → run 생략
+        log_processing(logger, "H3 근거 0건 — bm run 생략(graceful)")
+        return {"agent_runs": []}
 
     stance_counts = _stance_counts(evidence)
     strength = _evidence_strength(evidence)
@@ -1041,16 +1065,26 @@ def critic_node(state: VentureScoutState) -> dict:
 
     log_processing(logger, f"🎯 최종 판단: {decision.upper()} (신뢰도: {confidence})")
 
+    # 반론은 한국어 서술형으로 — UUID 나열 대신 '무엇이/왜 문제인지'를 담는다.
+    # (live에서는 아래 기본 반론을 critic LLM이 더 구체적으로 보강한다.)
+    _agent_ko = {"market": "시장", "competitor": "경쟁", "tech": "기술",
+                 "ip": "IP(특허)", "bm": "비즈니스모델"}
     objections = []
     if low_confidence:
-        objections.append(f"Low-confidence agent runs: {', '.join(low_confidence)}")
+        names = ", ".join(_agent_ko.get(a, a) for a in low_confidence)
+        objections.append(
+            f"{names} 분석의 근거가 약해 신뢰도가 낮음 — 해당 가설은 현재 결론을 확신하기 어렵고 "
+            f"직접 데이터(인터뷰·실측)로 보강이 필요하다."
+        )
     if contradicting_evidence:
         objections.append(
-            f"Contradicting evidence exists: {', '.join(contradicting_evidence)}"
+            f"가설을 반박하는 근거가 {len(contradicting_evidence)}건 발견됨 — 낙관적 결론을 그대로 "
+            f"받아들이기 전에 이 반대 근거의 타당성과 치명도를 먼저 검토해야 한다."
         )
     if high_ip_candidates:
         objections.append(
-            f"IP signature candidates require manual review: {', '.join(high_ip_candidates)}"
+            f"특허 청구항 중첩 위험 신호가 {len(high_ip_candidates)}건 — 법적 침해 단정은 아니나 "
+            f"수동 claim chart 검토와 회피 설계가 선행되어야 한다."
         )
 
     critic = CriticResult(
@@ -1086,7 +1120,13 @@ def critic_node(state: VentureScoutState) -> dict:
     critic_output_json = _agent_output_with_llm(
         agent_name="critic",
         hypothesis_id="all",
-        role="모든 AgentRun의 근거 연결, 가설 커버리지, confidence, 반박 근거, IP 리스크를 종합 검수한다.",
+        role=(
+            "모든 AgentRun의 근거 연결, 가설 커버리지, confidence, 반박 근거, IP 리스크를 종합 검수한다. "
+            "objections는 각 항목마다 '무엇이 왜 문제인지 + 어떤 근거/신호에 기반하는지'를 1~2문장으로 "
+            "구체적으로 한국어로 쓴다(단순 나열·UUID 금지). "
+            "next_experiments는 비전문가도 바로 실행할 수 있게 '무엇을·누구에게·어떻게·무엇을 보면 검증되는지'를 "
+            "각 항목 한 문장으로 한국어로 쓴다."
+        ),
         default_output={
             **critic.model_dump(),
             "scorecard": scorecard,
