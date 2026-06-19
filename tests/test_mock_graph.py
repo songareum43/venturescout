@@ -9,12 +9,13 @@ from shared.contracts import EvidenceItem, IPOverlapCandidate
 def isolate_mock_graph_from_external_search(monkeypatch):
     """mock graph 테스트가 RDS/pgvector에 접근하지 않도록 검색 경계를 고정한다."""
 
-    def mock_retrieve(hypothesis_id, query, *, job_id="", k=5):
-        return [
-            EvidenceItem(job_id=job_id, **item)
-            for item in MOCK_EVIDENCE
+    def mock_retrieve(hypothesis_id, query, *, job_id="", k=5, source_types=None):
+        rows = [
+            item for item in MOCK_EVIDENCE
             if item["hypothesis_id"] == hypothesis_id
-        ][:k]
+            and (source_types is None or item["source_type"] in source_types)
+        ]
+        return [EvidenceItem(job_id=job_id, **item) for item in rows][:k]
 
     def mock_vector_search(
         technical_elements,

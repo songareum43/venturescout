@@ -50,17 +50,20 @@ def retrieve(
     *,
     job_id: str = "",
     k: int = 5,
+    source_types: list[str] | None = None,
 ) -> list[EvidenceItem]:
     """가설별 찬반 근거 회수 (documents 하이브리드 검색 + rerank).
 
     mock 모드: agents/mock_data의 MOCK_EVIDENCE에서 해당 가설 근거를 반환.
     live 모드: RDS documents 하이브리드 검색.
+    source_types: 특정 출처로 검색 범위를 좁힘(예: BM은 가격/리뷰/경쟁 시드만).
+                  None이면 전체 documents 대상.
     """
     if not retrieval_live():
         return _mock_retrieve(hypothesis_id, job_id=job_id, k=k)
 
     searcher, reranker = _get_engines()
-    raw = searcher.search_documents(query=query, top_k=k * 2)
+    raw = searcher.search_documents(query=query, top_k=k * 2, source_types=source_types)
     ranked = reranker.rerank(raw, prefer_contradicting=True, top_k=k)
 
     return [

@@ -440,7 +440,7 @@ def structuring_node(state: VentureScoutState) -> dict:
 
 def market_node(state: VentureScoutState) -> dict:
     # Market은 H1, 즉 "고객 문제가 실제로 반복되는가"를 검증한다.
-    # 현재 Track C 핵심 담당은 아니어서 간단한 mock 분석으로 둔다.
+    # confidence는 retrieve한 근거 강도로 산정(Tech/IP/BM과 동일). H1 근거는 고객 리뷰 시드.
     start_time = time.time()
     log_stage(logger, "2️⃣", "Market (시장/고객 검증)")
 
@@ -448,16 +448,15 @@ def market_node(state: VentureScoutState) -> dict:
     log_input(logger, {"job_id": job_id, "hypothesis": "H1"})
 
     log_processing(logger, "H1 관련 근거 검색 중...", {"query": "meeting follow-up pain"})
-    # 실제 데이터 전환 지점:
-    # retrieve() 내부가 실제 검색으로 바뀌면 이 노드는 별도 수정 없이 실제 H1 evidence를 받는다.
     query = _hypothesis_query(state, "H1", "meeting follow-up pain")
-    evidence = retrieve("H1", query, job_id=job_id)
+    # H1(고객 문제/수요) 근거는 고객 리뷰 시드에서 — 특허 제외
+    evidence = retrieve("H1", query, job_id=job_id, source_types=["seed_review"])
     log_processing(logger, "근거 수집 완료", {"evidence_count": len(evidence)})
 
+    strength = _evidence_strength(evidence)
+    confidence = _confidence_from_strength(strength)
+
     default_output = {
-        # 조정 가능 지점:
-        # 현재 Market/Competitor/BM은 일부러 low confidence로 둔다.
-        # 고객 인터뷰나 실제 웹 근거가 붙으면 confidence 계산을 evidence_strength 기반으로 바꿀 수 있다.
         "summary": "Mock market signal exists but needs direct interviews.",
         "key_findings": ["Evidence is seeded, not user-validated."],
         "risks": ["Pain intensity and buyer urgency are unproven."],
@@ -469,7 +468,7 @@ def market_node(state: VentureScoutState) -> dict:
         agent_name="market",
         hypothesis_id="H1",
         depth="full",
-        confidence="low",
+        confidence=confidence,
         evidence=evidence,
         output_json=_agent_output_with_llm(
             agent_name="market",
@@ -507,10 +506,13 @@ def competitor_node(state: VentureScoutState) -> dict:
     # 조정 가능 지점:
     # 나중에는 Market/Tech/IP처럼 start_time/log_input/log_output 패턴을 맞추면 추적성이 좋아진다.
     job_id = state["analysis_job"].job_id
-    # 실제 데이터 전환 지점:
-    # 경쟁사/대안 자료가 documents/evidence_items에 적재되면 retrieve()가 해당 근거를 반환한다.
     query = _hypothesis_query(state, "H2", "adjacent meeting tools")
-    evidence = retrieve("H2", query, job_id=job_id)
+    # H2(경쟁/대안) 근거는 경쟁사 시드에서 — 특허 제외
+    evidence = retrieve("H2", query, job_id=job_id, source_types=["seed_competitor"])
+
+    strength = _evidence_strength(evidence)
+    confidence = _confidence_from_strength(strength)
+
     default_output = {
         "summary": "Adjacent tools exist; differentiation is not yet proven.",
         "key_findings": ["Competition requires workflow-level positioning."],
@@ -525,7 +527,7 @@ def competitor_node(state: VentureScoutState) -> dict:
                 agent_name="competitor",
                 hypothesis_id="H2",
                 depth="light",
-                confidence="low",
+                confidence=confidence,
                 evidence=evidence,
                 output_json=_agent_output_with_llm(
                     agent_name="competitor",
@@ -819,18 +821,38 @@ def ip_node(state: VentureScoutState) -> dict:
 
 def bm_node(state: VentureScoutState) -> dict:
     # BM은 H3, 즉 "좌석 단위 SaaS 구독 모델이 성립할 수 있는가"를 검증한다.
-    # 현재는 Track C 주 담당이 아니므로 low confidence mock 분석으로 둔다.
-    # 조정 가능 지점:
-    # 가격 인터뷰나 결제 의향 데이터가 들어오면 evidence_strength 기반 confidence로 바꿀 수 있다.
+    # 승격(D, B 게이트 통과): confidence를 하드코딩 low → evidence_strength 기반으로 산정
+    # (Tech/IP와 동일 방식). BM 근거는 특허가 아니라 가격/리뷰/경쟁 시드 문서이므로
+    # source_types로 검색 범위를 좁힌다.
+    start_time = time.time()
+    log_stage(logger, "6️⃣", "BM (수익모델·가격 검증 - Light)")
+
     job_id = state["analysis_job"].job_id
-    # 실제 데이터 전환 지점:
-    # 가격 인터뷰, 결제 의향, 경쟁 가격 자료를 evidence_items로 적재하면 실제 H3 근거가 들어온다.
+    log_input(logger, {"job_id": job_id, "hypothesis": "H3"})
+
     query = _hypothesis_query(
         state,
         "H3",
         "per-seat SaaS pricing willingness",
     )
-    evidence = retrieve("H3", query, job_id=job_id)
+    # BM 관련 근거만 — seed_pricing/seed_review/seed_competitor (특허 제외)
+    evidence = retrieve(
+        "H3", query, job_id=job_id,
+        source_types=["seed_pricing", "seed_review", "seed_competitor"],
+    )
+    log_processing(logger, "근거 수집 완료", {"evidence_count": len(evidence)})
+
+    stance_counts = _stance_counts(evidence)
+    strength = _evidence_strength(evidence)
+    confidence = _confidence_from_strength(strength)
+    log_processing(logger, "증거 분석 완료", {
+        "strength": strength,
+        "confidence": confidence,
+        "support": stance_counts["supports"],
+        "contradict": stance_counts["contradicts"],
+        "neutral": stance_counts["neutral"],
+    })
+
     default_output = {
         "summary": "Per-seat SaaS is plausible but unvalidated.",
         "key_findings": ["Pricing evidence is only a placeholder."],
@@ -855,7 +877,7 @@ def bm_node(state: VentureScoutState) -> dict:
                 agent_name="bm",
                 hypothesis_id="H3",
                 depth="light",
-                confidence="low",
+                confidence=confidence,
                 evidence=evidence,
                 output_json=_agent_output_with_llm(
                     agent_name="bm",
