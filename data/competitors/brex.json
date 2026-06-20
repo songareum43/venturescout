@@ -1,0 +1,19 @@
+{
+  "source_type": "seed_competitor",
+  "ext_id": "seed_competitor_brex",
+  "title": "Brex - AI-powered corporate card and spend management for startups to enterprise",
+  "clean_text": "Brex is an AI-powered spend platform combining a corporate charge card, cash management account (Brex Cash), expense management, travel, and bill pay for startups through enterprises. It is trusted by 1 in 3 venture-backed US startups, with customers including DoorDash, Coinbase, SeatGeek, Indeed, Allbirds, and Superhuman. The platform issues unlimited employee cards with auto-enforced spend controls, automated receipt capture and categorization, and integrates with QuickBooks, Xero, and NetSuite. Capital One announced its acquisition of Brex for $5.15 billion on January 22, 2026, with the deal expected to close mid-2026, which may change Brex's pricing and product priorities going forward.",
+  "meta": {
+    "product": "Brex",
+    "category": "corporate_card_spend_mgmt",
+    "platform": [
+      "cloud",
+      "web",
+      "mobile"
+    ],
+    "target": "startups, venture-backed companies, high-growth businesses",
+    "pricing_model": "tiered subscription, per-user",
+    "source": "ycombinator.com + swipesum.com",
+    "collected_date": "2026-06-20"
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "source_type": "seed_competitor",
+  "ext_id": "seed_competitor_fis",
+  "title": "FIS - Core banking, payments, and capital markets infrastructure for financial institutions",
+  "clean_text": "FIS (Fidelity National Information Services) is a global fintech provider founded in 1968, delivering core processing, mobile/online banking, fraud and risk management, card and retail payments, electronic funds transfer, wealth/retirement, and capital markets technology to regulated financial institutions. With more than 55,000 employees and operations in over 130 countries, FIS serves clients ranging from the largest global banks to regional credit unions and emerging fintech companies, organized across Banking Solutions, Capital Market Solutions, and Corporate and Other business segments.",
+  "meta": {
+    "product": "FIS Banking Solutions",
+    "category": "banking_infrastructure",
+    "platform": [
+      "cloud",
+      "on-premise"
+    ],
+    "target": "banks, payment processors, capital markets firms, credit unions, fintechs",
+    "pricing_model": "custom enterprise quote",
+    "source": "fisglobal.com + datacenters.com",
+    "collected_date": "2026-06-20"
+  }
+}

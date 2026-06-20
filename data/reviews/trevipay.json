@@ -1,0 +1,16 @@
+{
+  "source_type": "seed_review",
+  "ext_id": "seed_review_trevipay",
+  "title": "TreviPay - Best suited to high-volume B2B sellers, not a quick setup",
+  "clean_text": "Reviewers describe TreviPay as reliable for structured pay-by-invoice programs, but note it may not be the best fit for businesses that do not have a high volume of B2B transactions, since it requires meaningful time and resources to set up and customize the platform for a given seller's trade credit program. Some mid-market suppliers reportedly compare TreviPay against faster-to-connect alternatives when their priority is rapid impact on cash-flow goals rather than a fully custom branded network.",
+  "meta": {
+    "product": "TreviPay",
+    "sentiment": "negative",
+    "issue_type": [
+      "Implementation_Complexity",
+      "Target_Mismatch"
+    ],
+    "source": "resolvepay.com + softwareadvice.com",
+    "collected_date": "2026-06-20"
+  }
+}

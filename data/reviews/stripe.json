@@ -1,0 +1,17 @@
+{
+  "source_type": "seed_review",
+  "ext_id": "seed_review_stripe",
+  "title": "Stripe - Abrupt account freezes and slow support resolution",
+  "clean_text": "Users report accounts being frozen, suspended, or closed with limited warning, commonly triggered by chargeback rates exceeding 1% or by a steady stream of customer complaints and refund requests that raise Stripe's automated risk flags, even when the underlying chargeback rate is still low. Reviewers describe support during these incidents as slow and hard to escalate, with some calling the experience \"a technical nightmare\" before reaching resolution. Separately, some users note that payout timing into bank accounts is not always as fast as expected.",
+  "meta": {
+    "product": "Stripe",
+    "sentiment": "negative",
+    "issue_type": [
+      "Product_Stability",
+      "Contract_Terms",
+      "Performance"
+    ],
+    "source": "g2.com + chargeback.io",
+    "collected_date": "2026-06-20"
+  }
+}

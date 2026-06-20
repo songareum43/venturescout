@@ -1,0 +1,19 @@
+{
+  "source_type": "seed_pricing",
+  "ext_id": "seed_pricing_mastercard",
+  "title": "Mastercard pricing - ~1.70-1.80% average interchange plus a growing list of network fees",
+  "clean_text": "Mastercard interchange fees are set by Mastercard and non-negotiable; US merchants pay an average interchange fee of about 1.80% overall, with in-person payments averaging roughly 1.70%. Mastercard updates rates each April and October. Effective April 2026, Mastercard raised its Undefined Authorization Fee to 0.30% (5 cent minimum), set a Digital Enablement Fee minimum of $0.025 for transactions under $100, introduced a new Fallback Avoidance fee and a Force Post Transaction Fee of 9 cents, and added a $1,000 annual fee for merchants in its Specialty Merchant Registration program.",
+  "meta": {
+    "product": "Mastercard Commercial Direct Payments",
+    "pricing_model": "interchange fee based (merchant-paid, network-set)",
+    "min_price_usd": 1.70,
+    "max_price_usd": 1.80,
+    "pricing_unit": "percent_average_interchange_per_transaction",
+    "undefined_auth_fee_pct": 0.30,
+    "force_post_fee_usd": 0.09,
+    "specialty_merchant_annual_fee_usd": 1000,
+    "publicly_disclosed": true,
+    "source": "chargebacks911.com + merchantcostconsulting.com",
+    "collected_date": "2026-06-20"
+  }
+}

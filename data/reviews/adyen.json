@@ -1,0 +1,17 @@
+{
+  "source_type": "seed_review",
+  "ext_id": "seed_review_adyen",
+  "title": "Adyen - Confusing fee structure and charges on inactive gateways",
+  "clean_text": "G2 reviewers report excessive and confusing fees, including monthly charges that continue even when a gateway is inactive, and fee increases that make it harder to track final transaction amounts during pre-authorization. Reviewers describe Adyen's premium pricing as not always clear upfront, and note it can be expensive and a poor fit for businesses that do not process a large volume of transactions. Getting the most value out of the platform is described as challenging and time-consuming without a dedicated technical team, and some users report bugs that required custom fixes during implementation.",
+  "meta": {
+    "product": "Adyen",
+    "sentiment": "negative",
+    "issue_type": [
+      "Pricing_Complexity",
+      "Implementation_Complexity",
+      "Price"
+    ],
+    "source": "g2.com + thefinrate.com",
+    "collected_date": "2026-06-20"
+  }
+}

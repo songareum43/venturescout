@@ -1,0 +1,17 @@
+{
+  "source_type": "seed_pricing",
+  "ext_id": "seed_pricing_wise",
+  "title": "Wise Business pricing - No monthly fee, 0.33%-0.81% FX/transfer fees per corridor",
+  "clean_text": "Wise Business has no monthly fee or account maintenance charge. FX rates start from 0.33% above mid-market and currency transfer fees start at 0.63%, with transparent corridor-specific rates ranging roughly 0.36%-0.81% based on testing in February 2026. A one-time account setup fee varies by region: free in Hong Kong, $31 in the US, £50 in the UK, $99 SGD in Singapore, and $65 AUD in Australia. Wise shows the exact cost of each transfer before confirmation.",
+  "meta": {
+    "product": "Wise Business",
+    "pricing_model": "usage-based, per-transaction (FX and transfer fees)",
+    "min_price_usd": 0.33,
+    "max_price_usd": 0.81,
+    "pricing_unit": "percent_fx_or_transfer_fee_per_corridor",
+    "setup_fee_usd_example": 31,
+    "publicly_disclosed": true,
+    "source": "payfeecalculator.com + statrys.com",
+    "collected_date": "2026-06-20"
+  }
+}

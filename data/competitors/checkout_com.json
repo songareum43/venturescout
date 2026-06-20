@@ -1,0 +1,18 @@
+{
+  "source_type": "seed_competitor",
+  "ext_id": "seed_competitor_checkout_com",
+  "title": "Checkout.com - Unified payments API for large-scale enterprise merchants",
+  "clean_text": "Checkout.com is a London-based fintech providing payment processing, gateway, and acquiring services exclusively for enterprise merchants through an API-first unified payments platform, with domestic acquiring licenses across Europe, the US, MENA, and APAC. It has 63 merchants each processing more than $1 billion annually on the platform, including Netflix, Pizza Hut, Coinbase, Farfetch, and eBay, targeting large-scale e-commerce, gaming, fintech, and travel businesses. Beyond core processing, the platform includes payouts, fraud and identity tools, a customizable checkout UI (Flow), and card issuing. In 2025, Checkout.com reported net revenue growth above 30% for a second consecutive year, processing over $300 billion in volume (up 64% year-over-year) and returning to full-year EBITDA profitability.",
+  "meta": {
+    "product": "Checkout.com",
+    "category": "payment_processing",
+    "platform": [
+      "cloud",
+      "API"
+    ],
+    "target": "enterprise merchants only, $1B+/year processors (e-commerce, gaming, fintech, travel)",
+    "pricing_model": "custom enterprise quote, interchange++",
+    "source": "sacra.com + research.contrary.com",
+    "collected_date": "2026-06-20"
+  }
+}

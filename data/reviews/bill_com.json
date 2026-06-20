@@ -1,0 +1,17 @@
+{
+  "source_type": "seed_review",
+  "ext_id": "seed_review_bill_com",
+  "title": "BILL - Sync errors with accounting systems and surprise fees",
+  "clean_text": "Several customers report chronic sync errors integrating BILL with accounting platforms like QuickBooks Online, Sage Intacct, and NetSuite, with one reviewer describing corrupted historical client data in QuickBooks as a \"horrible experience.\" Customer support is described as \"hit or miss.\" One G2 reviewer reported an unauthorized $50 instant-payment fee being collected, and noted BILL charges for expedited service without guaranteeing delivery time. International payment capabilities are also described as limited compared to dedicated cross-border providers, and customizing automatic notifications has reportedly been glitchy.",
+  "meta": {
+    "product": "BILL (Bill.com)",
+    "sentiment": "negative",
+    "issue_type": [
+      "Implementation_Complexity",
+      "Pricing_Complexity",
+      "Feature_Limitation"
+    ],
+    "source": "g2.com + stampli.com",
+    "collected_date": "2026-06-20"
+  }
+}

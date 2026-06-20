@@ -1,0 +1,17 @@
+{
+  "source_type": "seed_pricing",
+  "ext_id": "seed_pricing_intuit_quickbooks",
+  "title": "QuickBooks Online pricing - $20-$275/month across five tiers, plus mandatory payroll add-ons",
+  "clean_text": "QuickBooks Online's 2026 tiers are Solopreneur ($20/month), Simple Start ($38/month, 1 user), Essentials ($75/month, 3 users), Plus ($115/month, up to 25 users), and Advanced ($275/month, 25 users plus extra features). All plans currently offer 50% off for the first three months before reverting to full price. Payroll add-ons (mandatory for businesses with employees) cost $50/month plus $6.50/employee, pushing real costs well above the listed price for most businesses. Intuit raised prices roughly 15-20% in July 2025, and QuickBooks Desktop Pro Plus/Mac Plus annual pricing rises from $999 to $1,149 (single-user) starting February 1, 2026.",
+  "meta": {
+    "product": "Intuit QuickBooks",
+    "pricing_model": "tiered subscription, flat monthly",
+    "min_price_usd": 20,
+    "max_price_usd": 275,
+    "pricing_unit": "usd_per_month",
+    "payroll_addon_usd": "50 + 6.50/employee",
+    "publicly_disclosed": true,
+    "source": "fitsmallbusiness.com + nerdwallet.com",
+    "collected_date": "2026-06-20"
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "source_type": "seed_review",
+  "ext_id": "seed_review_taulia",
+  "title": "Taulia - Occasional invoice-processing delays and a hard-to-sell-internally pitch",
+  "clean_text": "Overall sentiment toward Taulia is largely positive, with users praising its interface and SAP integration, but some G2 reviewers report occasional delays in invoice processing, described as exceptions rather than the norm. A more structural challenge reviewers cite is internal buy-in: standing alone, Taulia is seen as not doing enough compared to more comprehensive finance platforms, and pitching it internally requires first educating stakeholders on supply-chain-finance vocabulary and concepts before they understand its value.",
+  "meta": {
+    "product": "SAP Taulia",
+    "sentiment": "negative",
+    "issue_type": [
+      "Performance",
+      "Implementation_Complexity"
+    ],
+    "source": "g2.com",
+    "collected_date": "2026-06-20"
+  }
+}

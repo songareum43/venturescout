@@ -1,0 +1,18 @@
+{
+  "source_type": "seed_competitor",
+  "ext_id": "seed_competitor_plaid",
+  "title": "Plaid - Open banking API connecting financial apps to 12,000+ institutions",
+  "clean_text": "Plaid is a fintech infrastructure platform that connects financial apps to banks through secure APIs, providing account linking (Plaid Link), authentication, and permissions management at scale. Its network connects over 12,000 financial institutions with more than 7,000 apps. Customers authenticate at their bank via OAuth or credentials, and the connecting app receives scoped read access to balances, transactions, and account details without ever seeing the underlying password. Plaid serves neobanks, lending platforms, payroll and gig-economy apps, marketplaces, budgeting apps (e.g., YNAB, PocketGuard), and investment apps that need real-time access to consumer-permissioned financial data.",
+  "meta": {
+    "product": "Plaid",
+    "category": "open_banking_api",
+    "platform": [
+      "cloud",
+      "API"
+    ],
+    "target": "fintech apps: neobanks, lending, payroll/gig-economy, budgeting, investment",
+    "pricing_model": "usage-based, per API call",
+    "source": "plaid.com + fintegrationfs.com",
+    "collected_date": "2026-06-20"
+  }
+}

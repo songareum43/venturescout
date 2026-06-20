@@ -1,0 +1,19 @@
+{
+  "source_type": "seed_competitor",
+  "ext_id": "seed_competitor_intuit_quickbooks",
+  "title": "Intuit QuickBooks - Small business accounting with an expanding B2B payments network",
+  "clean_text": "Intuit's QuickBooks targets small and mid-market businesses in the US with accounting, invoicing, and bill management, and has expanded into B2B payments through the QuickBooks Business Network, aiming to automate B2B payments given that roughly 70% of B2B payments in the US are still paper- or check-based and 52% of B2B small businesses report being paid late. QuickBooks Online customers in the network can connect directly with each other to accelerate payments, and their customers can pay invoices via Apple Pay, Google Pay, Venmo, or traditional methods with same-day settlement. Intuit overall (QuickBooks, TurboTax, Credit Karma, Mailchimp) serves more than 100 million customers worldwide.",
+  "meta": {
+    "product": "Intuit QuickBooks",
+    "category": "accounting_software",
+    "platform": [
+      "cloud",
+      "web",
+      "mobile"
+    ],
+    "target": "small and mid-market businesses in the US",
+    "pricing_model": "tiered subscription, flat monthly",
+    "source": "investors.intuit.com + quickbooks.intuit.com",
+    "collected_date": "2026-06-20"
+  }
+}

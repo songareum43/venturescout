@@ -1,0 +1,16 @@
+{
+  "source_type": "seed_pricing",
+  "ext_id": "seed_pricing_finastra",
+  "title": "Finastra pricing - Mostly custom quote; one product starts at $500,000 flat",
+  "clean_text": "Finastra does not publish pricing for most of its portfolio; institutions must contact Finastra directly, with terms customized to institution size and scope. The one published data point found is for the Essence core banking product, listed with a starting price of $500,000 as a one-time flat rate. Broader Universal Banking deployments are described industry-wide as multi-year engagements that can cost millions to hundreds of millions of dollars depending on institution size, scope, and deployment approach -- this figure reflects the general core-banking-system-replacement category rather than a Finastra-specific published rate.",
+  "meta": {
+    "product": "Finastra Universal Banking / Essence",
+    "pricing_model": "custom enterprise quote",
+    "min_price_usd": 500000,
+    "max_price_usd": 500000,
+    "pricing_unit": "usd_one_time_starting_price_essence_product_only",
+    "publicly_disclosed": false,
+    "source": "capterra.com (Finastra Essence listing) + wau.com (industry core-conversion cost context)",
+    "collected_date": "2026-06-20"
+  }
+}

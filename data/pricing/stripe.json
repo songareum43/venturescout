@@ -1,0 +1,19 @@
+{
+  "source_type": "seed_pricing",
+  "ext_id": "seed_pricing_stripe",
+  "title": "Stripe pricing - 0.8%-4.9% + flat fee per transaction, no monthly fee",
+  "clean_text": "Stripe charges no monthly fee, setup cost, or minimum: US card transactions are 2.9% + $0.30 online, 2.7% + $0.05 in-person, 3.4% + $0.30 for keyed-in transactions, ACH is 0.8% capped at $5, and disputes cost $15 each. International cards add 1 percentage point and currency conversion adds another 1 percentage point, so international transactions can reach roughly 4.9% + $0.30. Add-on products such as Billing (+0.7%) and Invoicing (+0.4-0.5%) stack on top. Venture-backed startups can get fee credits via the Stripe Startups Program; businesses processing $5M+ annually can negotiate custom Enterprise pricing.",
+  "meta": {
+    "product": "Stripe",
+    "pricing_model": "usage-based, per-transaction",
+    "min_price_usd": 0.8,
+    "max_price_usd": 4.9,
+    "pricing_unit": "percent_per_transaction (plus flat fee where applicable)",
+    "base_rate_pct": 2.9,
+    "base_fixed_fee_usd": 0.30,
+    "dispute_fee_usd": 15,
+    "publicly_disclosed": true,
+    "source": "paymentcloudinc.com + dodopayments.com",
+    "collected_date": "2026-06-20"
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "source_type": "seed_pricing",
+  "ext_id": "seed_pricing_taulia",
+  "title": "Taulia pricing - Not publicly listed, third-party estimate of $100-$500",
+  "clean_text": "Taulia does not publicly list pricing tiers; cost varies by customer needs and contract terms, requiring direct contact for a custom quote. One third-party aggregator (SelectHub) estimates pricing starting in the $100-$500 range, though this figure seems low relative to Taulia's positioning as an enterprise-scale, SAP-integrated supply chain finance platform and should be treated as a low-confidence estimate rather than a reliable rate. A free trial is reportedly available before committing to a paid plan.",
+  "meta": {
+    "product": "SAP Taulia",
+    "pricing_model": "custom enterprise quote",
+    "min_price_usd": 100,
+    "max_price_usd": 500,
+    "pricing_unit": "usd_third_party_estimate_unclear_basis",
+    "publicly_disclosed": false,
+    "estimate_confidence": "low - single aggregator source, inconsistent with enterprise positioning",
+    "source": "selecthub.com",
+    "collected_date": "2026-06-20"
+  }
+}

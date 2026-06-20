@@ -1,0 +1,18 @@
+{
+  "source_type": "seed_pricing",
+  "ext_id": "seed_pricing_visa",
+  "title": "Visa pricing - 1-3% interchange plus non-negotiable 0.13-0.14% assessment fee",
+  "clean_text": "Merchants pay Visa interchange (reimbursement) fees set by published rate tables, typically equal to roughly 1-3% of the transaction amount depending on merchant risk level, transaction value, card-present vs. card-not-present status, and merchant category code (MCC). A separate, non-negotiable assessment fee of approximately 0.13-0.14% goes directly to Visa for network infrastructure and applies to all merchants regardless of processor. As of January 2026, Visa added a 100-basis-point (1.00%) Legacy Surcharge to Level 2 rates for small business credit products, and tightened eligibility for CEDP rates starting October 17, 2025.",
+  "meta": {
+    "product": "Visa Commercial Solutions",
+    "pricing_model": "interchange fee based (merchant-paid, network-set)",
+    "min_price_usd": 1,
+    "max_price_usd": 3,
+    "pricing_unit": "percent_interchange_per_transaction",
+    "assessment_fee_pct": "0.13-0.14",
+    "legacy_surcharge_2026_pct": 1.00,
+    "publicly_disclosed": true,
+    "source": "staxpayments.com + merchantcostconsulting.com",
+    "collected_date": "2026-06-20"
+  }
+}

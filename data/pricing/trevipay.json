@@ -1,0 +1,16 @@
+{
+  "source_type": "seed_pricing",
+  "ext_id": "seed_pricing_trevipay",
+  "title": "TreviPay pricing - Starts around $200/month plus usage-based and financing fees",
+  "clean_text": "TreviPay pricing varies by program and is not fully published. Third-party aggregator listings indicate pricing starts from roughly $200 per month with usage-based options, including per-invoice fees and financing fees that scale with transaction volume. No detailed tier breakdown is publicly available; full pricing requires contacting TreviPay directly and negotiating based on program type (Private Network, TreviPay Network, or Small Business Supplier Network) and transaction volume.",
+  "meta": {
+    "product": "TreviPay",
+    "pricing_model": "usage-based, per-invoice plus financing fees",
+    "min_price_usd": 200,
+    "max_price_usd": 200,
+    "pricing_unit": "usd_per_month_starting_price_only",
+    "publicly_disclosed": false,
+    "source": "g2.com (TreviPay pricing listing)",
+    "collected_date": "2026-06-20"
+  }
+}

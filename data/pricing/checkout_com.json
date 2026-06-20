@@ -1,0 +1,16 @@
+{
+  "source_type": "seed_pricing",
+  "ext_id": "seed_pricing_checkout_com",
+  "title": "Checkout.com pricing - Not publicly listed; interchange++ negotiated per merchant",
+  "clean_text": "Checkout.com does not display flat-rate pricing publicly the way Stripe or PayPal do; pricing is agreed during onboarding based on the merchant's business profile. Offerings include fully flat-rate plans, free processing for registered charities, and interchange++ pricing (card network interchange fees plus card network scheme fees plus a negotiated margin) -- all require contacting sales for an exact quote. Independent reviewers note at least five documented categories of additional/hidden cost (implementation, training, and add-on fees) that can raise total cost of ownership beyond the negotiated headline rate. No specific numeric rate range is publicly available, so no figure is given here rather than estimating one.",
+  "meta": {
+    "product": "Checkout.com",
+    "pricing_model": "custom enterprise quote, interchange++",
+    "min_price_usd": null,
+    "max_price_usd": null,
+    "pricing_unit": "interchange_plus_plus_negotiated_no_published_range",
+    "publicly_disclosed": false,
+    "source": "trustradius.com + chosepayments.com",
+    "collected_date": "2026-06-20"
+  }
+}

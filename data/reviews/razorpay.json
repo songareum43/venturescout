@@ -1,0 +1,17 @@
+{
+  "source_type": "seed_review",
+  "ext_id": "seed_review_razorpay",
+  "title": "Razorpay - Slow refunds and unclear ancillary fees frustrate some merchants",
+  "clean_text": "Reviewers report that Razorpay's refund system is slow, often taking more than 7 days to process. One of the most frequent complaints involves unexpected charges related to forex markups, chargebacks, or third-party integrations -- despite detailed published pricing tiers, some users find ancillary costs hard to understand upfront. The international payment approval process is described as very strict, often resulting in rejections even for merchants who can already receive international payments through other platforms like PayPal, and some users note customer support response times can be slow for unresolved disputes.",
+  "meta": {
+    "product": "Razorpay",
+    "sentiment": "negative",
+    "issue_type": [
+      "Performance",
+      "Pricing_Complexity",
+      "Feature_Limitation"
+    ],
+    "source": "g2.com + thefinrate.com",
+    "collected_date": "2026-06-20"
+  }
+}

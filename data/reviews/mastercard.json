@@ -1,0 +1,17 @@
+{
+  "source_type": "seed_review",
+  "ext_id": "seed_review_mastercard",
+  "title": "Mastercard - Growing fee list and a contested antitrust settlement with merchants",
+  "clean_text": "A late-2025 settlement would cap Visa and Mastercard credit interchange fees into 2030, trimming rates by 10 basis points for five years and setting a 1.25% rate for standard consumer cards for eight years, but merchant groups including the National Restaurant Association, Walmart, and Hugo Boss Group have objected, arguing the deal still gives the networks too much legal immunity and effectively forbids most merchants from challenging interchange fees as antitrust violations in the future. Separately, three New York merchants filed a new class-action lawsuit challenging the settlement's immunity provisions. Merchants also cite a steadily growing list of network fees (authorization, digital enablement, fallback avoidance, force-post, specialty merchant registration) as adding unpredictable cost on top of base interchange.",
+  "meta": {
+    "product": "Mastercard Commercial Direct Payments",
+    "sentiment": "negative",
+    "issue_type": [
+      "Pricing_Complexity",
+      "Contract_Terms",
+      "Price"
+    ],
+    "source": "paymentsdive.com + nbcnews.com",
+    "collected_date": "2026-06-20"
+  }
+}

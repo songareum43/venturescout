@@ -1,0 +1,19 @@
+{
+  "source_type": "seed_pricing",
+  "ext_id": "seed_pricing_square",
+  "title": "Square pricing - Free through $149/month per location, plus 2.4%-3.5% transaction fees",
+  "clean_text": "Square's plans are Free ($0), Plus ($49/month per location), Premium ($149/month per location, lowest transaction rates plus 24/7 phone support), and a custom-priced Pro tier for merchants processing over $250,000/year. Transaction fees vary by method: in-person payments run 2.4%-2.6% (Premium getting the lowest rate of 2.4% + $0.15), online payments 2.9%-3.3% + $0.30, and manually-keyed or card-on-file transactions 3.5% + $0.15. Effective January 13, 2026, Square raised in-person Free-plan fees from 2.6% + 10 cents to 2.6% + 15 cents.",
+  "meta": {
+    "product": "Square (Block)",
+    "pricing_model": "tiered subscription plus usage-based transaction fees",
+    "min_price_usd": 0,
+    "max_price_usd": 149,
+    "pricing_unit": "usd_per_month_per_location",
+    "in_person_fee_pct": "2.4-2.6",
+    "online_fee_pct": "2.9-3.3",
+    "keyed_fee_pct": 3.5,
+    "publicly_disclosed": true,
+    "source": "koronapos.com + nerdwallet.com",
+    "collected_date": "2026-06-20"
+  }
+}

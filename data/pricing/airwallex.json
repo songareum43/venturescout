@@ -1,0 +1,20 @@
+{
+  "source_type": "seed_pricing",
+  "ext_id": "seed_pricing_airwallex",
+  "title": "Airwallex pricing - $0-$999+/month tiers plus per-transaction and FX fees",
+  "clean_text": "Airwallex introduced a three-tier US pricing structure in November 2025: Explore (free if depositing $5,000+/month or holding a $10,000 balance, otherwise $29/month), Grow ($99/month), and Accelerate (from $999/month). On top of the subscription, domestic card transactions cost 1.65% + $0.30, international cards cost 3.40% + $0.30, and currency conversion carries a 0.5% markup over the interbank rate for major currencies (1.0% for others). Receiving money is free in most currencies and local transfers to 120+ countries are free, but a 0.3% fee on transfers received from non-owner accounts is not listed on the public pricing page.",
+  "meta": {
+    "product": "Airwallex",
+    "pricing_model": "tiered subscription plus usage-based transaction fees",
+    "min_price_usd": 0,
+    "max_price_usd": 999,
+    "pricing_unit": "usd_per_month_subscription_tier",
+    "domestic_card_fee": "1.65% + $0.30",
+    "international_card_fee": "3.40% + $0.30",
+    "fx_markup_pct": "0.5-1.0",
+    "undisclosed_fee_pct": 0.3,
+    "publicly_disclosed": true,
+    "source": "wearefounders.uk + transferfees.io",
+    "collected_date": "2026-06-20"
+  }
+}

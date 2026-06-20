@@ -1,0 +1,17 @@
+{
+  "source_type": "seed_review",
+  "ext_id": "seed_review_square",
+  "title": "Square - Accounts can be frozen or deactivated with little explanation",
+  "clean_text": "G2 reviewers describe Square as lacking account stability, reporting that the vendor may freeze an account for no precise reason, disrupting business cash flow. NPR reporting on Square customer complaints found that once an account is deactivated, merchants often cannot reach anyone at Square by phone, and searches for \"Square account deactivation\" surface many stories of merchants losing access without a clear explanation. Users also cite high fees relative to traditional point-of-sale systems for physical businesses, along with invoicing problems and slow customer support around unexpected transaction fees.",
+  "meta": {
+    "product": "Square (Block)",
+    "sentiment": "negative",
+    "issue_type": [
+      "Product_Stability",
+      "Price",
+      "Contract_Terms"
+    ],
+    "source": "g2.com + npr.org",
+    "collected_date": "2026-06-20"
+  }
+}

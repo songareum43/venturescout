@@ -1,0 +1,16 @@
+{
+  "source_type": "seed_review",
+  "ext_id": "seed_review_finastra",
+  "title": "Finastra - Core banking replacements are multi-year, high-cost undertakings",
+  "clean_text": "Industry guides covering Finastra and core banking system replacements broadly note that full core conversions can take several years and cost millions, and in some cases hundreds of millions, of dollars depending on institution size, complexity, and deployment scope. This makes Finastra's Universal Banking and core replacement projects a major, multi-year financial and operational commitment for adopting institutions rather than a quick software swap, a category-wide challenge for legacy core banking modernization that applies to Finastra's offerings.",
+  "meta": {
+    "product": "Finastra Universal Banking / Essence",
+    "sentiment": "negative",
+    "issue_type": [
+      "Implementation_Complexity",
+      "Price"
+    ],
+    "source": "wau.com + kansascityfed.org",
+    "collected_date": "2026-06-20"
+  }
+}
