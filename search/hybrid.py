@@ -25,17 +25,16 @@ from pipeline.persistence import create_ip_overlap_candidates
 class HybridSearcher:
     def __init__(self):
         self.embedder = PatentEmbedder()
-        self._conn: psycopg2.extensions.connection | None = None
 
-    @property
-    def conn(self):
-        if self._conn is None or self._conn.closed:
-            self._conn = psycopg2.connect(
-                config.db_dsn,
-                connect_timeout=config.db_connect_timeout,
-            )
-            register_vector(self._conn)
-        return self._conn
+    def _new_conn(self):
+        # RDS가 외부에서 끊은 경우 self._conn.closed가 False로 남아
+        # "SSL SYSCALL error: EOF detected"가 발생하므로 매 쿼리마다 새 연결을 사용한다.
+        conn = psycopg2.connect(
+            config.db_dsn,
+            connect_timeout=config.db_connect_timeout,
+        )
+        register_vector(conn)
+        return conn
 
     @staticmethod
     def _candidate_pool(top_k: int) -> int:
@@ -136,9 +135,13 @@ class HybridSearcher:
             LIMIT %(top_k)s
         """
 
-        with self.conn.cursor(cursor_factory=psycopg2.extras.DictCursor) as cur:
-            cur.execute(sql, params)
-            return [dict(r) for r in cur.fetchall()]
+        conn = self._new_conn()
+        try:
+            with conn.cursor(cursor_factory=psycopg2.extras.DictCursor) as cur:
+                cur.execute(sql, params)
+                return [dict(r) for r in cur.fetchall()]
+        finally:
+            conn.close()
 
     def find_ip_overlap_candidates(
         self,
@@ -168,13 +171,18 @@ class HybridSearcher:
         if not candidates:
             return []
 
-        return create_ip_overlap_candidates(
-            self.conn,
-            job_id=job_id,
-            hypothesis_id=hypothesis_id,
-            plan_technical_element=plan_technical_element,
-            candidates=candidates,
-        )
+        conn = self._new_conn()
+        try:
+            result = create_ip_overlap_candidates(
+                conn,
+                job_id=job_id,
+                hypothesis_id=hypothesis_id,
+                plan_technical_element=plan_technical_element,
+                candidates=candidates,
+            )
+        finally:
+            conn.close()
+        return result
 
     def search_documents(
         self,
@@ -256,6 +264,10 @@ class HybridSearcher:
             LIMIT %(top_k)s
         """
 
-        with self.conn.cursor(cursor_factory=psycopg2.extras.DictCursor) as cur:
-            cur.execute(sql, params)
-            return [dict(r) for r in cur.fetchall()]
+        conn = self._new_conn()
+        try:
+            with conn.cursor(cursor_factory=psycopg2.extras.DictCursor) as cur:
+                cur.execute(sql, params)
+                return [dict(r) for r in cur.fetchall()]
+        finally:
+            conn.close()
