@@ -114,6 +114,21 @@ def _normalize_confidence(value: Any, default: Confidence = "low") -> Confidence
     return _CONFIDENCE_ALIASES.get(str(value).strip().lower(), default)  # type: ignore[return-value]
 
 
+def _to_str_list(value: Any) -> list[str]:
+    """LLM이 list[str] 대신 list[dict]를 반환할 때 문자열 리스트로 정규화한다."""
+    if not isinstance(value, list):
+        return []
+    result = []
+    for item in value:
+        if isinstance(item, str):
+            result.append(item)
+        elif isinstance(item, dict):
+            result.append(" ".join(str(v) for v in item.values() if v))
+        else:
+            result.append(str(item))
+    return result
+
+
 def _validate_structured_idea(idea: IdeaRecord, hypotheses: list[Hypothesis]) -> dict[str, Any]:
     # Structuring 결과가 뒤쪽 agent들이 분석할 만큼 충분한지 확인한다.
     # 여기서 실패하면 downstream agent가 빈 고객/문제/기술요소를 보고 엉뚱한 분석을 할 수 있다.
@@ -243,12 +258,13 @@ def _structured_idea_payload(
         '    "patent_keywords": ["..."]\n'
         "  },\n"
         '  "hypotheses": [\n'
-        '    {"hypothesis_id":"H1","code":"H1","axis":"customer_problem","statement":"...","confidence":"low","next_validation":"..."},\n'
-        '    {"hypothesis_id":"H2","code":"H2","axis":"competition","statement":"...","confidence":"low","next_validation":"..."},\n'
-        '    {"hypothesis_id":"H3","code":"H3","axis":"business_model","statement":"...","confidence":"low","next_validation":"..."},\n'
-        '    {"hypothesis_id":"H4","code":"H4","axis":"technology","statement":"...","confidence":"low","next_validation":"..."},\n'
-        '    {"hypothesis_id":"H5","code":"H5","axis":"ip","statement":"...","confidence":"low","next_validation":"..."}\n'
+        '    {"hypothesis_id":"H1","code":"H1","axis":"customer_problem","statement":"<ENGLISH: one-sentence testable hypothesis>","confidence":"low","next_validation":"..."},\n'
+        '    {"hypothesis_id":"H2","code":"H2","axis":"competition","statement":"<ENGLISH: one-sentence testable hypothesis>","confidence":"low","next_validation":"..."},\n'
+        '    {"hypothesis_id":"H3","code":"H3","axis":"business_model","statement":"<ENGLISH: one-sentence testable hypothesis>","confidence":"low","next_validation":"..."},\n'
+        '    {"hypothesis_id":"H4","code":"H4","axis":"technology","statement":"<ENGLISH: one-sentence testable hypothesis>","confidence":"low","next_validation":"..."},\n'
+        '    {"hypothesis_id":"H5","code":"H5","axis":"ip","statement":"<ENGLISH: one-sentence testable hypothesis>","confidence":"low","next_validation":"..."}\n'
         "  ]\n"
+        "중요: hypotheses[].statement 는 반드시 영어로 작성한다. 이 값이 영문 문서 검색 쿼리로 사용된다.\n"
         "}\n\n"
         f"job_id={job_id}\nidea_id={idea_id}\nraw_input:\n{raw_input}"
     )
@@ -1062,9 +1078,9 @@ def critic_node(state: VentureScoutState) -> dict:
         confidence=confidence,
         summary=str(critic_output_json["summary"]),
         grounded_on=grounded_on,
-        objections=list(critic_output_json["objections"]),
-        missing_evidence=list(critic_output_json["missing_evidence"]),
-        next_experiments=list(critic_output_json["next_experiments"]),
+        objections=_to_str_list(critic_output_json["objections"]),
+        missing_evidence=_to_str_list(critic_output_json["missing_evidence"]),
+        next_experiments=_to_str_list(critic_output_json["next_experiments"]),
     )
     critic_output_json.update(critic.model_dump())
     critic_output_json["scorecard"] = scorecard

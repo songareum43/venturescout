@@ -3,12 +3,14 @@
 from __future__ import annotations
 
 import os
+import threading
 import uuid
 
 from shared.contracts import EvidenceItem, IPOverlapCandidate
 
-_searcher = None
-_reranker = None
+# psycopg2 연결은 스레드 안전하지 않으므로 스레드마다 별도 인스턴스를 유지한다.
+# 5개 에이전트가 병렬 스레드로 실행될 때 같은 연결을 공유하면 SSL 에러가 발생한다.
+_local = threading.local()
 
 
 def _require_live_retrieval() -> None:
@@ -21,14 +23,13 @@ def _require_live_retrieval() -> None:
 
 def _get_engines():
     _require_live_retrieval()
-    global _searcher, _reranker
-    if _searcher is None:
+    if not hasattr(_local, "searcher"):
         from search.hybrid import HybridSearcher
         from search.reranker import ReRanker
 
-        _searcher = HybridSearcher()
-        _reranker = ReRanker()
-    return _searcher, _reranker
+        _local.searcher = HybridSearcher()
+        _local.reranker = ReRanker()
+    return _local.searcher, _local.reranker
 
 
 def retrieve(
