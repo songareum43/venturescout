@@ -1,0 +1,17 @@
+{
+  "source_type": "seed_review",
+  "ext_id": "seed_review_deel",
+  "title": "Deel - Payment delays, unclear fees, and contractor misclassification allegations",
+  "clean_text": "Users report payment delays and unhelpful customer support when payroll issues arise, alongside concerns over high and sometimes unclear fees for transfers and currency conversion that some describe as unjustifiable and burdensome. Some features are described as limited or inflexible for certain use cases despite Deel's strong overall G2 rating (4.8/5 across nearly 14,000 reviews). Separately, Deel has faced allegations -- including from a California State Senator -- that it misclassifies contractors as employees to avoid payroll tax obligations; Deel denies all allegations of improper conduct, and no adverse regulatory or legal findings have been made against the company to date.",
+  "meta": {
+    "product": "Deel",
+    "sentiment": "negative",
+    "issue_type": [
+      "Performance",
+      "Pricing_Complexity",
+      "Contract_Terms"
+    ],
+    "source": "g2.com",
+    "collected_date": "2026-06-20"
+  }
+}

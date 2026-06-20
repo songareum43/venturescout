@@ -1,0 +1,19 @@
+{
+  "source_type": "seed_competitor",
+  "ext_id": "seed_competitor_hibob",
+  "title": "HiBob (Bob) - Modern, consumer-app-style HR platform for mid-sized companies",
+  "clean_text": "HiBob's Bob platform consolidates core HR and digital admin into a single system, with optional modules for performance, engagement, onboarding, compensation, time-off, and recruiting. It targets mid-sized companies of roughly 50-1,000 employees that want modern, intuitive HR tools without the complexity of enterprise systems like Workday or SAP SuccessFactors, particularly fast-growing SMBs prioritizing employee engagement. Bob's design centers on employee experience with features like \"Shoutouts\" peer recognition, employee clubs, and sentiment surveys, and is frequently described as feeling more like a consumer app than enterprise software, with employees voluntarily logging in.",
+  "meta": {
+    "product": "HiBob (Bob)",
+    "category": "core_hr_hris",
+    "platform": [
+      "cloud",
+      "web",
+      "mobile"
+    ],
+    "target": "mid-sized companies, 50-1,000 employees, fast-growing SMBs",
+    "pricing_model": "tiered subscription, per-employee per-month",
+    "source": "hibob.com + research.com",
+    "collected_date": "2026-06-20"
+  }
+}

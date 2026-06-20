@@ -1,0 +1,17 @@
+{
+  "source_type": "seed_review",
+  "ext_id": "seed_review_personio",
+  "title": "Personio - Rigid reporting and opaque pricing that scales with apps and headcount",
+  "clean_text": "Users report that existing reports cannot be copied and filters are limited, with limited customization options affecting flexibility for specific organizational needs; some workflows are described as rigid, requiring admin-level steps even for small configuration changes. Users also express frustration over a lack of essential features around employee performance and feedback management. Pricing transparency is a recurring complaint: Personio's pricing is not public, requires contacting sales, and scales with both employee count and selected apps, making early-stage cost comparison against competitors harder.",
+  "meta": {
+    "product": "Personio",
+    "sentiment": "negative",
+    "issue_type": [
+      "Feature_Limitation",
+      "Feature_Missing",
+      "Pricing_Complexity"
+    ],
+    "source": "g2.com",
+    "collected_date": "2026-06-20"
+  }
+}

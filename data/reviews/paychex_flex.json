@@ -1,0 +1,17 @@
+{
+  "source_type": "seed_review",
+  "ext_id": "seed_review_paychex_flex",
+  "title": "Paychex Flex - Tax filing errors and hidden fees drive a 1.1/5 Trustpilot rating",
+  "clean_text": "While Paychex scores a respectable 4.2/5 on G2 from business decision-makers, end-user reviews on Trustpilot give it just 1.1/5. Customers report service errors including mistakes on federal tax filings, miscalculations of final pay for departing employees, and failure to deposit taxes on time. Customer support failures appear in 60-75% of negative reviews, with complaints describing responses that take a long time and frequent turnover of assigned payroll representatives, sometimes changing every other month. Hidden fees are reported to routinely exceed initial quotes by 100% or more, and the benefits module (Flock) reportedly does not communicate properly with the FSA/HSA module when employees transition between health plans.",
+  "meta": {
+    "product": "Paychex Flex",
+    "sentiment": "negative",
+    "issue_type": [
+      "Product_Stability",
+      "Pricing_Complexity",
+      "Contract_Terms"
+    ],
+    "source": "trustpilot.com + g2.com",
+    "collected_date": "2026-06-20"
+  }
+}

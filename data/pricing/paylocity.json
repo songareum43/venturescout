@@ -1,0 +1,17 @@
+{
+  "source_type": "seed_pricing",
+  "ext_id": "seed_pricing_paylocity",
+  "title": "Paylocity pricing - $20-$40 per employee/month across three tiers",
+  "clean_text": "Paylocity does not publish list pricing; as of May 2026, third-party buyer reports cite three tiers: Core at $20/employee/month (core payroll, tax calculations, payment issuance), Professional at $30/employee/month (adds direct deposit, time tracking, basic benefits administration), and Enterprise at $40/employee/month (advanced benefits, learning management, talent management, compliance tools). Other industry estimates put the range at $22-$32 PEPM, or $26-$33 PEPM for the full HCM suite. Based on 13 verified purchases, the median annual contract is $42,240, with at least 6 documented hidden costs (implementation, training, add-ons) beyond the listed per-employee rate.",
+  "meta": {
+    "product": "Paylocity",
+    "pricing_model": "tiered subscription, per-employee per-month",
+    "min_price_usd": 20,
+    "max_price_usd": 40,
+    "pricing_unit": "usd_per_employee_per_month",
+    "median_annual_contract_usd": 42240,
+    "publicly_disclosed": false,
+    "source": "costbench.com + outsail.co",
+    "collected_date": "2026-06-20"
+  }
+}

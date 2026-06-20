@@ -1,0 +1,17 @@
+{
+  "source_type": "seed_pricing",
+  "ext_id": "seed_pricing_personio",
+  "title": "Personio pricing - $5-$20/employee/month across Essential, Professional, Enterprise",
+  "clean_text": "Personio does not publish list pricing; quotes depend on employee count, modules, contract length, and country requirements. Reported figures put pricing in the $5-$15/user/month range across three tiers -- Essential (10-100 employees, core HR), Professional (100-500 employees, adds automation), and Enterprise (500-2,000 employees, complex multi-country HR) -- with other sources citing roughly EUR5-8/employee/month for core HRIS and EUR12-20/employee/month for the broader suite. Implementation costs range from $1,000-$5,000, and add-ons like advanced analytics or third-party integrations can add $50-$500+/month.",
+  "meta": {
+    "product": "Personio",
+    "pricing_model": "tiered subscription, per-employee per-month, custom quote",
+    "min_price_usd": 5,
+    "max_price_usd": 20,
+    "pricing_unit": "usd_per_employee_per_month_eur_equivalent",
+    "implementation_fee_usd": "1000-5000",
+    "publicly_disclosed": false,
+    "source": "costbench.com + treegarden.io",
+    "collected_date": "2026-06-20"
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "source_type": "seed_review",
+  "ext_id": "seed_review_bamboohr",
+  "title": "BambooHR - Missing workflow features and a clunky support experience",
+  "clean_text": "G2 reviewers note that custom report building sometimes takes more clicks than expected with limited export formatting options, and missing task-list and workflow features limit the platform's usefulness for some HR processes, with limited customization hindering certain specific needs. Onboarding is described as taking longer than expected since some setup steps were not immediately obvious, and AI-driven insight features feel basic relative to expectations. Trustpilot reviewers report inconsistent email-based notifications leading to missed communications, an ongoing struggle to reach customer service agents, and a website described as clunky and not easily navigable.",
+  "meta": {
+    "product": "BambooHR",
+    "sentiment": "negative",
+    "issue_type": [
+      "Feature_Limitation",
+      "Implementation_Complexity",
+      "Performance"
+    ],
+    "source": "g2.com + trustpilot.com",
+    "collected_date": "2026-06-20"
+  }
+}

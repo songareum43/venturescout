@@ -1,0 +1,17 @@
+{
+  "source_type": "seed_review",
+  "ext_id": "seed_review_ukg_pro",
+  "title": "UKG Pro - A 6-12 month implementation curve and premium pricing for smaller teams",
+  "clean_text": "Reviewers frequently cite a steep implementation curve of 6-12 months, with a challenging initial setup and a non-intuitive, somewhat outdated interface that becomes especially frustrating during updates. The payroll processing gateway can be confusing for organizations running multiple pay groups on the same pay schedule, and complex reporting tools require advanced knowledge to use well. The platform can feel slow when running larger reports or switching between modules. Premium pricing is described as not ideal for smaller businesses, and customer support responsiveness is reported to vary by region, making it harder to resolve issues efficiently in some markets.",
+  "meta": {
+    "product": "UKG Pro",
+    "sentiment": "negative",
+    "issue_type": [
+      "Implementation_Complexity",
+      "Performance",
+      "Price"
+    ],
+    "source": "g2.com + connecteam.com",
+    "collected_date": "2026-06-20"
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "source_type": "seed_competitor",
+  "ext_id": "seed_competitor_personio",
+  "title": "Personio - Europe's leading all-in-one HR platform for SMEs",
+  "clean_text": "Personio, founded in Munich in 2015, offers an all-in-one \"People Operating System\" integrating recruiting, onboarding, performance management, payroll, time tracking, and employee self-service for SMEs with 10-5,000 employees (operating sweet spot 50-2,000). It serves over 15,000 customers across more than 70 countries and 1 million daily users as of 2025, with Germany as its primary market and strong presence across the DACH region, UK, Ireland, Spain, France, Netherlands, Italy, and the Nordics. Personio's deep expertise in European labor regulations, GDPR compliance, and multi-country payroll positions it as a natural choice for organizations operating across multiple European jurisdictions.",
+  "meta": {
+    "product": "Personio",
+    "category": "core_hr_hris",
+    "platform": [
+      "cloud"
+    ],
+    "target": "European SMEs, 10-2,000 employees, primarily DACH and broader Europe",
+    "pricing_model": "tiered subscription, per-employee per-month, custom quote",
+    "source": "research.contrary.com + canvasbusinessmodel.com",
+    "collected_date": "2026-06-20"
+  }
+}

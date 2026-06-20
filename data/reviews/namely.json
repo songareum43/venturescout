@@ -1,0 +1,17 @@
+{
+  "source_type": "seed_review",
+  "ext_id": "seed_review_namely",
+  "title": "Namely - Missing ATS and pulse surveys, with product direction concerns post-acquisition",
+  "clean_text": "Reviewers note functional gaps that prevent Namely from being a true all-in-one solution, including no pulse surveys and no applicant tracking system (ATS); its payroll tool is better suited to less complex organizations and can struggle with complex time-and-attendance or multi-FEIN scenarios. Custom integrations are reportedly not easy to build given limited professional services resources, and support uses a pod-based model that has led to slow response times for some customers. Some reviewers raised concerns about product direction after Namely was acquired by a benefits brokerage, with one stating the technology \"definitely took a backseat\" afterward.",
+  "meta": {
+    "product": "Namely",
+    "sentiment": "negative",
+    "issue_type": [
+      "Feature_Missing",
+      "Feature_Limitation",
+      "Contract_Terms"
+    ],
+    "source": "g2.com + outsail.co",
+    "collected_date": "2026-06-20"
+  }
+}

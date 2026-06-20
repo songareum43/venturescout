@@ -1,0 +1,17 @@
+{
+  "source_type": "seed_competitor",
+  "ext_id": "seed_competitor_paycor",
+  "title": "Paycor - All-in-one HCM for 10-1,000 employee businesses, now owned by Paychex",
+  "clean_text": "Paycor, headquartered in Cincinnati and offering cloud-based payroll, HR, and timekeeping since 1990, serves more than 30,000 businesses with an all-in-one HCM platform covering payroll, time and attendance, talent management (applicant tracking, performance evaluation with 360-degree feedback), and benefits administration. It particularly targets businesses with 10-1,000 employees, with industry-specific tools for healthcare, manufacturing, professional services, and restaurants. Paychex completed a $4.1 billion acquisition of Paycor in April 2025, making the two previously separate competitors part of the same parent company.",
+  "meta": {
+    "product": "Paycor",
+    "category": "hcm_erp",
+    "platform": [
+      "cloud"
+    ],
+    "target": "businesses with 10-1,000 employees across multiple industry verticals",
+    "pricing_model": "tiered subscription, base plus per-employee (now custom quote only)",
+    "source": "paycor.com + technologyevaluation.com",
+    "collected_date": "2026-06-20"
+  }
+}

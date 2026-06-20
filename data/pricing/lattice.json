@@ -1,0 +1,18 @@
+{
+  "source_type": "seed_pricing",
+  "ext_id": "seed_pricing_lattice",
+  "title": "Lattice pricing - $10-$11/seat/month, $4,000/year minimum agreement",
+  "clean_text": "Lattice's two core plans are Talent Management at $11/seat/month (performance, with add-ons for engagement, compensation, and growth) and HRIS at $10/seat/month (complete HR management with payroll add-ons available), both billed annually on a per-seat basis. The Engagement add-on costs an additional $4/seat/month. A minimum annual agreement of $4,000 applies regardless of headcount, meaning a 10-person team pays $4,000/year -- well above what straight per-seat math would suggest.",
+  "meta": {
+    "product": "Lattice",
+    "pricing_model": "tiered subscription, per-seat per-month",
+    "min_price_usd": 10,
+    "max_price_usd": 11,
+    "pricing_unit": "usd_per_seat_per_month_annual_billing",
+    "engagement_addon_usd": 4,
+    "minimum_annual_agreement_usd": 4000,
+    "publicly_disclosed": true,
+    "source": "capterra.com + spendflo.com",
+    "collected_date": "2026-06-20"
+  }
+}

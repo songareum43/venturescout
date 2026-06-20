@@ -1,0 +1,19 @@
+{
+  "source_type": "seed_pricing",
+  "ext_id": "seed_pricing_gusto",
+  "title": "Gusto pricing - $35-$180 base/month plus $6-$22 per person",
+  "clean_text": "As of March 1, 2026, Gusto raised its Simple plan to $49/month base plus $6/person (up from $40 base). Plus starts at $80/month plus $12/person, and Premium starts at $180/month plus $22/person, with Premium adding a dedicated Customer Success Manager, certified HR expert access, and priority support. A Contractor Only plan (no W-2 employees) starts at $35/month plus $6/contractor. Several optional modules cost extra, adding $10-$30 per employee per month depending on plan level.",
+  "meta": {
+    "product": "Gusto",
+    "pricing_model": "tiered subscription, base fee plus per-person",
+    "min_price_usd": 35,
+    "max_price_usd": 180,
+    "pricing_unit": "usd_base_fee_per_month",
+    "simple_per_person_usd": 6,
+    "plus_per_person_usd": 12,
+    "premium_per_person_usd": 22,
+    "publicly_disclosed": true,
+    "source": "spotsaas.com + workstream.us",
+    "collected_date": "2026-06-20"
+  }
+}

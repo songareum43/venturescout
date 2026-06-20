@@ -1,0 +1,18 @@
+{
+  "source_type": "seed_competitor",
+  "ext_id": "seed_competitor_rippling",
+  "title": "Rippling - Unified HR, IT, and Finance workforce platform",
+  "clean_text": "Rippling unifies HR, IT, and Finance into a single platform, combining HRIS, global and domestic payroll, applicant tracking, benefits administration, expense management, corporate cards, device management, and identity access control so companies can manage payroll, benefits, devices, apps, and employee access from one dashboard. It is best suited to growing, tech-forward companies with 50-1,000 employees, particularly fast-growing remote or hybrid teams that want to eliminate data silos and automate actions across HR and IT systems -- one of the only platforms that connects HR data directly to IT management.",
+  "meta": {
+    "product": "Rippling",
+    "category": "hr_it_payroll_platform",
+    "platform": [
+      "cloud",
+      "web"
+    ],
+    "target": "growing tech-forward companies, 50-1,000 employees",
+    "pricing_model": "modular subscription, per-employee per-module plus base platform fee",
+    "source": "hr.com + research.com",
+    "collected_date": "2026-06-20"
+  }
+}

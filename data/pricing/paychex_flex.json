@@ -1,0 +1,17 @@
+{
+  "source_type": "seed_pricing",
+  "ext_id": "seed_pricing_paychex_flex",
+  "title": "Paychex Flex pricing - Last public rates $39-$47/month base plus $3-$5/employee",
+  "clean_text": "The last publicly available Paychex Flex pricing showed Essentials at $39/month base plus $5/employee/month (designed for businesses under 20 employees, including payroll, tax administration, and workforce/risk management), and both Select and Pro at $47/month base plus $3/employee/month, with Select adding a learning management system. Paychex has since taken pricing offline entirely; current customers must contact a sales representative for a custom quote based on employee count, payroll frequency, state tax complexity, and whether HR/benefits/PEO services are bundled in.",
+  "meta": {
+    "product": "Paychex Flex",
+    "pricing_model": "tiered subscription, base plus per-employee, custom quote",
+    "min_price_usd": 39,
+    "max_price_usd": 47,
+    "pricing_unit": "usd_base_fee_per_month_last_public",
+    "per_employee_addon_usd": "3-5",
+    "publicly_disclosed": false,
+    "source": "remotepeople.com + saasworthy.com",
+    "collected_date": "2026-06-20"
+  }
+}

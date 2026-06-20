@@ -1,0 +1,17 @@
+{
+  "source_type": "seed_review",
+  "ext_id": "seed_review_lattice",
+  "title": "Lattice - Confusing navigation and a $4,000 minimum that bites smaller teams",
+  "clean_text": "Users describe Lattice's interface as not very user-friendly, with confusing navigation particularly around the Goals tab and other complex processes. Functional limitations include promotion nominations being restricted to supervisors only, and review forms cannot be edited from mandatory to optional once set, which reviewers find inconvenient; report structures can also feel overwhelming. The platform is described as pricey for smaller operations -- compounded by the $4,000/year minimum agreement -- making it a better fit for mid-sized and large organizations, and the selection of third-party integrations is described as limited, with some users finding their existing HRIS isn't covered.",
+  "meta": {
+    "product": "Lattice",
+    "sentiment": "negative",
+    "issue_type": [
+      "Implementation_Complexity",
+      "Feature_Limitation",
+      "Price"
+    ],
+    "source": "g2.com",
+    "collected_date": "2026-06-20"
+  }
+}

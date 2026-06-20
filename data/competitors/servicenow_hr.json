@@ -1,0 +1,17 @@
+{
+  "source_type": "seed_competitor",
+  "ext_id": "seed_competitor_servicenow_hr",
+  "title": "ServiceNow HR Service Delivery - Enterprise HR workflow automation on the Now Platform",
+  "clean_text": "ServiceNow HR Service Delivery (HRSD) automates HR services and workflows to transform employee experience, covering case and knowledge management, employee journeys (onboarding, life events), SLA management for HR service quality, and talent acquisition integration, with AI agents deployable across HR alongside IT, Customer Service, and Finance on the same Now Platform. It centralizes HR, IT, and workplace services into one experience personalized by role, location, and life event, targeting enterprises that want to free HR teams from repetitive administrative work to focus on strategic initiatives.",
+  "meta": {
+    "product": "ServiceNow HR Service Delivery",
+    "category": "hcm_erp",
+    "platform": [
+      "cloud"
+    ],
+    "target": "enterprises wanting centralized, automated HR workflows",
+    "pricing_model": "tiered subscription, per-employee per-year",
+    "source": "servicenow.com + stand8.io",
+    "collected_date": "2026-06-20"
+  }
+}

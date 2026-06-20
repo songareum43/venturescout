@@ -1,0 +1,19 @@
+{
+  "source_type": "seed_competitor",
+  "ext_id": "seed_competitor_paylocity",
+  "title": "Paylocity - Cloud HCM for mid-sized businesses with strong employee engagement tools",
+  "clean_text": "Paylocity is a unified cloud HCM platform bringing together HR, payroll, finance, and IT, with payroll automation, time and attendance, recruiting/onboarding, benefits administration, and expense management backed by reporting and mobile access. It primarily targets mid-sized businesses with 50-1,000 employees (best fit around 50-500) wanting a modern, flexible, all-in-one HCM experience with strong reporting. Paylocity differentiates on employee engagement, with its Community social collaboration hub and Modern Workforce Index benchmarking tool offering culture and performance scores, peer benchmarks, and tailored efficiency recommendations alongside surveys and peer recognition tools.",
+  "meta": {
+    "product": "Paylocity",
+    "category": "hcm_erp",
+    "platform": [
+      "cloud",
+      "web",
+      "mobile"
+    ],
+    "target": "mid-sized businesses, 50-1,000 employees",
+    "pricing_model": "tiered subscription, per-employee per-month",
+    "source": "paylocity.com + matrixbcg.com",
+    "collected_date": "2026-06-20"
+  }
+}

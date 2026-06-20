@@ -1,0 +1,17 @@
+{
+  "source_type": "seed_pricing",
+  "ext_id": "seed_pricing_paycor",
+  "title": "Paycor pricing - Previously $99-$199/month base + per-employee, now custom quote only",
+  "clean_text": "Historically, Paycor's tiers (per third-party buyer reports) were Basic at $99/month plus $6/employee/month, Essential at $159/month plus $9/employee/month, and Core (the most popular) at $199/month plus $12/employee/month. After pulling its public pricing page in 2025, Paycor now requires a custom quote for every deal. New customers commonly receive about 50% off for the first 6 months, with full pricing taking effect at month seven.",
+  "meta": {
+    "product": "Paycor",
+    "pricing_model": "tiered subscription, base plus per-employee (now custom quote only)",
+    "min_price_usd": 99,
+    "max_price_usd": 199,
+    "pricing_unit": "usd_base_fee_per_month_historical",
+    "per_employee_addon_usd": "6-12",
+    "publicly_disclosed": false,
+    "source": "pin.com + elearningindustry.com",
+    "collected_date": "2026-06-20"
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "source_type": "seed_competitor",
+  "ext_id": "seed_competitor_remote_com",
+  "title": "Remote - Global employment infrastructure with fully owned EOR entities",
+  "clean_text": "Remote (launched 2019) provides global payroll, Employer of Record (EOR), and contractor management infrastructure that other HR platforms also build on, with 100% owned legal entities across 90+ countries for EOR (no deposit required), contractor management support in 190+ countries, and payroll-only services in 40+ countries. It is API-first, offering REST API, webhooks, and CLI for embedding global employment into a company's own product. Remote is particularly useful for companies that want to test hiring in a new country via EOR before deciding whether to set up a local entity, and its fully owned infrastructure model is positioned as offering tighter legal defensibility than hybrid (partner-network) EOR models.",
+  "meta": {
+    "product": "Remote",
+    "category": "global_eor_payroll",
+    "platform": [
+      "cloud",
+      "API"
+    ],
+    "target": "companies hiring internationally, including those testing new-country entry before entity setup",
+    "pricing_model": "tiered subscription, per-worker",
+    "source": "remote.com",
+    "collected_date": "2026-06-20"
+  }
+}

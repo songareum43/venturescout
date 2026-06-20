@@ -1,0 +1,16 @@
+{
+  "source_type": "seed_pricing",
+  "ext_id": "seed_pricing_isolved",
+  "title": "isolved pricing - Starts at $9.00, fully customized by modules and employee count",
+  "clean_text": "According to G2 data, isolved pricing starts at $9.00, but is fully customized depending on chosen modules, employee count, and services -- isolved does not offer a free plan or free trial. G2 reviews describe the add-on pricing as \"cafeteria-style,\" meaning costs can escalate quickly as additional modules are layered on, and some reviewers report unexpected price increases or, after acquisitions of reseller partners, effectively doubled rates.",
+  "meta": {
+    "product": "isolved",
+    "pricing_model": "modular add-on subscription, custom quote",
+    "min_price_usd": 9,
+    "max_price_usd": 9,
+    "pricing_unit": "usd_starting_price_only_modular_addons_extra",
+    "publicly_disclosed": false,
+    "source": "g2.com",
+    "collected_date": "2026-06-20"
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "source_type": "seed_competitor",
+  "ext_id": "seed_competitor_bamboohr",
+  "title": "BambooHR - All-in-one HR software for growing small and mid-sized businesses",
+  "clean_text": "BambooHR centralizes employee data, payroll, time tracking, and benefits in one HR platform, trusted by thousands of companies across more than 150 countries, with notable clients including Fitbit, FreshBooks, Klout, and Squarespace. It is designed for growing businesses to start with essentials like time-off tracking and employee records, then layer in payroll, benefits, or advanced analytics as the team grows. The platform offers customizable real-time reports and dashboards, predictive analytics, peer feedback, compensation benchmarks, and an employee-experience layer including goal/performance tracking, engagement check-in surveys, and a social intranet.",
+  "meta": {
+    "product": "BambooHR",
+    "category": "core_hr_hris",
+    "platform": [
+      "cloud",
+      "web",
+      "mobile"
+    ],
+    "target": "growing small and mid-sized businesses",
+    "pricing_model": "tiered subscription, per-employee per-month",
+    "source": "bamboohr.com + businessnewsdaily.com",
+    "collected_date": "2026-06-20"
+  }
+}

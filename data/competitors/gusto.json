@@ -1,0 +1,19 @@
+{
+  "source_type": "seed_competitor",
+  "ext_id": "seed_competitor_gusto",
+  "title": "Gusto - All-in-one payroll, benefits, and HR for small businesses",
+  "clean_text": "Gusto is an all-in-one HR platform for small businesses handling full-service payroll (automated tax filings, W-2s, 1099s, flexible pay schedules, contractor payments), HR and talent tools (recruiting, offer letters, onboarding, e-signatures), and benefits administration (health insurance, retirement plans) with automatic federal/state/local tax filing. It serves more than 300,000 small businesses, scaling from small to mid-sized companies without requiring a platform change as they grow, and is known for the range and simplicity of its integrations with accounting, applicant tracking, benefits, and time-tracking tools.",
+  "meta": {
+    "product": "Gusto",
+    "category": "core_hr_hris",
+    "platform": [
+      "cloud",
+      "web",
+      "mobile"
+    ],
+    "target": "small to mid-sized businesses",
+    "pricing_model": "tiered subscription, base fee plus per-person",
+    "source": "businessnewsdaily.com + research.contrary.com",
+    "collected_date": "2026-06-20"
+  }
+}

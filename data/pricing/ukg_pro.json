@@ -1,0 +1,17 @@
+{
+  "source_type": "seed_pricing",
+  "ext_id": "seed_pricing_ukg_pro",
+  "title": "UKG Pro pricing - $32-$41 per employee/month for enterprise, fully sales-led",
+  "clean_text": "UKG Pro is priced per employee per month (PEPM), scaling with workforce size; reported enterprise rates run roughly $32-$41 PEPM, with UKG Pro WFM (adding advanced workforce management) at a similar $32-$40+ PEPM range. The platform follows a modular approach: core payroll, benefits, time, talent management, and BI reporting are sold as add-ons or bundles, with additional modules like performance or learning management adding $5-$15/employee/month. Implementation costs (onboarding, data migration, integration setup, admin training) are charged separately. UKG does not publish rates; pricing is fully sales-led with every quote custom-negotiated.",
+  "meta": {
+    "product": "UKG Pro",
+    "pricing_model": "modular per-employee subscription, custom quote",
+    "min_price_usd": 32,
+    "max_price_usd": 41,
+    "pricing_unit": "usd_pepm_per_employee_per_month",
+    "addon_module_cost_usd": "5-15",
+    "publicly_disclosed": false,
+    "source": "outsail.co + elearningindustry.com",
+    "collected_date": "2026-06-20"
+  }
+}

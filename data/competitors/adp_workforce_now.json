@@ -1,0 +1,19 @@
+{
+  "source_type": "seed_competitor",
+  "ext_id": "seed_competitor_adp_workforce_now",
+  "title": "ADP Workforce Now - Integrated payroll, HR, and benefits for multi-state employers",
+  "clean_text": "ADP Workforce Now is a cloud-based human capital management platform unifying payroll, tax filing, HR, benefits administration, time and attendance, talent recruiting, and analytics in one system, with automated payroll calculations and up-to-date federal, state, and local tax compliance. Customers span small businesses, mid-sized companies, large enterprises, and freelancers, with ADP particularly emphasizing mid-sized customers who want faster, clearer insights from their people data. The platform integrates with applicant tracking, background screening, learning, survey, and financial planning systems through ADP Marketplace apps and APIs.",
+  "meta": {
+    "product": "ADP Workforce Now",
+    "category": "hcm_erp",
+    "platform": [
+      "cloud",
+      "web",
+      "mobile"
+    ],
+    "target": "small businesses through large enterprises, multi-state employers",
+    "pricing_model": "tiered subscription, per-employee plus custom quote",
+    "source": "getapp.com + softwareadvice.com",
+    "collected_date": "2026-06-20"
+  }
+}

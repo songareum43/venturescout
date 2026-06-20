@@ -1,0 +1,17 @@
+{
+  "source_type": "seed_review",
+  "ext_id": "seed_review_servicenow_hr",
+  "title": "ServiceNow HRSD - Harder to configure than a simple ticketing tool, with costly setup",
+  "clean_text": "Some users report slow performance and system issues, particularly during platform upgrades, leading to workflow interruptions. The system is described as more complex than a simple ticketing tool, especially with multiple Centers of Excellence involved, and while more powerful, it is harder to configure initially. There is no free trial or freemium model, making it difficult to evaluate suitability before purchase, and setup, configuration, integrations, testing, and training routinely cost between $10,000 and $100,000 depending on environment complexity.",
+  "meta": {
+    "product": "ServiceNow HR Service Delivery",
+    "sentiment": "negative",
+    "issue_type": [
+      "Performance",
+      "Implementation_Complexity",
+      "Feature_Missing"
+    ],
+    "source": "trustradius.com + g2.com",
+    "collected_date": "2026-06-20"
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "source_type": "seed_competitor",
+  "ext_id": "seed_competitor_sap_successfactors",
+  "title": "SAP SuccessFactors - Modular cloud HXM suite for enterprise HR",
+  "clean_text": "SAP SuccessFactors HXM (Human Experience Management) Suite covers the full employee lifecycle -- recruiting, onboarding, core HR, payroll, talent management, and analytics -- as a public cloud SaaS built on SAP Business Technology Platform, requiring no existing SAP system but integrating seamlessly with SAP S/4HANA. It is trusted by more than 10,000 organizations ranging from midmarket companies to global enterprises, especially in IT services and manufacturing, supporting 43 languages and integrating with Qualtrics for employee sentiment feedback throughout the lifecycle.",
+  "meta": {
+    "product": "SAP SuccessFactors",
+    "category": "hcm_erp",
+    "platform": [
+      "cloud"
+    ],
+    "target": "midmarket companies to global enterprises, especially IT services and manufacturing",
+    "pricing_model": "modular per-employee subscription",
+    "source": "sap.com + techtarget.com",
+    "collected_date": "2026-06-20"
+  }
+}

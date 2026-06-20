@@ -1,0 +1,18 @@
+{
+  "source_type": "seed_pricing",
+  "ext_id": "seed_pricing_bamboohr",
+  "title": "BambooHR pricing - $10-$25/employee/month, $250/month minimum for small teams",
+  "clean_text": "BambooHR has no public rate card; based on third-party buyer reports, pricing runs roughly $10/employee/month on Core, $17/employee/month on Pro, and $25/employee/month on Elite. Companies with 25 or fewer employees hit a flat $250/month minimum regardless of tier. Adding Payroll ($4-6 PEPM) and Benefits Administration ($3-6 PEPM) typically brings total cost to $14-16/employee/month, with additional modules or Pro-tier upgrades reaching $18-25+/employee/month. Because quotes are negotiated individually, two companies of the same size can pay different rates depending on signup timing and selected add-ons.",
+  "meta": {
+    "product": "BambooHR",
+    "pricing_model": "tiered subscription, per-employee per-month",
+    "min_price_usd": 10,
+    "max_price_usd": 25,
+    "pricing_unit": "usd_per_employee_per_month",
+    "minimum_monthly_fee_usd": 250,
+    "minimum_fee_employee_threshold": 25,
+    "publicly_disclosed": false,
+    "source": "pin.com + hireinsouth.com",
+    "collected_date": "2026-06-20"
+  }
+}

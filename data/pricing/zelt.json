@@ -1,0 +1,17 @@
+{
+  "source_type": "seed_pricing",
+  "ext_id": "seed_pricing_zelt",
+  "title": "Zelt pricing - Free Starter tier for up to 5 users, Core plan from £5/user/month",
+  "clean_text": "Zelt offers a free Starter tier for up to 5 users, and a Core plan starting at £5 (about $5 USD equivalent) per user per month. Pricing for larger, midmarket deployments (1,000+ employees) is not publicly detailed and would require a custom quote.",
+  "meta": {
+    "product": "Zelt",
+    "pricing_model": "tiered subscription, per-user, free starter tier",
+    "min_price_usd": 0,
+    "max_price_usd": 5,
+    "pricing_unit": "usd_per_user_per_month_core_plan_gbp_equivalent",
+    "free_tier_user_limit": 5,
+    "publicly_disclosed": true,
+    "source": "research.com + softwaresuggest.com",
+    "collected_date": "2026-06-20"
+  }
+}

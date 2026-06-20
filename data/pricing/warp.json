@@ -1,0 +1,16 @@
+{
+  "source_type": "seed_pricing",
+  "ext_id": "seed_pricing_warp",
+  "title": "Warp pricing - Entry-level plans starting around $25-$35/month",
+  "clean_text": "Warp's entry-level pricing starts at $35 per month according to one source, though another source cites a starting price of $25 per month -- reflecting some inconsistency in publicly reported figures for this earlier-stage company. Exact tier breakdowns beyond the entry price are not consistently detailed across sources.",
+  "meta": {
+    "product": "Warp",
+    "pricing_model": "tiered subscription, flat monthly",
+    "min_price_usd": 25,
+    "max_price_usd": 35,
+    "pricing_unit": "usd_per_month_entry_tier",
+    "publicly_disclosed": true,
+    "source": "research.com + selecthub.com",
+    "collected_date": "2026-06-20"
+  }
+}

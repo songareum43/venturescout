@@ -1,0 +1,17 @@
+{
+  "source_type": "seed_pricing",
+  "ext_id": "seed_pricing_juicebox",
+  "title": "Juicebox pricing - $139/seat/month, AI Agents add-on pushes effective cost near $400",
+  "clean_text": "Juicebox pricing starts at $139 per seat per month, but add-ons such as AI Agents ($199/month) push the real effective cost near $400/month before a single hire is closed. The Starter plan excludes phone numbers and verified emails, meaning teams hit a wall when they try to actually contact candidates and must upgrade to reach them.",
+  "meta": {
+    "product": "Juicebox (PeopleGPT)",
+    "pricing_model": "tiered subscription, per-seat plus AI add-on",
+    "min_price_usd": 139,
+    "max_price_usd": 400,
+    "pricing_unit": "usd_per_seat_per_month_with_addons",
+    "ai_agents_addon_usd": 199,
+    "publicly_disclosed": true,
+    "source": "paraform.com + mindhuntai.com",
+    "collected_date": "2026-06-20"
+  }
+}

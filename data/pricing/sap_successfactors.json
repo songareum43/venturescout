@@ -1,0 +1,17 @@
+{
+  "source_type": "seed_pricing",
+  "ext_id": "seed_pricing_sap_successfactors",
+  "title": "SAP SuccessFactors pricing - $2-$38 PEPM depending on module mix",
+  "clean_text": "SAP SuccessFactors is priced per employee per month (PEPM), billed annually, as a modular suite rather than one flat product: individual modules typically run $2-$10 PEPM, while a bundled full Human Experience Management suite runs around $38 PEPM. At that bundled rate, a 1,000-employee company pays roughly $456,000/year in software licensing alone, and a 10,000-person organization commonly spends $1.2M-$3M/year depending on module mix and negotiated discounts. AI features (Joule) carry separate contracted unit allocations that can drive incremental cost growth in later contract years if usage exceeds the initial allotment.",
+  "meta": {
+    "product": "SAP SuccessFactors",
+    "pricing_model": "modular per-employee subscription",
+    "min_price_usd": 2,
+    "max_price_usd": 38,
+    "pricing_unit": "usd_pepm_per_employee_per_month",
+    "bundle_10k_employee_annual_usd": "1200000-3000000",
+    "publicly_disclosed": false,
+    "source": "pin.com + redresscompliance.com",
+    "collected_date": "2026-06-20"
+  }
+}
