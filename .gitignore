@@ -7,6 +7,9 @@
 *.key
 secrets/
 *.json
+!data/competitors/*.json
+!data/pricing/*.json
+!data/reviews/*.json
 credentials
 credentials/
 
