@@ -1,0 +1,17 @@
+{
+  "source_type": "seed_review",
+  "ext_id": "seed_review_jira_atlassian",
+  "title": "Jira - Steep learning curve and a heavy, slow interface for non-technical teams",
+  "clean_text": "Reviewers across G2, Reddit, and Capterra commonly cite a steep learning curve, especially for new or non-technical users, with too many required fields, rigid permissions, and confusing menus that make Jira easy to over-engineer. The interface is frequently described as heavy, clunky, and slow to load compared to lighter modern alternatives, and performance can degrade under high ticket volume in Jira Service Management. Hidden automation costs and add-ons that get expensive quickly are also commonly mentioned, along with notification overload from automated emails unless carefully configured.",
+  "meta": {
+    "product": "Jira",
+    "sentiment": "negative",
+    "issue_type": [
+      "Implementation_Complexity",
+      "Performance",
+      "Pricing_Complexity"
+    ],
+    "source": "g2.com + clearfeed.ai",
+    "collected_date": "2026-06-20"
+  }
+}

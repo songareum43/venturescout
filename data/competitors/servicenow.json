@@ -1,0 +1,18 @@
+{
+  "source_type": "seed_competitor",
+  "ext_id": "seed_competitor_servicenow",
+  "title": "ServiceNow Now Platform - AI-native workflow automation across IT, HR, and customer service",
+  "clean_text": "ServiceNow's Now Platform began as IT Service Management (ITSM) software and has expanded into a broader workflow automation platform spanning IT Operations Management, HR Service Delivery, and Customer Service Management, with built-in governance and risk controls. ServiceNow ITSM connects incident, problem, change, and request management on a single AI-driven platform to automate routine IT work. The platform targets large enterprises with complex, multi-department workflow needs; one cited example is a telecom company that expanded from a single ITSM deployment in 2013 to 10 ServiceNow products and over $10M in annual spend.",
+  "meta": {
+    "product": "ServiceNow Now Platform (ITSM)",
+    "category": "itsm_workflow_automation",
+    "platform": [
+      "cloud",
+      "web"
+    ],
+    "target": "large enterprises, multi-department IT/HR/customer service workflows",
+    "pricing_model": "custom enterprise quote, per-fulfiller-user tiered",
+    "source": "servicenow.com + itsmgroup.com + stand8.io",
+    "collected_date": "2026-06-20"
+  }
+}

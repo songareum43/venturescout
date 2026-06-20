@@ -1,0 +1,17 @@
+{
+  "source_type": "seed_review",
+  "ext_id": "seed_review_asana",
+  "title": "Asana - Reporting and automation feel weak below the highest tiers",
+  "clean_text": "Users report a noticeable learning curve and a time-consuming adjustment period before they can fully use Asana's feature set, with new features in particular feeling overwhelming at first. Several reviewers note that Asana does not handle assigning work to large groups of individuals well, and that reporting features are weak on basic plans, requiring an upgrade to a higher tier for meaningful reporting; automation capabilities are also seen as comparatively weak versus other tools. The free plan is described as limiting access to enough features that it effectively pressures users to upgrade, and 24/7 customer support is reserved for Enterprise customers only, with other tiers limited to self-help resources.",
+  "meta": {
+    "product": "Asana",
+    "sentiment": "negative",
+    "issue_type": [
+      "Implementation_Complexity",
+      "Feature_Limitation",
+      "Pricing_Complexity"
+    ],
+    "source": "g2.com + smartsuite.com",
+    "collected_date": "2026-06-20"
+  }
+}

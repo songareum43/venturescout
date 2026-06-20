@@ -1,0 +1,18 @@
+{
+  "source_type": "seed_competitor",
+  "ext_id": "seed_competitor_smartsheet",
+  "title": "Smartsheet - Enterprise dynamic work platform unifying collaboration, workflows, and content",
+  "clean_text": "Smartsheet is an enterprise platform for dynamic work that lets teams manage projects, automate workflows, and build secure solutions on a centralized, cloud-based system, combining flexibility and scalability with data security and governance features for IT leaders. Over 85% of Fortune 100 companies use Smartsheet, with notable customers including Ogilvy, Roche, and BNP Paribas. The platform has been ranked the top Project and Portfolio Management (PPM) software in customer satisfaction surveys, with an overall satisfaction score of 99 out of 100.",
+  "meta": {
+    "product": "Smartsheet",
+    "category": "work_management",
+    "platform": [
+      "cloud",
+      "web"
+    ],
+    "target": "enterprises across industries, 85%+ of Fortune 100",
+    "pricing_model": "tiered subscription, per-user",
+    "source": "smartsheet.com + gurufocus.com",
+    "collected_date": "2026-06-20"
+  }
+}

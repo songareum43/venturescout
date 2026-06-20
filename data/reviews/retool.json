@@ -1,0 +1,17 @@
+{
+  "source_type": "seed_review",
+  "ext_id": "seed_review_retool",
+  "title": "Retool - Per-user cost at scale and apps that get messy as they grow",
+  "clean_text": "Users consistently cite per-user pricing at scale as a pain point, especially since self-hosting moved to an Enterprise-only option in 2026, leaving cloud customers to pay per seat or negotiate an Enterprise contract. Reviewers also report limited customization options and frustration over missing features with slow delivery of requested functionality. As applications grow, Retool apps can become harder to maintain when complex logic is spread across queries, components, and transformers, and performance can degrade as apps get heavier, with debugging described as less straightforward than in a traditional codebase.",
+  "meta": {
+    "product": "Retool",
+    "sentiment": "negative",
+    "issue_type": [
+      "Price",
+      "Feature_Limitation",
+      "Performance"
+    ],
+    "source": "g2.com + superblocks.com",
+    "collected_date": "2026-06-20"
+  }
+}

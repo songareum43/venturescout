@@ -1,0 +1,17 @@
+{
+  "source_type": "seed_review",
+  "ext_id": "seed_review_wrike",
+  "title": "Wrike - Overwhelming onboarding and a restrictive auto-renewal cancellation policy",
+  "clean_text": "Interface overwhelm is the single most consistent complaint across G2, Capterra, and independent reviews: new users face Blueprints, custom item types, cross-tagging, automations, request forms, and a wall of configurable dashboards before creating a single task, and the learning curve is described as steep across G2, Capterra, and Reddit alike. The mobile app is described as meaningfully thinner than the web product for advanced workflow administration. A 30-day prior-written-notice auto-renewal cancellation policy has trapped at least one documented customer into another full annual term worth nearly $3,000.",
+  "meta": {
+    "product": "Wrike",
+    "sentiment": "negative",
+    "issue_type": [
+      "Implementation_Complexity",
+      "Contract_Terms",
+      "Feature_Limitation"
+    ],
+    "source": "g2.com + hackceleration.com",
+    "collected_date": "2026-06-20"
+  }
+}

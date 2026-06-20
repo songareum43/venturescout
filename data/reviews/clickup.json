@@ -1,0 +1,17 @@
+{
+  "source_type": "seed_review",
+  "ext_id": "seed_review_clickup",
+  "title": "ClickUp - Feature breadth causes a long setup and occasional performance lag",
+  "clean_text": "Reviewers across G2, Capterra, and Reddit consistently flag ClickUp's sheer breadth of features as its biggest weakness for new teams, with new admins reporting a two- to three-week setup period before a team sees real value, and new collaborators often feeling overwhelmed by the volume of buttons and customization options. The desktop app can feel heavy, with noticeable lag or multi-second loading delays when switching between complex views or opening large documents. The AI add-on is also priced separately on top of every plan, meaning the effective monthly cost is higher than the headline per-plan price once AI features are wanted.",
+  "meta": {
+    "product": "ClickUp",
+    "sentiment": "negative",
+    "issue_type": [
+      "Implementation_Complexity",
+      "Performance",
+      "Pricing_Complexity"
+    ],
+    "source": "g2.com + rock.so",
+    "collected_date": "2026-06-20"
+  }
+}

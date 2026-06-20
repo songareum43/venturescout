@@ -1,0 +1,20 @@
+{
+  "source_type": "seed_pricing",
+  "ext_id": "seed_pricing_smartsheet",
+  "title": "Smartsheet pricing - No free plan since 2025, $9-$32 per user/month paid tiers",
+  "clean_text": "Smartsheet discontinued its limited free plan in 2025 and now offers only a 30-day free trial. Paid tiers (annual billing) start with Pro at $9/user/month for up to 10 users, and Business at a reported $19-$32/user/month for unlimited users and storage depending on source; Enterprise is custom-priced as of March 2026 with unlimited usage and advanced security controls. Premium add-on applications -- Dynamic View, Control Center, DataMesh, Bridge, and WorkApps -- are priced separately and can add 20-50% to total contract value.",
+  "meta": {
+    "product": "Smartsheet",
+    "pricing_model": "tiered subscription, per-user",
+    "min_price_usd": 9,
+    "max_price_usd": 32,
+    "pricing_unit": "usd_per_user_per_month_annual_billing",
+    "pro_usd": 9,
+    "business_usd": "19-32",
+    "addon_cost_pct_of_contract": "20-50",
+    "free_plan": false,
+    "publicly_disclosed": true,
+    "source": "costbench.com + spendhound.com",
+    "collected_date": "2026-06-20"
+  }
+}

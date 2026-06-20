@@ -1,0 +1,19 @@
+{
+  "source_type": "seed_pricing",
+  "ext_id": "seed_pricing_jira_atlassian",
+  "title": "Jira pricing - Free for 10 users, then $7.91-$14.54 per user/month cloud tiers",
+  "clean_text": "Jira Cloud has four tiers: Free (up to 10 users, no time limit), Standard at $7.91/user/month (annual billing), Premium at $14.54/user/month (annual, up to 300 users), and Enterprise at custom pricing. Monthly billing raises Standard to $8.15 and Premium to $15.25 per user/month. Per-user rates drop as team size grows: roughly $8.60/user for 1-10 users versus about $7.53/user for 100+ users. Jira Data Center (self-hosted, 500+ users) started at $51,000/year, but new Data Center subscriptions stopped being sold as of March 30, 2026.",
+  "meta": {
+    "product": "Jira",
+    "pricing_model": "tiered subscription, per-user",
+    "min_price_usd": 0,
+    "max_price_usd": 14.54,
+    "pricing_unit": "usd_per_user_per_month_annual_billing_cloud",
+    "standard_usd": 7.91,
+    "premium_usd": 14.54,
+    "data_center_annual_usd": "51000 (no longer sold as of 2026-03-30)",
+    "publicly_disclosed": true,
+    "source": "costbench.com + tech.co",
+    "collected_date": "2026-06-20"
+  }
+}

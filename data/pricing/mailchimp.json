@@ -1,0 +1,19 @@
+{
+  "source_type": "seed_pricing",
+  "ext_id": "seed_pricing_mailchimp",
+  "title": "Mailchimp pricing - Free for 250 contacts, then $13-$1,600/month by contact count",
+  "clean_text": "Mailchimp's Free plan was cut in January 2026 from 500 contacts/1,000 monthly sends down to 250 contacts/500 sends, effective February 17, 2026. Paid plans are billed monthly and scale with total contact count (including unsubscribed contacts still in the account): Essentials starts at $13/month for 500 contacts, Standard starts at $20/month for 500 contacts, and Premium can reach $1,600/month for up to 200,000 contacts, with custom pricing above that. A typical list of 4,000+ contacts commonly lands at $75-$135/month depending on plan. Legacy account holders who never migrated off pre-2019 plans saw an 11-13% price increase in April 2026.",
+  "meta": {
+    "product": "Mailchimp",
+    "pricing_model": "tiered subscription, contact-count based",
+    "min_price_usd": 0,
+    "max_price_usd": 1600,
+    "pricing_unit": "usd_per_month_by_contact_tier",
+    "essentials_usd": 13,
+    "standard_usd": 20,
+    "free_tier_contacts": 250,
+    "publicly_disclosed": true,
+    "source": "landingi.com + retainful.com",
+    "collected_date": "2026-06-20"
+  }
+}

@@ -1,0 +1,20 @@
+{
+  "source_type": "seed_competitor",
+  "ext_id": "seed_competitor_slack",
+  "title": "Slack - Business messaging platform with deep Salesforce ecosystem integration",
+  "clean_text": "Slack combines instant messaging, file sharing, and third-party integrations into a single business communication platform. Over 593,915 companies have adopted Slack, with 77% of Fortune 100 companies using the platform and nearly 80% of Fortune 100 companies using Slack Connect specifically for cross-company collaboration. The largest customer segments by size are companies with 20-49 employees, 100-249 employees, and 0-9 employees. Non-tech enterprises in healthcare, retail, and education are among the fastest-growing adopter segments, and sales/customer-success usage has grown following deeper Salesforce integration and no-code AI workflow tools.",
+  "meta": {
+    "product": "Slack",
+    "category": "collaboration_productivity",
+    "platform": [
+      "cloud",
+      "web",
+      "desktop",
+      "mobile"
+    ],
+    "target": "SMB through large enterprise, 77% of Fortune 100",
+    "pricing_model": "tiered subscription, per-user",
+    "source": "sqmagazine.co.uk + demandsage.com + fueler.io",
+    "collected_date": "2026-06-20"
+  }
+}

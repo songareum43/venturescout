@@ -1,0 +1,17 @@
+{
+  "source_type": "seed_review",
+  "ext_id": "seed_review_monday_com",
+  "title": "monday.com - Limited reporting depth and features locked behind paid tiers",
+  "clean_text": "Users frequently report limited flexibility in advanced reporting and automation, with difficulty drilling down for things like time-tracking or grouping at a micro level. Basic scheduling behaviors sometimes require hacky workarounds, and the mobile app lags behind desktop capabilities despite improvements. Essential features such as Gantt charts, time tracking, and advanced reporting are often locked behind more expensive tiers, and all paid plans require a minimum of three seats regardless of team size. Setting up integrations, such as with GitLab in monday dev, is reported as complicated and time-consuming.",
+  "meta": {
+    "product": "monday.com Work OS",
+    "sentiment": "negative",
+    "issue_type": [
+      "Feature_Limitation",
+      "Pricing_Complexity",
+      "Implementation_Complexity"
+    ],
+    "source": "g2.com + capterra.com",
+    "collected_date": "2026-06-20"
+  }
+}

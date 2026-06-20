@@ -1,0 +1,17 @@
+{
+  "source_type": "seed_review",
+  "ext_id": "seed_review_hubspot",
+  "title": "HubSpot - Steep price jumps between tiers and billing/support frustration",
+  "clean_text": "HubSpot users frequently cite pricing as a major pain point: the cost curve rises quickly once teams move beyond the free CRM, and the gap between Starter (around $20/seat/month) and Professional (around $100/seat/month equivalent) is large both in price and in which features unlock. Growing agencies often find essential tools locked behind Professional or Enterprise tiers that can exceed $800-$3,000/month. On Trustpilot, where overall sentiment is notably lower than on G2/Capterra, dominant complaints include poor customer support, difficulty cancelling subscriptions, and unexpected charges.",
+  "meta": {
+    "product": "HubSpot Marketing Hub",
+    "sentiment": "negative",
+    "issue_type": [
+      "Pricing_Complexity",
+      "Price",
+      "Contract_Terms"
+    ],
+    "source": "g2.com + trustpilot (via learn.g2.com summary)",
+    "collected_date": "2026-06-20"
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "source_type": "seed_competitor",
+  "ext_id": "seed_competitor_marketo_adobe",
+  "title": "Adobe Marketo Engage - Enterprise B2B marketing automation with account-based marketing",
+  "clean_text": "Adobe Marketo Engage is an enterprise-grade B2B marketing automation platform that manages leads through every stage of considered-purchase buying journeys, natively supporting both demand-generation and account-based marketing (ABM) strategies. It offers AI-powered personalization, lifecycle automation, and cross-channel orchestration across multiple scalable licensing tiers, with native integrations into CRMs such as Salesforce, Microsoft Dynamics, and Veeva. The platform targets organizations from small businesses to large enterprises, but is most strongly positioned for complex, enterprise-level B2B marketing operations with dedicated marketing operations staff.",
+  "meta": {
+    "product": "Adobe Marketo Engage",
+    "category": "marketing_automation",
+    "platform": [
+      "cloud",
+      "web"
+    ],
+    "target": "enterprise B2B organizations with complex marketing operations",
+    "pricing_model": "custom enterprise quote, database-size tiered",
+    "source": "business.adobe.com + genesysgrowth.com + bluprintx.com",
+    "collected_date": "2026-06-20"
+  }
+}

@@ -1,0 +1,20 @@
+{
+  "source_type": "seed_competitor",
+  "ext_id": "seed_competitor_clickup",
+  "title": "ClickUp - All-in-one productivity app combining tasks, docs, chat, and AI",
+  "clean_text": "ClickUp positions itself as an \"everything app\" for work, aiming to replace separate tasks, docs, spreadsheets, wikis, goals, time tracking, and team chat tools with a single interface. It includes tasks, sprints, Gantt charts, and kanban boards for project management, plus AI tools (ClickUp Brain and AI agents) for task delegation and document creation. Founded in 2017, ClickUp has grown to more than 10 million users worldwide, targeting project managers, teams, and organizations of all sizes, including remote teams, freelancers, and business owners who want deep customization across industries.",
+  "meta": {
+    "product": "ClickUp",
+    "category": "work_management",
+    "platform": [
+      "cloud",
+      "web",
+      "desktop",
+      "mobile"
+    ],
+    "target": "organizations of all sizes, remote teams, freelancers",
+    "pricing_model": "tiered subscription, per-user",
+    "source": "softwareadvice.com + clickup.com + smartsuite.com",
+    "collected_date": "2026-06-20"
+  }
+}

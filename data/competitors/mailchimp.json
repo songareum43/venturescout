@@ -1,0 +1,19 @@
+{
+  "source_type": "seed_competitor",
+  "ext_id": "seed_competitor_mailchimp",
+  "title": "Mailchimp - All-in-one email/SMS marketing platform for small businesses",
+  "clean_text": "Mailchimp is an email and SMS marketing platform, acquired by Intuit in 2021, that has grown into an all-in-one digital marketing platform connecting email, SMS, social scheduling, ads, landing pages, and a Customer Journey Builder under shared audience data and unified reporting, with 300+ integrations. It targets businesses wanting marketing automation without enterprise-level complexity or cost, serving everyone from solo creators to global ecommerce brands, and remains positioned as a user-friendly entry point for beginners in digital marketing.",
+  "meta": {
+    "product": "Mailchimp",
+    "category": "marketing_automation",
+    "platform": [
+      "cloud",
+      "web",
+      "mobile"
+    ],
+    "target": "solo creators and small businesses through global ecommerce brands",
+    "pricing_model": "tiered subscription, contact-count based",
+    "source": "mailchimp.com + brevo.com + vendasta.com",
+    "collected_date": "2026-06-20"
+  }
+}

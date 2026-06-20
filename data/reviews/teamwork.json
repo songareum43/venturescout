@@ -1,0 +1,17 @@
+{
+  "source_type": "seed_review",
+  "ext_id": "seed_review_teamwork",
+  "title": "Teamwork.com - Overwhelming for smaller teams and missing key features",
+  "clean_text": "Many users find Teamwork.com's interface and deep feature set overwhelming at first, especially on smaller teams, and the platform's complexity requires dedicated training to use effectively. Reviewers report missing features that limit task management and reporting, and note that the platform lacks customization and flexibility for smaller teams. A major UX overhaul was not well publicized, and the mobile experience is described as clunky and frequently unreliable. When many projects and tasks run simultaneously, the notification area can get crowded enough that important updates are missed, and some settings or reports are hidden inside different menus, adding extra time to find them.",
+  "meta": {
+    "product": "Teamwork.com",
+    "sentiment": "negative",
+    "issue_type": [
+      "Implementation_Complexity",
+      "Feature_Limitation",
+      "Feature_Missing"
+    ],
+    "source": "g2.com",
+    "collected_date": "2026-06-20"
+  }
+}

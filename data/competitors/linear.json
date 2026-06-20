@@ -1,0 +1,20 @@
+{
+  "source_type": "seed_competitor",
+  "ext_id": "seed_competitor_linear",
+  "title": "Linear - Fast, keyboard-driven issue tracker built for engineering teams",
+  "clean_text": "Linear is a fast, minimal, opinionated project management tool built specifically for software teams, combining issue tracking, sprint cycles, roadmapping, and AI-assisted triage in a keyboard-driven interface optimized for speed. It targets engineering-led companies that prioritize speed and craft over extensive customization, with adoption from companies such as Vercel, Ramp, and Mercury, and is especially popular with startups and engineering-focused teams. Linear explicitly positions itself as not the right choice for non-technical teams in marketing, sales, or HR that need general-purpose project management.",
+  "meta": {
+    "product": "Linear",
+    "category": "work_management",
+    "platform": [
+      "cloud",
+      "web",
+      "desktop",
+      "mobile"
+    ],
+    "target": "software engineering teams and engineering-led startups",
+    "pricing_model": "tiered subscription, per-user",
+    "source": "everhour.com + siit.io + devtune.ai",
+    "collected_date": "2026-06-20"
+  }
+}

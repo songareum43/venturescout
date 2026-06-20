@@ -1,0 +1,22 @@
+{
+  "source_type": "seed_pricing",
+  "ext_id": "seed_pricing_monday_com",
+  "title": "monday.com pricing - $9-$19 per seat/month annual, 3-seat minimum on all paid plans",
+  "clean_text": "monday.com offers a limited free plan for up to 2 seats, then three paid per-seat tiers billed annually: Basic at $9/seat/month, Standard at $12/seat/month, and Pro at $19/seat/month (monthly billing raises these to $12, $14, and $24 respectively). All paid plans require a minimum of 3 seats, so the effective monthly minimum is $27 (Basic), $36 (Standard), or $57 (Pro). Enterprise pricing is custom. Volume discounts typically apply at 50, 100, and 200+ seat thresholds.",
+  "meta": {
+    "product": "monday.com Work OS",
+    "pricing_model": "tiered subscription, per-seat with 3-seat minimum",
+    "min_price_usd": 9,
+    "max_price_usd": 19,
+    "pricing_unit": "usd_per_seat_per_month_annual_billing",
+    "three_seat_minimum_monthly_usd": {
+      "basic": 27,
+      "standard": 36,
+      "pro": 57
+    },
+    "enterprise": "custom quote",
+    "publicly_disclosed": true,
+    "source": "vendr.com + plaky.com + get-alfred.ai",
+    "collected_date": "2026-06-20"
+  }
+}

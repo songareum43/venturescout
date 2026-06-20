@@ -1,0 +1,18 @@
+{
+  "source_type": "seed_pricing",
+  "ext_id": "seed_pricing_linear",
+  "title": "Linear pricing - Free for small teams, $10-$18 per user/month paid tiers",
+  "clean_text": "Linear's Free plan supports unlimited members but caps usage at 250 non-archived issues and 2 teams. The Basic plan is $10/user/month (annual billing), removing the issue cap, raising the team limit to 5, and adding unlimited file uploads, admin roles, and full API access. The Business plan is reported at $16-18/user/month and adds Linear Asks, Linear Insights, private teams, guest accounts, triage responsibility, unlimited teams, and Zendesk/Intercom integrations. Enterprise is custom-priced. For a 10-person team, Basic runs about $1,200/year and Business about $1,920/year.",
+  "meta": {
+    "product": "Linear",
+    "pricing_model": "tiered subscription, per-user",
+    "min_price_usd": 0,
+    "max_price_usd": 18,
+    "pricing_unit": "usd_per_user_per_month_annual_billing",
+    "basic_usd": 10,
+    "business_usd": "16-18",
+    "publicly_disclosed": true,
+    "source": "joinsecret.com + costbench.com + quackback.io",
+    "collected_date": "2026-06-20"
+  }
+}

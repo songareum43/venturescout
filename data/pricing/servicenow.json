@@ -1,0 +1,18 @@
+{
+  "source_type": "seed_pricing",
+  "ext_id": "seed_pricing_servicenow",
+  "title": "ServiceNow pricing - Per-fulfiller-user tiers, heavily negotiated list price",
+  "clean_text": "ServiceNow ITSM is priced per fulfiller user per month, with 2026 estimates ranging roughly from $80-$100 for Standard tier after typical discounts, $100-$150 for Pro, and $150-$200+ for Enterprise tier, before negotiation. A 2026 pricing restructure consolidated legacy tiers into three AI-native tiers (Foundation, Advanced, Prime). Now Assist AI add-ons cost an additional $25-$75 per fulfiller per month depending on bundle, and HR Service Delivery is priced separately at roughly $24-$108 per employee per year. List price is rarely what customers pay; total cost of ownership is commonly cited at 3-5x the annual license fee.",
+  "meta": {
+    "product": "ServiceNow Now Platform (ITSM)",
+    "pricing_model": "custom enterprise quote, per-fulfiller-user tiered",
+    "min_price_usd": 80,
+    "max_price_usd": 250,
+    "pricing_unit": "usd_per_fulfiller_user_per_month",
+    "publicly_disclosed": false,
+    "ai_addon_usd_per_user_month": "25-75",
+    "tco_multiple_of_license": "3-5x",
+    "source": "redresscompliance.com + costbench.com",
+    "collected_date": "2026-06-20"
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "source_type": "seed_pricing",
+  "ext_id": "seed_pricing_notion",
+  "title": "Notion pricing - Free through $18-30/member/month Business and Enterprise tiers",
+  "clean_text": "Notion offers a Free plan with unlimited pages and core features, then Plus at $10/member/month (annual billing) which removes page-history and file-upload limits, Business at roughly $18-20/member/month (annual) with Notion AI bundled in as of early 2026, and Enterprise at a custom rate typically starting around $25-30/user/month for teams of 100+ seats, decreasing per-user at higher seat counts. Monthly (non-annual) billing is available at a higher per-seat rate, and annual billing typically discounts the monthly rate by up to ~20%.",
+  "meta": {
+    "product": "Notion",
+    "pricing_model": "tiered subscription, per-seat",
+    "min_price_usd": 0,
+    "max_price_usd": 30,
+    "pricing_unit": "usd_per_member_per_month_annual_billing",
+    "plus_monthly_usd": 10,
+    "business_monthly_usd": "18-20",
+    "enterprise_monthly_usd": "25-30 (100+ seats, custom)",
+    "publicly_disclosed": true,
+    "source": "vendr.com + costbench.com + tinycommand.com",
+    "collected_date": "2026-06-20"
+  }
+}

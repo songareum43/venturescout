@@ -1,0 +1,17 @@
+{
+  "source_type": "seed_review",
+  "ext_id": "seed_review_linear",
+  "title": "Linear - Engineering-first design makes it a poor fit for non-technical teams",
+  "clean_text": "Reviewers report that Linear's engineering-first design makes it hard for non-engineering roles such as designers, ops, or executives to find a simple, high-level view, and the tool is widely described as a poor fit for non-technical teams. Common complaints include limited flexibility for complex planning, with weak board or swimlane views, confusing cycle-versus-active views, and less support for multi-team, client-facing, or highly customized workflows. The mobile app is also criticized for missing options, such as setting the homepage to the current cycle and queue on Android, and some users report workflow friction from being forced to finish in-progress comments before navigating away.",
+  "meta": {
+    "product": "Linear",
+    "sentiment": "negative",
+    "issue_type": [
+      "Target_Mismatch",
+      "Feature_Limitation",
+      "Feature_Missing"
+    ],
+    "source": "g2.com",
+    "collected_date": "2026-06-20"
+  }
+}

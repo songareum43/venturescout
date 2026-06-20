@@ -1,0 +1,17 @@
+{
+  "source_type": "seed_review",
+  "ext_id": "seed_review_workday",
+  "title": "Workday HCM - Difficult implementations and a dense, click-heavy interface",
+  "clean_text": "Workday implementations are widely reported as difficult, multi-stage projects that often require significant external consulting support and specialized internal staff who are hard to find or build internally. Users describe the interface as dense and cumbersome, with more clicks required than expected to complete common, less-frequent tasks. Some users report slower load times during high-volume reporting or large data processing. Licensing, implementation, and ongoing support costs are frequently cited as a concern for smaller or mid-sized organizations relative to competing HR platforms.",
+  "meta": {
+    "product": "Workday HCM",
+    "sentiment": "negative",
+    "issue_type": [
+      "Implementation_Complexity",
+      "Performance",
+      "Price"
+    ],
+    "source": "g2.com + apty.ai",
+    "collected_date": "2026-06-20"
+  }
+}

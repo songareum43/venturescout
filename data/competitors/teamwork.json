@@ -1,0 +1,19 @@
+{
+  "source_type": "seed_competitor",
+  "ext_id": "seed_competitor_teamwork",
+  "title": "Teamwork.com - Client project management with profitability tracking for agencies",
+  "clean_text": "Teamwork.com is a project management platform built specifically for businesses and agencies that manage client projects, combining task lists, milestones, workload management, resource planning, and profitability tracking in one system. It targets five core verticals: digital marketing agencies, CRM/software companies, advertising agencies, engineering firms, and consulting firms, and is most used by administrative and creative roles in marketing and software services. The platform also offers integrated add-ons such as helpdesk, collaboration, knowledge sharing, and CRM tools alongside its core project management features.",
+  "meta": {
+    "product": "Teamwork.com",
+    "category": "work_management",
+    "platform": [
+      "cloud",
+      "web",
+      "mobile"
+    ],
+    "target": "client-services agencies (marketing, advertising, engineering, consulting)",
+    "pricing_model": "tiered subscription, per-user",
+    "source": "experte.com + getapp.com + teamwork.com",
+    "collected_date": "2026-06-20"
+  }
+}

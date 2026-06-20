@@ -1,0 +1,17 @@
+{
+  "source_type": "seed_review",
+  "ext_id": "seed_review_marketo_adobe",
+  "title": "Marketo Engage - Steep learning curve and reporting that needs heavy setup",
+  "clean_text": "Marketo Engage is widely described as having a steep learning curve, especially for new users or teams without dedicated marketing operations support, with typical implementation taking 2-6 weeks for smaller teams and 1-2 months for enterprise deployments with custom integrations. Reviewers say the interface is functional but dated, with less visual cohesion than competitors like HubSpot, and that simple tasks often require too many steps and workarounds. Reporting is commonly described as slow and requiring significant setup before producing useful insights, and performance can slow down in large accounts with heavy data volume.",
+  "meta": {
+    "product": "Adobe Marketo Engage",
+    "sentiment": "negative",
+    "issue_type": [
+      "Implementation_Complexity",
+      "Performance",
+      "Feature_Limitation"
+    ],
+    "source": "g2.com + ventureharbour.com",
+    "collected_date": "2026-06-20"
+  }
+}

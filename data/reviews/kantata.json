@@ -1,0 +1,17 @@
+{
+  "source_type": "seed_review",
+  "ext_id": "seed_review_kantata",
+  "title": "Kantata - Heavy interface and a slow-loading scheduler strain new users",
+  "clean_text": "Reviewers on G2 and Capterra describe Kantata's interface as complex and heavy, with a real learning curve for new users and some non-obvious UI selection elements that are hard to discover without guidance. The project scheduler is reported to take a long time to load and can cause eye strain as data updates while scrolling, and the mobile app frequently freezes when working with very large projects. Kantata is also described as expensive for smaller businesses, and customer support response times can be slow, with some issues taking about a week to resolve.",
+  "meta": {
+    "product": "Kantata PSA",
+    "sentiment": "negative",
+    "issue_type": [
+      "Implementation_Complexity",
+      "Performance",
+      "Price"
+    ],
+    "source": "g2.com + capterra.com",
+    "collected_date": "2026-06-20"
+  }
+}

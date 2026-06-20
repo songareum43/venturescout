@@ -1,0 +1,19 @@
+{
+  "source_type": "seed_pricing",
+  "ext_id": "seed_pricing_slack",
+  "title": "Slack pricing - $7.25-$15 list per user/month, real paid range up to $28.10",
+  "clean_text": "Slack's published 2026 tiers are Free, Pro at $7.25/user/month (annual billing), Business+ at roughly $12.50-$15/user/month (annual billing), and Enterprise Grid at custom pricing typically starting around $15+/user/month. Vendr's analysis of 535 verified real-world Slack purchases found actual per-user pricing ranging from $7.25 to $28.10 per month depending on plan, with enterprise buyers paying a median of $26.18 per user/month; most buyers negotiate 10-20% below list, with larger organizations achieving the lowest per-user rates.",
+  "meta": {
+    "product": "Slack",
+    "pricing_model": "tiered subscription, per-user",
+    "min_price_usd": 7.25,
+    "max_price_usd": 28.10,
+    "pricing_unit": "usd_per_user_per_month",
+    "list_price_pro_usd": 7.25,
+    "list_price_business_plus_usd": "12.50-15",
+    "enterprise_median_paid_usd": 26.18,
+    "publicly_disclosed": true,
+    "source": "vendr.com + costbench.com",
+    "collected_date": "2026-06-20"
+  }
+}
