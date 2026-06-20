@@ -1,0 +1,17 @@
+{
+  "source_type": "seed_pricing",
+  "ext_id": "seed_pricing_fis",
+  "title": "FIS pricing - No published list price; core banking typically $300K-$1M+/year",
+  "clean_text": "FIS does not publish official pricing; like other tier-one core banking vendors, contracts are tailored to each client's size, scope, and requirements, combining software licensing, maintenance fees, and transaction-based pricing. Third-party estimates for FIS core banking software typically range from roughly $300,000 to $1 million per year, with large banks paying closer to $1 million annually and smaller firms spending a few hundred thousand. Broader FIS software engagements are estimated to average around $1 million annually, with the maximum reported reaching approximately $5.5 million for larger, more complex deployments.",
+  "meta": {
+    "product": "FIS Banking Solutions",
+    "pricing_model": "custom enterprise quote",
+    "min_price_usd": 300000,
+    "max_price_usd": 1000000,
+    "pricing_unit": "usd_per_year_core_banking_typical_range",
+    "broader_engagement_max_usd": 5500000,
+    "publicly_disclosed": false,
+    "source": "sdk.finance + vendr.com",
+    "collected_date": "2026-06-20"
+  }
+}

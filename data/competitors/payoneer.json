@@ -1,0 +1,19 @@
+{
+  "source_type": "seed_competitor",
+  "ext_id": "seed_competitor_payoneer",
+  "title": "Payoneer - Cross-border B2B payments with local receiving accounts in 190+ countries",
+  "clean_text": "Payoneer is a B2B fintech founded in 2005 that provides cross-border money transfer, digital payment, and working capital services, letting businesses send or receive payments across 190+ countries and 70 currencies. Local receiving accounts let businesses collect payments as if they had a local bank account, hold balances in USD to avoid currency volatility, and pay suppliers elsewhere without unnecessary conversions. It serves more than two million customers, especially eCommerce businesses and digital service providers on marketplaces like Upwork and Amazon, and offers mass payout and treasury infrastructure for larger platform and marketplace clients.",
+  "meta": {
+    "product": "Payoneer",
+    "category": "cross_border_payments",
+    "platform": [
+      "cloud",
+      "web",
+      "API"
+    ],
+    "target": "eCommerce businesses, freelancers/digital service providers, marketplace platforms",
+    "pricing_model": "usage-based, per-transaction plus annual account fee",
+    "source": "payoneer.com + fintechreview.net",
+    "collected_date": "2026-06-20"
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "source_type": "seed_competitor",
+  "ext_id": "seed_competitor_trevipay",
+  "title": "TreviPay - B2B trade credit and invoicing network (acquired Apruve in 2022)",
+  "clean_text": "TreviPay is a B2B payments and invoicing network with a 40-plus year legacy in trade credit (net terms), authorizing, clearing, and settling invoice-based transactions over an open-loop network that utilizes the Mastercard payment network. It enables B2B net terms programs for merchants in over 20 countries with support for 10+ currencies, and offers tiered solutions: a Private Network for large enterprise sellers wanting closed, branded trade credit networks; the TreviPay Network for mid-market companies needing instant trade credit without a branded solution; and a Small Business Supplier Network letting banks offer SMBs flexible payment terms. TreviPay acquired B2B credit company Apruve in December 2022 and now operates its product line.",
+  "meta": {
+    "product": "TreviPay",
+    "category": "b2b_invoicing_credit",
+    "platform": [
+      "cloud",
+      "web",
+      "API"
+    ],
+    "target": "enterprise sellers through mid-market and SMB suppliers (via bank partners)",
+    "pricing_model": "usage-based, per-invoice plus financing fees",
+    "source": "trevipay.com + businesswire.com (TreviPay acquires Apruve)",
+    "collected_date": "2026-06-20"
+  }
+}

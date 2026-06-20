@@ -1,0 +1,17 @@
+{
+  "source_type": "seed_review",
+  "ext_id": "seed_review_zoho_crm",
+  "title": "Zoho CRM - Steep learning curve and limited customization at lower tiers",
+  "clean_text": "Zoho CRM reviews on G2 show persistent complexity complaints, with learning curve and complexity among the most frequently tagged issues across review periods. Users report integration difficulties across modules during onboarding, and limited customization options at lower tiers restrict advanced functionality for budget-conscious customers, with users also citing limited automation and integration depth more broadly. Some users report occasional performance lag when working with large datasets. Support quality is also rated below several competitors, commonly relying on email tickets with 24-48 hour response times.",
+  "meta": {
+    "product": "Zoho CRM",
+    "sentiment": "negative",
+    "issue_type": [
+      "Implementation_Complexity",
+      "Feature_Limitation",
+      "Performance"
+    ],
+    "source": "g2.com",
+    "collected_date": "2026-06-20"
+  }
+}

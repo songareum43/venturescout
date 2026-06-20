@@ -1,0 +1,17 @@
+{
+  "source_type": "seed_review",
+  "ext_id": "seed_review_wise",
+  "title": "Wise Business - Fees accumulate with frequent transactions and large transfers can be delayed",
+  "clean_text": "Reviewers on G2 report that fees can accumulate noticeably for businesses making frequent transactions and conversions, despite the per-transfer transparency. Some users describe encountering double fees and difficulty resolving payment queries through support. Payment delays are reported especially for large transfers or transfers to certain banks and countries, and international support is described as limited, contributing to slower resolution and potential delays on larger transactions.",
+  "meta": {
+    "product": "Wise Business",
+    "sentiment": "negative",
+    "issue_type": [
+      "Price",
+      "Performance",
+      "Feature_Limitation"
+    ],
+    "source": "g2.com",
+    "collected_date": "2026-06-20"
+  }
+}

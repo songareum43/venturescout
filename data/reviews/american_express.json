@@ -1,0 +1,17 @@
+{
+  "source_type": "seed_review",
+  "ext_id": "seed_review_american_express",
+  "title": "American Express - Higher merchant fees and slower settlement than rival networks",
+  "clean_text": "The two most cited complaints against accepting American Express are higher merchant fees relative to other major card networks and slower settlement times, which historically limited Amex's market acceptance versus Visa and Mastercard. Before the 2014 OptBlue program, merchants wanting to accept Amex had to open a separate, dedicated merchant account, and the associated paperwork, logistics, accounting, and reconciliation burden was too much for many businesses to take on; OptBlue addressed some of this but large-volume merchants with direct Amex relationships can still face comparatively higher rates today.",
+  "meta": {
+    "product": "American Express Business",
+    "sentiment": "negative",
+    "issue_type": [
+      "Price",
+      "Performance",
+      "Implementation_Complexity"
+    ],
+    "source": "truemerchant.com + cardpaymentoptions.com",
+    "collected_date": "2026-06-20"
+  }
+}

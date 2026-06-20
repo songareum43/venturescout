@@ -1,0 +1,17 @@
+{
+  "source_type": "seed_review",
+  "ext_id": "seed_review_hibob",
+  "title": "HiBob - Pricing transparency gaps and a surprise implementation fee",
+  "clean_text": "Common complaints center on pricing transparency, with a one-time implementation fee of 10-20% of the first-year contract catching many small teams off guard. Some users report a challenging learning curve during setup and describe the platform as less intuitive than expected, with slow loading and confusing settings adjustments requiring extensive customer support. Missing native features such as payroll and an applicant tracking system (ATS) push customers toward third-party integrations, and recruiting functionality is described as comparatively light. Reviewers note that nearly every complaint traces back to Bob being built primarily for larger organizations than the smallest teams evaluating it.",
+  "meta": {
+    "product": "HiBob (Bob)",
+    "sentiment": "negative",
+    "issue_type": [
+      "Pricing_Complexity",
+      "Implementation_Complexity",
+      "Feature_Missing"
+    ],
+    "source": "g2.com + capterra.com",
+    "collected_date": "2026-06-20"
+  }
+}

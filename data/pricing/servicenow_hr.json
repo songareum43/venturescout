@@ -1,0 +1,17 @@
+{
+  "source_type": "seed_pricing",
+  "ext_id": "seed_pricing_servicenow_hr",
+  "title": "ServiceNow HRSD pricing - $24-$108 per employee/year, priced on full headcount",
+  "clean_text": "ServiceNow HR Service Delivery is priced per employee across the full company headcount (not per HR user), running roughly $24-$108 per employee per year in 2026 depending on tier (a lower tier for core case/knowledge management, a higher tier adding employee journeys and broader integration), total headcount, and the rest of a customer's ServiceNow estate. There is no single list price; real customers commonly negotiate 25-40% discounts off list for HRSD specifically. Add-ons such as AI agents, workflow automation, performance analytics, and integration hub are sold separately and can significantly increase total cost.",
+  "meta": {
+    "product": "ServiceNow HR Service Delivery",
+    "pricing_model": "tiered subscription, per-employee per-year",
+    "min_price_usd": 24,
+    "max_price_usd": 108,
+    "pricing_unit": "usd_per_employee_per_year_full_headcount",
+    "negotiated_discount_pct": "25-40",
+    "publicly_disclosed": false,
+    "source": "redresscompliance.com",
+    "collected_date": "2026-06-20"
+  }
+}

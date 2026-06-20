@@ -1,0 +1,17 @@
+{
+  "source_type": "seed_review",
+  "ext_id": "seed_review_adp_workforce_now",
+  "title": "ADP Workforce Now - Support quality varies sharply by contract tier, and add-on fees stack",
+  "clean_text": "Poor customer support is the most frequently cited complaint on G2, mentioned 111 times in recent reviews, with users reporting long hold times, transfers between departments, and slow issue resolution. Support quality is reported to depend heavily on contract tier: the experience tends to be better on ADP's outsourced service tiers, while standard Workforce Now customers on Select, Plus, or Premium plans describe support as feeling like a maze. Pricing also stacks multiple separate fees -- base platform, implementation, and several per-employee add-ons (HR Assist, Enhanced Insights, recruiting) -- on top of the headline per-employee rate. Some users also note missing features such as app-based or selected-area time punching.",
+  "meta": {
+    "product": "ADP Workforce Now",
+    "sentiment": "negative",
+    "issue_type": [
+      "Contract_Terms",
+      "Pricing_Complexity",
+      "Feature_Missing"
+    ],
+    "source": "g2.com + outsail.co",
+    "collected_date": "2026-06-20"
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "source_type": "seed_review",
+  "ext_id": "seed_review_paycor",
+  "title": "Paycor - Reporting is the lowest-scored feature among competitors",
+  "clean_text": "Reporting is Paycor's most documented functional limitation, scoring 7.3/10 on G2 -- the lowest among benchmarked competitors -- because users cannot build custom reports from scratch with arbitrary field combinations. Some users describe the layout as confusing and report the app can feel glitchy or slow to load, particularly when clocking in or out. Customer support is described as slow to respond during urgent issues and sometimes providing misinformation, and some users note the loss of a previously available \"impersonate user\" option as a missing feature that complicated troubleshooting.",
+  "meta": {
+    "product": "Paycor",
+    "sentiment": "negative",
+    "issue_type": [
+      "Feature_Limitation",
+      "Performance",
+      "Feature_Missing"
+    ],
+    "source": "g2.com",
+    "collected_date": "2026-06-20"
+  }
+}

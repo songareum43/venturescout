@@ -1,0 +1,18 @@
+{
+  "source_type": "seed_pricing",
+  "ext_id": "seed_pricing_wrike",
+  "title": "Wrike pricing - Free for 5 users, then $10-$25 per user/month, custom above that",
+  "clean_text": "Wrike's Free plan supports up to 5 users. Paid tiers (annual billing) are Team at $10/user/month and Business at roughly $20-25/user/month, with Business carrying a 5-user minimum that turns the $25 headline rate into an effective $1,500/year floor. Pinnacle and Apex are the top two tiers, sold via custom quote; Apex pricing typically ranges from $60-$80/user/month for teams of 50 or more. Licenses are sold in fixed user bands rather than per exact seat count, and add-ons such as Wrike Lock, Wrike Integrate, and Wrike Two-Way Sync are contact-sales only with no published prices.",
+  "meta": {
+    "product": "Wrike",
+    "pricing_model": "tiered subscription, per-seat with fixed user bands",
+    "min_price_usd": 10,
+    "max_price_usd": 25,
+    "pricing_unit": "usd_per_user_per_month_annual_billing",
+    "business_5_user_minimum_annual_usd": 1500,
+    "apex_usd_per_user_month": "60-80 (custom, 50+ users)",
+    "publicly_disclosed": true,
+    "source": "wrikepricing.com + costbench.com + agiled.app",
+    "collected_date": "2026-06-20"
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "source_type": "seed_competitor",
+  "ext_id": "seed_competitor_namely",
+  "title": "Namely - All-in-one HCM platform for small-to-mid-sized US companies",
+  "clean_text": "Namely combines HR, payroll, time, benefits, and talent software into a single platform for small-to-mid-sized US companies (roughly 25-1,000 employees), with core HR, time tracking, payroll, benefits administration, and basic recruiting/performance modules, emphasizing employee self-service on any device and an easy-to-use interface. The platform spans four tiers from a self-service entry plan up to Namely Complete, a white-glove comprehensive PEO solution for companies wanting to expand while minimizing risk and liability.",
+  "meta": {
+    "product": "Namely",
+    "category": "core_hr_hris",
+    "platform": [
+      "cloud",
+      "web",
+      "mobile"
+    ],
+    "target": "small-to-mid-sized US companies, 25-1,000 employees",
+    "pricing_model": "tiered subscription, per-employee per-month",
+    "source": "namely.com + wellness360.co",
+    "collected_date": "2026-06-20"
+  }
+}

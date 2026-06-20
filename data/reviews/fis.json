@@ -1,0 +1,17 @@
+{
+  "source_type": "seed_review",
+  "ext_id": "seed_review_fis",
+  "title": "FIS - Reviewers call the core product old-fashioned and slow to change",
+  "clean_text": "Gartner Peer Insights reviewers describe FIS's core banking products as \"old-fashioned, hard to get changes done to the core product,\" with a user interface that is \"not very user friendly.\" Reviewers identify speed to market on new innovations and enhancements as a key area needing improvement. Combined with typical core banking contract costs in the hundreds of thousands to low millions of dollars per year, the high price and slow pace of product change are recurring themes even though FIS is also credited with a proven track record of platform stability.",
+  "meta": {
+    "product": "FIS Banking Solutions",
+    "sentiment": "negative",
+    "issue_type": [
+      "Implementation_Complexity",
+      "Feature_Limitation",
+      "Price"
+    ],
+    "source": "gartner.com (Peer Insights)",
+    "collected_date": "2026-06-20"
+  }
+}

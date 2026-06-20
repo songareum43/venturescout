@@ -1,0 +1,19 @@
+{
+  "source_type": "seed_competitor",
+  "ext_id": "seed_competitor_paychex_flex",
+  "title": "Paychex Flex - All-in-one payroll, benefits, and HR for small businesses",
+  "clean_text": "Paychex Flex combines payroll processing with business insurance, benefits enrollment, workers' comp, and HR administration in one cloud-based dashboard with desktop and mobile access. Its small business solutions are specifically tailored to companies with 1-19 employees, helping them save time, cut costs, and stay compliant, while also serving remote teams wanting an all-in-one payroll/benefits/HR-compliance solution. All packages include paperless, mobile-friendly onboarding and access to \"Fortune 500-level\" employee benefits plus financial wellness tools including short-term loans. Paychex completed a $4.1 billion acquisition of HCM competitor Paycor in April 2025.",
+  "meta": {
+    "product": "Paychex Flex",
+    "category": "hcm_erp",
+    "platform": [
+      "cloud",
+      "web",
+      "mobile"
+    ],
+    "target": "small businesses, 1-19 employees core focus, remote teams",
+    "pricing_model": "tiered subscription, base plus per-employee, custom quote",
+    "source": "paychex.com + remotepeople.com",
+    "collected_date": "2026-06-20"
+  }
+}

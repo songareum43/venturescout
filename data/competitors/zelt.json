@@ -1,0 +1,18 @@
+{
+  "source_type": "seed_competitor",
+  "ext_id": "seed_competitor_zelt",
+  "title": "Zelt - UK-based HR, payroll, and IT management platform for SMBs",
+  "clean_text": "Zelt is a cloud-based HR, payroll, and IT management platform headquartered in the UK that differentiates itself by tightly integrating IT asset provisioning and application access directly into core HR and onboarding workflows. It is best suited for small-to-mid-sized UK businesses, featuring HMRC-approved native local payroll, though it has demonstrated capacity to support midmarket organizations including customers with over 1,000 employees. Key features include time/attendance/PTO tracking, expense management with digital approval workflows, and API connections to accounting software and tax authority systems.",
+  "meta": {
+    "product": "Zelt",
+    "category": "core_hr_hris",
+    "platform": [
+      "cloud",
+      "web"
+    ],
+    "target": "small-to-mid-sized UK businesses",
+    "pricing_model": "tiered subscription, per-user, free starter tier",
+    "source": "zelt.app + research.com",
+    "collected_date": "2026-06-20"
+  }
+}

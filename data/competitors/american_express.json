@@ -1,0 +1,17 @@
+{
+  "source_type": "seed_competitor",
+  "ext_id": "seed_competitor_american_express",
+  "title": "American Express Business - Corporate cards and B2B payment automation",
+  "clean_text": "American Express offers B2B payment solutions including the Corporate Purchasing Card (CPC) for procurement-to-payment automation and vPayment, a virtual card solution that assigns a unique virtual card number per transaction with configurable amount, date range, and spend controls for easier reconciliation. Amex's Global Commercial Services team has relationships with nearly 60% of Fortune Global 500 companies, targeting Fortune 1000 and multinationals needing global acceptance, spend control, and analytics, while also expanding virtual-card access to small business owners that was previously corporate-only. American Express cards are accepted at an estimated 160 million merchant locations worldwide as of mid-2025, up nearly 5x since 2017, reaching 99% US acceptance parity with other major networks since the end of 2019.",
+  "meta": {
+    "product": "American Express Business",
+    "category": "card_network",
+    "platform": [
+      "global card network"
+    ],
+    "target": "Fortune 1000 and multinationals, expanding to SMBs",
+    "pricing_model": "annual card fee plus merchant discount rate",
+    "source": "americanexpress.com + paymentsdive.com + pymnts.com",
+    "collected_date": "2026-06-20"
+  }
+}

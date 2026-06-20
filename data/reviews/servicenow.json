@@ -1,0 +1,17 @@
+{
+  "source_type": "seed_review",
+  "ext_id": "seed_review_servicenow",
+  "title": "ServiceNow - Costly licensing and complex, lengthy implementations",
+  "clean_text": "ServiceNow implementations are frequently described as complex, requiring careful discovery tuning, CMDB cleanup, and event correlation setup that can take months to fully configure. Licensing costs are often called astronomical, with pricing widely viewed as complex and higher than competing options, making it less appealing for smaller organizations. Customization requires skilled, expensive administrators and can involve lengthy development cycles. Biannual platform upgrades can break custom configurations, and CMDB data bloat can introduce noticeable system latency if the environment is not carefully governed.",
+  "meta": {
+    "product": "ServiceNow Now Platform (ITSM)",
+    "sentiment": "negative",
+    "issue_type": [
+      "Implementation_Complexity",
+      "Pricing_Complexity",
+      "Performance"
+    ],
+    "source": "g2.com + desk365.io",
+    "collected_date": "2026-06-20"
+  }
+}

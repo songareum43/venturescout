@@ -1,0 +1,17 @@
+{
+  "source_type": "seed_review",
+  "ext_id": "seed_review_datadog",
+  "title": "Datadog - Costs stack up unpredictably across modules as usage grows",
+  "clean_text": "The most consistent complaint across Reddit and G2 is that Datadog is powerful but expensive in unpredictable ways once teams move beyond basic infrastructure monitoring and enable multiple modules such as logs, APM, and real user monitoring. Reviewers describe a lack of cost transparency and predictability, noting that Datadog is easy to start with but hard to budget for long-term without strict internal governance. The gap between log ingestion cost and indexing cost forces difficult tradeoffs about what data to retain. Separately, the learning curve is described as steep, with the UI feeling cluttered and overwhelming for new team members as more modules (Security, CI Visibility, RUM) are added.",
+  "meta": {
+    "product": "Datadog",
+    "sentiment": "negative",
+    "issue_type": [
+      "Pricing_Complexity",
+      "Implementation_Complexity",
+      "Price"
+    ],
+    "source": "g2.com + reddit (via motadata.com summary)",
+    "collected_date": "2026-06-20"
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "source_type": "seed_review",
+  "ext_id": "seed_review_notion",
+  "title": "Notion - Steep learning curve and inflexible per-domain pricing tier",
+  "clean_text": "Users report a steep learning curve, with database customization, page relationships, and tracking automation requiring meaningful exploration before mastery. Notion is described as good enough for project management for most teams but not a replacement for tools like Jira or ClickUp when execution depth matters, and integrations are seen as limited. Pricing is criticized for lacking flexibility: there is one tier per user and everyone on a workspace's domain is billed at the same tier, even when reviewers estimate only around 20% of a team uses it regularly. Some users also report slow or inconsistent support response times.",
+  "meta": {
+    "product": "Notion",
+    "sentiment": "negative",
+    "issue_type": [
+      "Implementation_Complexity",
+      "Feature_Limitation",
+      "Pricing_Complexity"
+    ],
+    "source": "g2.com + eesel.ai",
+    "collected_date": "2026-06-20"
+  }
+}

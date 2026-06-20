@@ -1,0 +1,16 @@
+{
+  "source_type": "seed_pricing",
+  "ext_id": "seed_pricing_marketo_adobe",
+  "title": "Marketo Engage pricing - No published list price, scales with contact database size",
+  "clean_text": "Adobe does not publish list prices for Marketo Engage. Pricing is sold as an annual subscription based on edition (Select, Prime, Ultimate, and others) combined with contact database size, not number of users or seats, plus optional add-ons such as advanced attribution. Industry estimates put a base Select-tier package around $1,295/month billed annually, while the Ultimate ABM and marketing automation tier is commonly estimated at $895-$3,175/month ($10,740-$38,100+/year total cost of ownership). There is no free plan and no standard self-service free trial; all editions require a custom quote from Adobe or a partner.",
+  "meta": {
+    "product": "Adobe Marketo Engage",
+    "pricing_model": "custom enterprise quote, database-size tiered",
+    "min_price_usd": 895,
+    "max_price_usd": 3175,
+    "pricing_unit": "usd_per_month_estimated_annual_tco (third-party benchmark, not official)",
+    "publicly_disclosed": false,
+    "source": "pricingsaas.com + bestmarketingautomationtools.com",
+    "collected_date": "2026-06-20"
+  }
+}

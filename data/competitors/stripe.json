@@ -1,0 +1,18 @@
+{
+  "source_type": "seed_competitor",
+  "ext_id": "seed_competitor_stripe",
+  "title": "Stripe - Developer-first payments API processing $1.9T annually",
+  "clean_text": "Stripe is a payments infrastructure platform offering over 500 API endpoints across one-time card charges, multi-party marketplace payouts (Connect), subscription billing, fraud detection, card issuing, treasury services, and tax compliance. Stripe processed $1.9 trillion in total payment volume in 2025, with more than 300,000 businesses using Stripe Billing alone to manage close to 200 million active subscriptions. It serves startups accepting their first payments through large enterprises building multi-region, embedded-finance products, and is frequently the first payments integration a platform adds.",
+  "meta": {
+    "product": "Stripe",
+    "category": "payment_processing",
+    "platform": [
+      "cloud",
+      "API"
+    ],
+    "target": "startups through large enterprises, embedded finance and marketplaces",
+    "pricing_model": "usage-based, per-transaction",
+    "source": "docs.stripe.com + apideck.com",
+    "collected_date": "2026-06-20"
+  }
+}

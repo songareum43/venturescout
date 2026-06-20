@@ -1,0 +1,17 @@
+{
+  "source_type": "seed_review",
+  "ext_id": "seed_review_smartsheet",
+  "title": "Smartsheet - Rising prices and dashboards that lack filtering depth",
+  "clean_text": "Reddit users report that Smartsheet's pricing \"has gone through the roof the last couple of years,\" and paid plans are described as expensive for small businesses or budget-conscious teams. On G2 and Reddit, dashboards are criticized for lacking filtering or drill-down options, with visualizations seen as limited compared to other tools, and the overall UI described as staid. Performance can slow down when working with very large sheets or complex cross-sheet dependencies, and some users find Smartsheet lacks certain advanced features needed for more complex project requirements.",
+  "meta": {
+    "product": "Smartsheet",
+    "sentiment": "negative",
+    "issue_type": [
+      "Price",
+      "Feature_Limitation",
+      "Performance"
+    ],
+    "source": "g2.com + reddit (via cloudwards.net summary)",
+    "collected_date": "2026-06-20"
+  }
+}

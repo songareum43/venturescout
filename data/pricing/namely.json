@@ -1,0 +1,16 @@
+{
+  "source_type": "seed_pricing",
+  "ext_id": "seed_pricing_namely",
+  "title": "Namely pricing - $9/employee/month entry tier, custom quote for higher tiers",
+  "clean_text": "Namely uses a per-employee-per-month subscription model with all features included at each tier and no extra fees beyond the quoted rate. The entry-level Namely Now plan starts at $9 per employee per month. Higher tiers -- Namely Plus (adds payroll, talent, time), Namely Plus People (managed payroll and benefits), and Namely Complete (white-glove PEO) -- are custom-priced. Volume discounts are available for larger organizations with 500+ employees.",
+  "meta": {
+    "product": "Namely",
+    "pricing_model": "tiered subscription, per-employee per-month",
+    "min_price_usd": 9,
+    "max_price_usd": 9,
+    "pricing_unit": "usd_per_employee_per_month_entry_tier_only",
+    "publicly_disclosed": false,
+    "source": "elearningindustry.com",
+    "collected_date": "2026-06-20"
+  }
+}

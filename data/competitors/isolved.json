@@ -1,0 +1,17 @@
+{
+  "source_type": "seed_competitor",
+  "ext_id": "seed_competitor_isolved",
+  "title": "isolved - Modular HCM platform sold directly and through a reseller partner network",
+  "clean_text": "isolved People Cloud is a unified, modular HCM platform connecting HR, payroll, benefits, and workforce/talent management with built-in AI and analytics (HCM Intelligence), including autonomous AI agents for HR/payroll/benefits outcomes. More than 195,000 employers and 8 million employees use isolved's software and services. It primarily serves small-to-mid-size businesses valuing operational efficiency, and notably operates a large reseller network -- brokers, financial advisors, accountants, HR consultants, PEOs, ASOs, and payroll providers can resell isolved People Cloud under their own brand via the Preferred Partner program, supported by white-glove implementation services from local partners.",
+  "meta": {
+    "product": "isolved",
+    "category": "hcm_erp",
+    "platform": [
+      "cloud"
+    ],
+    "target": "small-to-mid-size businesses, distributed via reseller partner network",
+    "pricing_model": "modular add-on subscription, custom quote",
+    "source": "isolvedhcm.com + globenewswire.com",
+    "collected_date": "2026-06-20"
+  }
+}

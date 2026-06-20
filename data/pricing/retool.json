@@ -1,0 +1,19 @@
+{
+  "source_type": "seed_pricing",
+  "ext_id": "seed_pricing_retool",
+  "title": "Retool pricing - Free up to 5 users, then $10-$50 per standard user/month",
+  "clean_text": "Retool's Free tier supports up to 5 Standard Users (builders) and 5 End Users with core database/API integrations and pre-built components. The Team plan is $10 per Standard User per month (annual billing) and adds version history, audit logs, and 3 deployment environments. The Business plan is $50/user/month and adds SSO/SAML, role-based access control, Git source control integration, and custom component development. Enterprise pricing is custom and required for self-hosted deployment as of 2026 (self-hosting is no longer available on lower tiers).",
+  "meta": {
+    "product": "Retool",
+    "pricing_model": "tiered subscription, per standard-user",
+    "min_price_usd": 0,
+    "max_price_usd": 50,
+    "pricing_unit": "usd_per_standard_user_per_month_annual_billing",
+    "team_plan_usd": 10,
+    "business_plan_usd": 50,
+    "self_hosting_tier": "enterprise only (2026)",
+    "publicly_disclosed": true,
+    "source": "trustradius.com + costbench.com + adalo.com",
+    "collected_date": "2026-06-20"
+  }
+}

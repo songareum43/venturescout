@@ -1,0 +1,18 @@
+{
+  "source_type": "seed_competitor",
+  "ext_id": "seed_competitor_warp",
+  "title": "Warp - Next-gen payroll and compliance platform for founders and remote teams",
+  "clean_text": "Warp is a cloud-based payroll and compliance platform built for founders and remote teams, automating payroll, tax compliance, and benefits, handling tax registrations and compliance across all 50 US states, and managing payroll for international contractors in 150+ countries with localized contracts. Its all-in-one dashboard lets founders manage US employees, contractors, and international contractors together, handling federal, state, and local taxes. Warp claims it helps startups save up to six hours per month and avoid up to $20,000 in yearly compliance fines through automation.",
+  "meta": {
+    "product": "Warp",
+    "category": "ai_native_hr_tech",
+    "platform": [
+      "cloud",
+      "web"
+    ],
+    "target": "founders and remote teams, primarily small businesses",
+    "pricing_model": "tiered subscription, flat monthly",
+    "source": "research.com + techjockey.com",
+    "collected_date": "2026-06-20"
+  }
+}

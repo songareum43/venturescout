@@ -1,0 +1,20 @@
+{
+  "source_type": "seed_pricing",
+  "ext_id": "seed_pricing_asana",
+  "title": "Asana pricing - Free for 10 users, then $10.99-$45 per user/month",
+  "clean_text": "Asana's Personal plan is free forever for up to 10 users with unlimited tasks/projects and 200+ integrations. Paid tiers (annual billing) are Starter at $10.99/user/month, Advanced at $24.99/user/month, Enterprise at $35/user/month, and Enterprise+ at $45/user/month; monthly billing raises Starter to $13.49 and Advanced to $30.49 per user/month. Asana raised both Starter and Advanced list prices in 2026.",
+  "meta": {
+    "product": "Asana",
+    "pricing_model": "tiered subscription, per-user",
+    "min_price_usd": 0,
+    "max_price_usd": 45,
+    "pricing_unit": "usd_per_user_per_month_annual_billing",
+    "starter_usd": 10.99,
+    "advanced_usd": 24.99,
+    "enterprise_usd": 35,
+    "enterprise_plus_usd": 45,
+    "publicly_disclosed": true,
+    "source": "costbench.com + tech.co",
+    "collected_date": "2026-06-20"
+  }
+}

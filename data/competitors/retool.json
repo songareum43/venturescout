@@ -1,0 +1,18 @@
+{
+  "source_type": "seed_competitor",
+  "ext_id": "seed_competitor_retool",
+  "title": "Retool - Low-code platform for building internal business applications",
+  "clean_text": "Retool is a low-code platform purpose-built for internal tools such as admin panels, database/API frontends, customer support dashboards, inventory trackers, and approval workflows, using a drag-and-drop interface that connects to existing data sources. Primary users are frontend and backend developers (commonly React/JavaScript) along with product managers prototyping quickly and operations teams without coding expertise. The platform is particularly valuable to CTOs and VPEs at rapidly expanding, operationally intensive companies such as delivery services and fintech firms, and Retool has shifted toward an enterprise-focused go-to-market, growing its sales team from roughly 6 people in 2020 to about 75 by April 2024.",
+  "meta": {
+    "product": "Retool",
+    "category": "developer_tools",
+    "platform": [
+      "cloud",
+      "web"
+    ],
+    "target": "developers and engineering teams; CTOs/VPEs at operationally-intensive startups and enterprises",
+    "pricing_model": "tiered subscription, per standard-user",
+    "source": "canvasbusinessmodel.com + uibakery.io + review.firstround.com",
+    "collected_date": "2026-06-20"
+  }
+}

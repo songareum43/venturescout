@@ -1,0 +1,18 @@
+{
+  "source_type": "seed_pricing",
+  "ext_id": "seed_pricing_adp_workforce_now",
+  "title": "ADP Workforce Now pricing - $10-$30/employee/month plus base platform and add-on fees",
+  "clean_text": "ADP Workforce Now uses quotation-based pricing tailored to company size and selected features. Reported per-employee monthly rates run roughly $10 (Essential), $17 (Enhanced), and $25 (Complete), while the Plus plan base platform has been cited at $23-$30/employee/month. On top of the per-employee rate, a base platform fee of $1,500-$5,000/year applies plus implementation fees of $2,000-$10,000+. Add-ons stack further: HR Assist costs $5-$8/employee/month, Enhanced Insights analytics costs $3-$6/employee/month, and the recruiting add-on costs $3/employee/month plus a $2,000 one-time setup fee.",
+  "meta": {
+    "product": "ADP Workforce Now",
+    "pricing_model": "tiered subscription, per-employee plus custom quote",
+    "min_price_usd": 10,
+    "max_price_usd": 30,
+    "pricing_unit": "usd_per_employee_per_month",
+    "base_platform_fee_annual_usd": "1500-5000",
+    "implementation_fee_usd": "2000-10000+",
+    "publicly_disclosed": false,
+    "source": "costbench.com + payrolldetective.com",
+    "collected_date": "2026-06-20"
+  }
+}

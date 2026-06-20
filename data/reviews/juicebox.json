@@ -1,0 +1,17 @@
+{
+  "source_type": "seed_review",
+  "ext_id": "seed_review_juicebox",
+  "title": "Juicebox - Stale candidate data and email-only outreach leave workflow gaps",
+  "clean_text": "A growing number of recruiters report that Juicebox's limitations -- including stale candidate data and email-only outreach -- leave significant gaps in their workflow. Once candidates are found, recruiters need separate tools to track them through a hiring pipeline, reach them on channels beyond email, and analyze funnel performance, since Juicebox itself does not cover those steps. The Starter plan's exclusion of phone numbers and verified emails creates an early paywall before recruiters can actually contact candidates, and the AI Agents add-on stacks an additional $199/month on top of the seat price.",
+  "meta": {
+    "product": "Juicebox (PeopleGPT)",
+    "sentiment": "negative",
+    "issue_type": [
+      "Feature_Limitation",
+      "Feature_Missing",
+      "Pricing_Complexity"
+    ],
+    "source": "herohunt.ai + paraform.com",
+    "collected_date": "2026-06-20"
+  }
+}

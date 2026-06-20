@@ -1,0 +1,17 @@
+{
+  "source_type": "seed_competitor",
+  "ext_id": "seed_competitor_lattice",
+  "title": "Lattice - Modern people management platform for performance and engagement",
+  "clean_text": "Lattice is a people management platform used by nearly 4,000 companies globally to centralize performance reviews, OKR goal setting and tracking, feedback, employee engagement surveys, calibrations, promotions, succession planning, and 1:1s, organized into modular products: Grow (performance), Engage (engagement), Compensate (compensation planning), and Develop (career development). It targets HR and talent teams at midsize companies across fintech, life sciences, financial services, professional services, and technology, and is especially popular with fast-growing tech companies and distributed teams that value real-time feedback and transparent goal alignment.",
+  "meta": {
+    "product": "Lattice",
+    "category": "performance_management",
+    "platform": [
+      "cloud"
+    ],
+    "target": "midsize companies, especially fast-growing tech and distributed teams",
+    "pricing_model": "tiered subscription, per-seat per-month",
+    "source": "softwareadvice.com + promptloop.com",
+    "collected_date": "2026-06-20"
+  }
+}

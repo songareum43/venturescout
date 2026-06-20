@@ -1,0 +1,19 @@
+{
+  "source_type": "seed_pricing",
+  "ext_id": "seed_pricing_deel",
+  "title": "Deel pricing - $29/employee/month Global Payroll up to $899 PEPM Enterprise EOR",
+  "clean_text": "Deel's published 2026 pricing: standard EOR is $599 per employee per month (PEPM) and enterprise EOR is $899 PEPM, on top of which employer taxes (15-45% of salary depending on country), FX spreads (0.5-2% per payroll cycle), and a refundable deposit of 1-1.5x monthly cost apply. Global Payroll (for companies with their own legal entities already) costs $29/employee/month. Contractor management costs $49 per contractor per month (PCM) and Contractor of Record costs $325 PCM. Deel HR is free for up to 200 employees. Immigration/visa support is custom-priced, with third-party estimates around $300-$500/month per sponsored employee.",
+  "meta": {
+    "product": "Deel",
+    "pricing_model": "tiered subscription, per-worker (EOR/contractor/payroll)",
+    "min_price_usd": 29,
+    "max_price_usd": 899,
+    "pricing_unit": "usd_per_worker_per_month_by_product",
+    "eor_standard_pepm_usd": 599,
+    "eor_enterprise_pepm_usd": 899,
+    "global_payroll_pepm_usd": 29,
+    "publicly_disclosed": true,
+    "source": "costbench.com + pin.com",
+    "collected_date": "2026-06-20"
+  }
+}

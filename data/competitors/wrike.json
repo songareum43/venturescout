@@ -1,0 +1,19 @@
+{
+  "source_type": "seed_competitor",
+  "ext_id": "seed_competitor_wrike",
+  "title": "Wrike - Cloud work management platform with Gantt charts, proofing, and resource management",
+  "clean_text": "Wrike is a cloud-based work management platform that centralizes project planning, task execution, and team collaboration, with customizable dashboards, Gantt charts, Kanban boards, resource management, automated request capturing, and proofing/approval workflows. It serves more than two million users across over 18,000 organizations spanning startups, SMBs, and enterprises in industries such as travel and hospitality, retail, automotive, healthcare, education, and manufacturing, with high-profile customers including Airbnb, Hootsuite, Ogilvy, and Sotheby's.",
+  "meta": {
+    "product": "Wrike",
+    "category": "work_management",
+    "platform": [
+      "cloud",
+      "web",
+      "mobile"
+    ],
+    "target": "project managers and teams of all sizes, startups through enterprise",
+    "pricing_model": "tiered subscription, per-seat with fixed user bands",
+    "source": "cio.com + softwareadvice.com + project-management.com",
+    "collected_date": "2026-06-20"
+  }
+}

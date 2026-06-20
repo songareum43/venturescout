@@ -1,0 +1,18 @@
+{
+  "source_type": "seed_competitor",
+  "ext_id": "seed_competitor_adyen",
+  "title": "Adyen - Unified enterprise payments, data, and financial products platform",
+  "clean_text": "Adyen is a fintech platform unifying payment processing, risk management, and acquiring on a single system, organized around three pillars: Digital, Unified Commerce, and Platforms. It targets medium-to-large enterprises in e-commerce, retail, travel, and hospitality with high transaction volumes, generally requiring $500K+ in monthly processing volume, and the Platforms segment also serves marketplaces (eBay, Etsy) and POS software providers (Toast, Lightspeed) that embed payments for their own SMB users; Platforms volume grew 51% year-over-year in 2024.",
+  "meta": {
+    "product": "Adyen",
+    "category": "payment_processing",
+    "platform": [
+      "cloud",
+      "API"
+    ],
+    "target": "medium-to-large enterprises, $500K+/month processing volume",
+    "pricing_model": "interchange++ usage-based",
+    "source": "adyen.com + pestel-analysis.com + popularfintech.com",
+    "collected_date": "2026-06-20"
+  }
+}

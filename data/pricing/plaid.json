@@ -1,0 +1,17 @@
+{
+  "source_type": "seed_pricing",
+  "ext_id": "seed_pricing_plaid",
+  "title": "Plaid pricing - Free sandbox, then $0.10-$0.60 per successful API call",
+  "clean_text": "Plaid's Sandbox/development plan is free ($0/month). Production usage on the Pay-as-you-go (Launch) plan is billed per successful API call, with most products charging roughly $0.10-$0.60 per call depending on the specific product and volume tier; Plaid does not publish exact rates for most production use cases. Growth and Custom/Enterprise tiers are custom-priced based on API products used, call volume, support needs, and contract terms, typically with monthly or annual minimum commitments of $1,000-$10,000+ depending on scale. Unit pricing decreases as monthly call volume increases.",
+  "meta": {
+    "product": "Plaid",
+    "pricing_model": "usage-based, per API call",
+    "min_price_usd": 0.10,
+    "max_price_usd": 0.60,
+    "pricing_unit": "usd_per_successful_api_call",
+    "enterprise_monthly_minimum_usd": "1000-10000+",
+    "publicly_disclosed": false,
+    "source": "costbench.com + vendr.com",
+    "collected_date": "2026-06-20"
+  }
+}

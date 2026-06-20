@@ -1,0 +1,17 @@
+{
+  "source_type": "seed_review",
+  "ext_id": "seed_review_airwallex",
+  "title": "Airwallex - Sudden account freezes and an undisclosed transfer fee",
+  "clean_text": "Most complaints involve accounts being shut down suddenly, with funds stuck for weeks or months over vague compliance issues, and some users report transactions frozen without apparent valid risk concerns alongside difficulty reaching customer support during these incidents. The Better Business Bureau gives Airwallex US a low rating, citing failure to address 10 complaints filed against the business over the past three years. Separately, a 0.3% fee on transfers received from non-owner accounts is not listed on Airwallex's public pricing page and can add up quickly for businesses collecting client payments. Application and verification processes are also described as lengthy, requiring extensive paperwork.",
+  "meta": {
+    "product": "Airwallex",
+    "sentiment": "negative",
+    "issue_type": [
+      "Product_Stability",
+      "Contract_Terms",
+      "Pricing_Complexity"
+    ],
+    "source": "g2.com + bbb.org",
+    "collected_date": "2026-06-20"
+  }
+}

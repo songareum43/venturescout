@@ -1,0 +1,19 @@
+{
+  "source_type": "seed_competitor",
+  "ext_id": "seed_competitor_square",
+  "title": "Square (Block) - POS and payments platform for small and micro businesses",
+  "clean_text": "Square (renamed Block Inc. in 2021) is a San Francisco-based commerce platform offering point-of-sale, payment processing, business banking, e-commerce, inventory management, CRM, and invoicing tools, originally built for restaurants and small businesses. It has over four million users worldwide, with roughly 70% of gross payment volume coming from small-to-medium-sized business customers, and quick-service restaurants as a particularly strong segment. In 2025, Square's revenue reached about $24.5 billion (up 22% year-over-year) on roughly $210 billion in gross payment volume.",
+  "meta": {
+    "product": "Square (Block)",
+    "category": "payment_processing",
+    "platform": [
+      "cloud",
+      "POS",
+      "web"
+    ],
+    "target": "small and micro businesses, particularly quick-service restaurants and retail",
+    "pricing_model": "tiered subscription plus usage-based transaction fees",
+    "source": "coinlaw.io + paymentsdive.com",
+    "collected_date": "2026-06-20"
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "source_type": "seed_competitor",
+  "ext_id": "seed_competitor_ukg_pro",
+  "title": "UKG Pro - Enterprise HCM with AI-driven payroll, talent, and workforce insights",
+  "clean_text": "UKG Pro is an enterprise Human Capital Management platform integrating HR, payroll, talent management (applicant tracking, performance management), time and attendance, workforce scheduling, and global payroll, powered by AI that surfaces actionable people insights. It targets large enterprises and midsize-to-large organizations with complex HR needs, though typical customers span from large enterprises to small businesses and freelancers; the platform is particularly noted for robust payroll tools, flexible reporting, and deep people analytics.",
+  "meta": {
+    "product": "UKG Pro",
+    "category": "hcm_erp",
+    "platform": [
+      "cloud"
+    ],
+    "target": "midsize-to-large enterprises with complex HR needs",
+    "pricing_model": "modular per-employee subscription, custom quote",
+    "source": "ukg.com + research.com",
+    "collected_date": "2026-06-20"
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "source_type": "seed_competitor",
+  "ext_id": "seed_competitor_monday_com",
+  "title": "monday.com Work OS - No-code/low-code work management platform for cross-functional teams",
+  "clean_text": "monday.com is a cloud-based, no-code/low-code Work Operating System launched in 2014 that lets teams build modular tools to manage projects, automate workflows, and track business processes. The product suite spans monday work management, monday CRM, monday dev, and monday service (beta), serving different functions within the same organization: sales teams manage pipelines, engineering teams track sprints and releases via monday dev, HR teams manage hiring and onboarding, and support teams track service requests. The platform is positioned as versatile and applicable across verticals rather than tied to a single department.",
+  "meta": {
+    "product": "monday.com Work OS",
+    "category": "work_management",
+    "platform": [
+      "cloud",
+      "web",
+      "mobile"
+    ],
+    "target": "cross-functional teams (sales, engineering, HR, support) across verticals",
+    "pricing_model": "tiered subscription, per-seat with 3-seat minimum",
+    "source": "getint.io + monday.com blog + carbonweb.co",
+    "collected_date": "2026-06-20"
+  }
+}

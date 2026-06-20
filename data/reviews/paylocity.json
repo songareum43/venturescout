@@ -1,0 +1,17 @@
+{
+  "source_type": "seed_review",
+  "ext_id": "seed_review_paylocity",
+  "title": "Paylocity - Unannounced layout changes and a data-scoping issue across cost centers",
+  "clean_text": "Some users report that layout changes happen without advance notice and take time to figure out, alongside long wait times when calling to reach a Paylocity representative. One reported issue arose when transitioning to using departments as cost centers, which created problems with benefit provider file feeds and impacted data accuracy. Employee-side scheduling has also been reported to show colleagues from other clinics or locations across the company rather than scoping the view to just the employee's own team, a data-visibility gap for multi-site organizations.",
+  "meta": {
+    "product": "Paylocity",
+    "sentiment": "negative",
+    "issue_type": [
+      "Implementation_Complexity",
+      "Product_Stability",
+      "Feature_Limitation"
+    ],
+    "source": "g2.com",
+    "collected_date": "2026-06-20"
+  }
+}

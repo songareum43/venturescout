@@ -1,0 +1,17 @@
+{
+  "source_type": "seed_review",
+  "ext_id": "seed_review_intuit_quickbooks",
+  "title": "QuickBooks - Payment holds, double billing, and limits for complex accounting needs",
+  "clean_text": "QuickBooks Payments users report fund-holding issues with poor communication from support, and concerns about high fees especially on larger transactions. Some users report being double billed for services, with resolution taking weeks, and customer support quality is described as inconsistent, with one reviewer noting \"it is difficult to get a real answer from customer service.\" QuickBooks is also described as feeling limited for more complex accounting needs such as advanced inventory management, multi-entity consolidation, or deeper customization, with workflows like corrections or audit trails feeling less flexible than in more robust ERP systems; occasional performance lag is reported with large datasets.",
+  "meta": {
+    "product": "Intuit QuickBooks",
+    "sentiment": "negative",
+    "issue_type": [
+      "Contract_Terms",
+      "Price",
+      "Feature_Limitation"
+    ],
+    "source": "g2.com",
+    "collected_date": "2026-06-20"
+  }
+}

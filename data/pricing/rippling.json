@@ -1,0 +1,18 @@
+{
+  "source_type": "seed_pricing",
+  "ext_id": "seed_pricing_rippling",
+  "title": "Rippling pricing - $8-$35/employee/month plus a mandatory base platform fee",
+  "clean_text": "Rippling's base Unity platform starts at $8/employee/month plus a mandatory $35-$40/month flat platform fee; most companies end up paying $20-$35/employee/month once they add the modules they need. Common configurations are roughly $15/employee/month for HR+Payroll, $22 for HR+Payroll+Benefits, and $35 for a full enterprise stack. Based on 273 verified purchases, the median annual contract is $39,720-$45,645/year (range $5,450-$164,907), with buyers saving 15% on average versus list. Implementation fees add $1,000-$5,000 in year one, and renewals carry a 5-7% annual price escalation.",
+  "meta": {
+    "product": "Rippling",
+    "pricing_model": "modular subscription, per-employee per-module plus base platform fee",
+    "min_price_usd": 8,
+    "max_price_usd": 35,
+    "pricing_unit": "usd_per_employee_per_month",
+    "base_platform_fee_monthly_usd": "35-40",
+    "median_annual_contract_usd": "39720-45645",
+    "publicly_disclosed": true,
+    "source": "vendr.com + pin.com",
+    "collected_date": "2026-06-20"
+  }
+}

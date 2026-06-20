@@ -1,0 +1,17 @@
+{
+  "source_type": "seed_review",
+  "ext_id": "seed_review_mailchimp",
+  "title": "Mailchimp - Hidden costs push real spend well above the sticker price",
+  "clean_text": "On G2, \"Expensive\" is flagged in 81 reviews, with \"Limited Features\" and \"Missing Features\" also frequently cited; reviewers note prices climb quickly as contact counts grow and the platform has gotten more complex over the years. Once contact counting (including unsubscribed contacts), feature gating by tier, and separate charges for SMS and transactional email are factored in, actual cost can run 20-40% higher than the pricing page suggests. Multiple reviewers report being charged after cancellation and struggling to reach a human to resolve billing issues, and Reddit threads describe bills of $45/month or more for just 1,000 contacts with limited automation.",
+  "meta": {
+    "product": "Mailchimp",
+    "sentiment": "negative",
+    "issue_type": [
+      "Price",
+      "Pricing_Complexity",
+      "Contract_Terms"
+    ],
+    "source": "g2.com + reddit (via retainful.com summary)",
+    "collected_date": "2026-06-20"
+  }
+}

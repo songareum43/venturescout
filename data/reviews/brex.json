@@ -1,0 +1,17 @@
+{
+  "source_type": "seed_review",
+  "ext_id": "seed_review_brex",
+  "title": "Brex - Approval friction is the most-cited complaint on G2",
+  "clean_text": "On G2, \"Approval Issues\" is the single most-mentioned complaint category, with 49 mentions covering miscategorized purchases and inadequate onboarding, and 55 mentions specifically citing approval-process challenges for smaller businesses. Other frequent complaints include receipt-scanning and virtual card upload issues (25 mentions), card payment denials and spending-category limitations (24 mentions), and cumbersome manual entry that users say needs better integrations (26 mentions). In 2022, Brex systematically closed accounts across its small-business segment, with affected users receiving notices that Brex could no longer offer service due to a change in account eligibility criteria.",
+  "meta": {
+    "product": "Brex",
+    "sentiment": "negative",
+    "issue_type": [
+      "Implementation_Complexity",
+      "Feature_Limitation",
+      "Contract_Terms"
+    ],
+    "source": "g2.com + reddit.com (r/CreditCards)",
+    "collected_date": "2026-06-20"
+  }
+}

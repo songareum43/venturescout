@@ -1,0 +1,17 @@
+{
+  "source_type": "seed_review",
+  "ext_id": "seed_review_zendesk",
+  "title": "Zendesk - Hard-to-budget tiered pricing and features locked behind higher plans",
+  "clean_text": "Reviewers describe Zendesk's pricing as deceptively simple on the surface but one of the trickier models to budget against in the support-tooling space, since features many teams expect to be standard often sit behind higher Suite tiers or paid add-ons, making long-term cost forecasting difficult. Pricing concerns surface most often among smaller teams evaluating higher tiers when advanced features are not immediately needed. Some users also report that Zendesk's own customer support becomes harder to reach once a contract is signed, with slow response times and difficulty escalating issues after the initial trial experience.",
+  "meta": {
+    "product": "Zendesk",
+    "sentiment": "negative",
+    "issue_type": [
+      "Pricing_Complexity",
+      "Price",
+      "Feature_Limitation"
+    ],
+    "source": "learn.g2.com + desk365.io",
+    "collected_date": "2026-06-20"
+  }
+}

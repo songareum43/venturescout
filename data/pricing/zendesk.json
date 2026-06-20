@@ -1,0 +1,18 @@
+{
+  "source_type": "seed_pricing",
+  "ext_id": "seed_pricing_zendesk",
+  "title": "Zendesk pricing - $19-$150+ per agent/month across Support and Suite tiers",
+  "clean_text": "Zendesk's simpler Support Team plan starts at $19 per agent per month. The Suite product line starts at $55/agent/month (annual billing) for Suite Team, $89/agent/month for Suite Growth, and $115/agent/month for the most popular Suite Professional tier, with Enterprise Suite configurations reaching $150+ per agent per month. Every add-on, including Copilot ($50/agent/month) and the Advanced AI add-on ($50/agent/month), is priced per agent on top of the base Suite plan. Buyers with 25+ seats or multi-year commitments commonly negotiate below list price.",
+  "meta": {
+    "product": "Zendesk",
+    "pricing_model": "tiered subscription, per-agent",
+    "min_price_usd": 19,
+    "max_price_usd": 150,
+    "pricing_unit": "usd_per_agent_per_month_annual_billing",
+    "addon_copilot_usd": 50,
+    "addon_advanced_ai_usd": 50,
+    "publicly_disclosed": true,
+    "source": "featurebase.app + kustomer.com",
+    "collected_date": "2026-06-20"
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "source_type": "seed_review",
+  "ext_id": "seed_review_paypal",
+  "title": "PayPal - Sudden account freezes with little explanation or appeal path",
+  "clean_text": "Sellers report PayPal freezing accounts and holding funds -- sometimes for 180 days -- after automated flags on certain products or sales patterns, often with no specific policy violation cited and decisions made in an unappealable \"back office\" process; one documented case involved roughly $40,000 held for six months after a suspension. PayPal weighs factors like account tenure, transaction history, business type, and dispute history before placing holds, with new sellers and higher-risk categories (electronics, tickets) most affected. PayPal settled with Maryland and 27 other states over customer service practices, agreeing to streamline its user agreement and pay $1.7 million in investigation costs. Reviewers also note that real effective fees, once FX markup and dispute costs are included, run well above the advertised headline rate.",
+  "meta": {
+    "product": "PayPal Business",
+    "sentiment": "negative",
+    "issue_type": [
+      "Contract_Terms",
+      "Pricing_Complexity",
+      "Price"
+    ],
+    "source": "g2.com + community.shopify.com",
+    "collected_date": "2026-06-20"
+  }
+}

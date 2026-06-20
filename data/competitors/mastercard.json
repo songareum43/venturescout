@@ -1,0 +1,17 @@
+{
+  "source_type": "seed_competitor",
+  "ext_id": "seed_competitor_mastercard",
+  "title": "Mastercard - Card network expanding B2B accounts receivable automation",
+  "clean_text": "Mastercard offers Commercial Direct Payments, a network-agnostic solution that automates accounts receivable for suppliers and lets corporate buyers pay by card directly with the supplier's acquirer, removing manual reconciliation steps. Its Commercial Connect API embeds virtual card rails to unlock embedded finance for B2B payments through a single scalable integration. Mastercard research found 93% of B2B suppliers see payment digitization as critical, yet two-thirds admit falling short of buyer expectations, positioning Mastercard's tools for both suppliers modernizing receivables and corporate buyers wanting flexible card-based payment options.",
+  "meta": {
+    "product": "Mastercard Commercial Direct Payments",
+    "category": "card_network",
+    "platform": [
+      "global card network"
+    ],
+    "target": "B2B suppliers automating receivables, corporate buyers",
+    "pricing_model": "interchange fee based (merchant-paid, network-set)",
+    "source": "mastercard.com + fintechmagazine.com + pymnts.com",
+    "collected_date": "2026-06-20"
+  }
+}

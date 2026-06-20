@@ -1,0 +1,16 @@
+{
+  "source_type": "seed_review",
+  "ext_id": "seed_review_zelt",
+  "title": "Zelt - Optimized for UK startups, with unclear coverage and scale beyond that",
+  "clean_text": "Public negative feedback on Zelt is relatively limited, but reviewers note the platform appears primarily optimized for UK-based startups and SMEs, with native country coverage and effectiveness outside the UK not well detailed -- buyers with employees in other regions are advised to verify service availability themselves. There is no clear mention of how the platform scales for larger organizations, and at least one review described the experience as \"mediocre\" -- not terrible, but not fully meeting expectations either.",
+  "meta": {
+    "product": "Zelt",
+    "sentiment": "negative",
+    "issue_type": [
+      "Target_Mismatch",
+      "Feature_Limitation"
+    ],
+    "source": "joinsecret.com + trustpilot.com",
+    "collected_date": "2026-06-20"
+  }
+}

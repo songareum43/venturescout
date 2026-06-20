@@ -1,0 +1,17 @@
+{
+  "source_type": "seed_pricing",
+  "ext_id": "seed_pricing_workday",
+  "title": "Workday HCM pricing - No published list price, employee-count tiered custom quotes",
+  "clean_text": "Workday does not publish official list pricing; every contract is custom-quoted based on employee count, modules, complexity, integrations, compliance needs, and geography. Third-party pricing benchmarks report per-employee-per-year rates ranging roughly from $35 (25,000+ employee organizations) to $130 (1,000-2,500 employee organizations), with smaller organizations paying a higher per-employee rate. Other industry estimates cite $34-$42 per employee per month for companies at scale. Implementation costs are commonly reported at 100-150% of the first-year subscription fee.",
+  "meta": {
+    "product": "Workday HCM",
+    "pricing_model": "custom enterprise quote, employee-count tiered",
+    "min_price_usd": 35,
+    "max_price_usd": 130,
+    "pricing_unit": "usd_per_employee_per_year (third-party benchmark estimate, not official)",
+    "publicly_disclosed": false,
+    "implementation_cost_pct_of_subscription": "100-150",
+    "source": "vendorbenchmark.com + softwarepricingguide.com",
+    "collected_date": "2026-06-20"
+  }
+}

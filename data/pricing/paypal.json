@@ -1,0 +1,19 @@
+{
+  "source_type": "seed_pricing",
+  "ext_id": "seed_pricing_paypal",
+  "title": "PayPal pricing - 2.2%-4.99% + flat fee depending on volume and transaction type",
+  "clean_text": "PayPal charges 2.99% + $0.49 for standard Goods & Services transactions, or 3.49% + $0.49 as the default PayPal Checkout rate for US merchants. International transactions are 4.99% plus a fixed fee, with currency conversion adding roughly 3.5% (a 3-4% markup over mid-market FX rates). In-person payments via PayPal Here are 2.7% per swipe. High-volume sellers (100+ transactions/month) qualify for Merchant Services rates as low as 2.2% + $0.30. Chargebacks cost $20 and disputes cost $15-$30 depending on transaction size; combined with FX spreads and surcharges, real effective cost on some transaction types can exceed 8% versus the advertised 2.99% headline rate.",
+  "meta": {
+    "product": "PayPal Business",
+    "pricing_model": "usage-based, per-transaction",
+    "min_price_usd": 2.2,
+    "max_price_usd": 4.99,
+    "pricing_unit": "percent_per_transaction (plus flat fee)",
+    "chargeback_fee_usd": 20,
+    "dispute_fee_usd": "15-30",
+    "fx_markup_pct": "3-4",
+    "publicly_disclosed": true,
+    "source": "dodopayments.com + ecomcalctools.com",
+    "collected_date": "2026-06-20"
+  }
+}

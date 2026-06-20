@@ -1,0 +1,17 @@
+{
+  "source_type": "seed_review",
+  "ext_id": "seed_review_gusto",
+  "title": "Gusto - Compliance dashboard inaccuracies led to real Department of Labor penalties",
+  "clean_text": "Some users reported being hit with significant Department of Labor penalties for workers' compensation non-compliance even though Gusto's own dashboard incorrectly showed them as compliant. Users also report login issues, including frequent page refreshes, and poor customer support with delays reaching representatives during account setup. While the base package is seen as competitively priced, costs can increase significantly once additional features and modules are added. The interface is reported to be slow at times, though users note this has improved over time, and the mobile app lacks some features available on the website.",
+  "meta": {
+    "product": "Gusto",
+    "sentiment": "negative",
+    "issue_type": [
+      "Product_Stability",
+      "Pricing_Complexity",
+      "Performance"
+    ],
+    "source": "g2.com",
+    "collected_date": "2026-06-20"
+  }
+}

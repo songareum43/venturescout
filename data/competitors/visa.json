@@ -1,0 +1,17 @@
+{
+  "source_type": "seed_competitor",
+  "ext_id": "seed_competitor_visa",
+  "title": "Visa - Global card network expanding into the $145T B2B payments market",
+  "clean_text": "Visa is a global card network pursuing the estimated $145 trillion business-to-business payments market vertical by vertical, including segments like trucking/fleet payments (about $1.4 trillion today). Visa Commercial Solutions equips issuing banks with B2B payment products such as Visa B2B Payment Controls (spend protection for commercial cards), virtual cards, and Visa Direct (fund receiving, collecting, converting, and holding for businesses, financial institutions, governments, and fintechs). Visa's direct B2B customers are banks, acquirers, fintechs, and large enterprises across Government, Corporate, Commercial, and Small Business segments, layered on top of its broader consumer cardholder network.",
+  "meta": {
+    "product": "Visa Commercial Solutions",
+    "category": "card_network",
+    "platform": [
+      "global card network"
+    ],
+    "target": "issuing banks, acquirers, fintechs, large enterprises (B2B segment)",
+    "pricing_model": "interchange fee based (merchant-paid, network-set)",
+    "source": "paymentsdive.com + corporate.visa.com",
+    "collected_date": "2026-06-20"
+  }
+}

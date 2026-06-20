@@ -1,0 +1,18 @@
+{
+  "source_type": "seed_competitor",
+  "ext_id": "seed_competitor_bill_com",
+  "title": "BILL (Bill.com) - Cloud AP/AR automation platform for SMBs",
+  "clean_text": "BILL (formerly Bill.com) is a cloud-based financial operations platform that automates accounts payable (AP) and accounts receivable (AR), integrating payments, expense management, cash flow forecasting, and procurement with AI-assisted workflows. It serves nearly 500,000 small and medium-sized businesses and growing enterprises, positioning itself as a key enabler of digital transformation in B2B financial operations. BILL reports an average 50% time savings on accounts payable tasks for customers who automate previously manual processes.",
+  "meta": {
+    "product": "BILL (Bill.com)",
+    "category": "b2b_invoicing_credit",
+    "platform": [
+      "cloud",
+      "web"
+    ],
+    "target": "small and medium-sized businesses, growing enterprises",
+    "pricing_model": "tiered subscription, per-user plus transaction fees",
+    "source": "kavout.com + bill.com",
+    "collected_date": "2026-06-20"
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "source_type": "seed_competitor",
+  "ext_id": "seed_competitor_wise",
+  "title": "Wise Business - Multi-currency cross-border accounts at near mid-market FX rates",
+  "clean_text": "Wise Business offers multi-currency accounts that hold 48 currencies with local account details in 11 currencies (including USD, EUR, GBP, HKD, SGD), automatable via API, targeting small and medium-sized businesses as well as large corporations needing cross-border payments at rates close to the mid-market rate without requiring a traditional bank. Wise Business customers grew 26% year-over-year to 572,000, with business transaction volumes up 35%, contributing to a 25% rise in overall cross-border volume to £181.7 billion. Wise has expanded its direct network access, including Japan's Zengin clearing system in 2024 and new Mexico remittance services in early 2025.",
+  "meta": {
+    "product": "Wise Business",
+    "category": "cross_border_payments",
+    "platform": [
+      "cloud",
+      "web",
+      "API"
+    ],
+    "target": "SMBs to large corporations needing cross-border payments",
+    "pricing_model": "usage-based, per-transaction (FX and transfer fees)",
+    "source": "wise.com + electronicpaymentsinternational.com",
+    "collected_date": "2026-06-20"
+  }
+}

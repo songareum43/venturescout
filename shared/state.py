@@ -37,6 +37,7 @@ class VentureScoutState(TypedDict, total=False):
     critic: CriticResult
     decision: Decision
     final_report: dict[str, Any]
+    critic_scorecard: dict[str, Any]
 
     # agents/nodes/* 상세 노드가 graph로 이관되는 동안 유지하는 호환 키.
     market_result: dict[str, Any] | None

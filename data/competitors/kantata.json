@@ -1,0 +1,18 @@
+{
+  "source_type": "seed_competitor",
+  "ext_id": "seed_competitor_kantata",
+  "title": "Kantata - Professional services automation for mid-market and enterprise services firms",
+  "clean_text": "Kantata is a vertical SaaS platform for professional services automation (PSA), unifying resource management, project delivery, financial tracking (billing, budgeting/forecasting), and business intelligence into a single system. It targets mid-sized to large professional services organizations in consulting, IT services, and agency sectors, with customers including Deloitte, Sage, and Hitachi, and serves over 2,500 customers globally. Kantata reports that customers achieve a 33% increase in on-time project delivery, and the company has introduced agentic AI features under its Expertise Engine product line.",
+  "meta": {
+    "product": "Kantata PSA",
+    "category": "work_management",
+    "platform": [
+      "cloud",
+      "web"
+    ],
+    "target": "mid-market to large professional services firms (consulting, IT services, agencies)",
+    "pricing_model": "custom enterprise quote",
+    "source": "kantata.com + diginomica.com",
+    "collected_date": "2026-06-20"
+  }
+}

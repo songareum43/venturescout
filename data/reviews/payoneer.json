@@ -1,0 +1,17 @@
+{
+  "source_type": "seed_review",
+  "ext_id": "seed_review_payoneer",
+  "title": "Payoneer - Account blocks despite approved verification, and no dispute protection",
+  "clean_text": "Users report account balances being disabled for six or more days even after completing all KYC verification with documents marked \"APPROVED,\" alongside slow support and what reviewers describe as unreasonable additional verification requirements. G2 and Capterra reviewers describe support as slow, with one citing six open, unresolved support cases on the same issue and a lack of internal ownership. High fees for smaller transfers and local withdrawals are a frequent complaint, and Payoneer does not offer buyer protection or chargeback ability -- once a payment is made, it is final, with no recourse if goods or services are not received.",
+  "meta": {
+    "product": "Payoneer",
+    "sentiment": "negative",
+    "issue_type": [
+      "Contract_Terms",
+      "Price",
+      "Feature_Limitation"
+    ],
+    "source": "g2.com + trustpilot.com",
+    "collected_date": "2026-06-20"
+  }
+}

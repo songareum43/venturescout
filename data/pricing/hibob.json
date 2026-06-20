@@ -1,0 +1,18 @@
+{
+  "source_type": "seed_pricing",
+  "ext_id": "seed_pricing_hibob",
+  "title": "HiBob pricing - $8-$25/employee/month plus a 10-20% implementation fee",
+  "clean_text": "HiBob does not publish list pricing; quotes depend on headcount, module selection, and contract length. Reported tiers are Core HR at $8/user/month and Essential at $16/user/month, with Enterprise requiring a custom quote; the broader average cost range is cited as $16-$25 per employee per month. A one-time implementation fee of 10-20% of the first-year contract value applies on top. Based on 65 verified purchases, the median customer pays $36,504/year, with an average 17% discount achievable through negotiation.",
+  "meta": {
+    "product": "HiBob (Bob)",
+    "pricing_model": "tiered subscription, per-employee per-month",
+    "min_price_usd": 8,
+    "max_price_usd": 25,
+    "pricing_unit": "usd_per_employee_per_month",
+    "implementation_fee_pct_of_year1": "10-20",
+    "median_annual_cost_usd": 36504,
+    "publicly_disclosed": false,
+    "source": "costbench.com + vendr.com",
+    "collected_date": "2026-06-20"
+  }
+}

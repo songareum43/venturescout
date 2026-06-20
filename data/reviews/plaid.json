@@ -1,0 +1,17 @@
+{
+  "source_type": "seed_review",
+  "ext_id": "seed_review_plaid",
+  "title": "Plaid - Random bank disconnections and gaps in institution coverage",
+  "clean_text": "Users report frequent system errors affecting connections to specific banks and brokerages, with some institutions randomly disconnecting and requiring users to relink their accounts. Reviewers also cite access limitations from Plaid's lack of connections with certain banks, which complicates coverage for apps trying to serve a broad customer base. Some users describe Plaid's setup process as complex and cumbersome compared to the streamlined experience they expected.",
+  "meta": {
+    "product": "Plaid",
+    "sentiment": "negative",
+    "issue_type": [
+      "Product_Stability",
+      "Feature_Limitation",
+      "Implementation_Complexity"
+    ],
+    "source": "g2.com",
+    "collected_date": "2026-06-20"
+  }
+}

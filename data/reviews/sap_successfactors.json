@@ -1,0 +1,17 @@
+{
+  "source_type": "seed_review",
+  "ext_id": "seed_review_sap_successfactors",
+  "title": "SAP SuccessFactors - Complex configuration and module-based pricing that can creep",
+  "clean_text": "G2 reviewers describe the interface as complex and less intuitive for first-time users, with configuration and customization often requiring specialized knowledge, multi-step workflows, and rigid report creation; implementation and ongoing maintenance can be time-consuming, especially for smaller teams. Because pricing is modular and per-employee, costs depend heavily on exactly which modules are licensed and how the employee population is counted -- buying unused modules or letting the counted headcount drift above actual headcount can push costs well ahead of realized value, and AI (Joule) unit pricing can add incremental cost growth if usage exceeds the contracted allocation in later years.",
+  "meta": {
+    "product": "SAP SuccessFactors",
+    "sentiment": "negative",
+    "issue_type": [
+      "Implementation_Complexity",
+      "Feature_Limitation",
+      "Pricing_Complexity"
+    ],
+    "source": "g2.com + redresscompliance.com",
+    "collected_date": "2026-06-20"
+  }
+}

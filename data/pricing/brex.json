@@ -1,0 +1,17 @@
+{
+  "source_type": "seed_pricing",
+  "ext_id": "seed_pricing_brex",
+  "title": "Brex pricing - Free Essentials tier, $12/user/month Premium, custom Enterprise",
+  "clean_text": "Brex's Essentials plan is free and usable by small businesses and startups. The Premium plan, aimed at midsize growth-stage companies, costs $12 per user per month. Enterprise pricing is custom, negotiated with Brex's sales team based on employee count, selected modules, and contract length. For a mid-sized company with 100-250 employees on a 12-month contract, typical total annual cost falls between $15,000 and $60,000 depending on tier and modules.",
+  "meta": {
+    "product": "Brex",
+    "pricing_model": "tiered subscription, per-user",
+    "min_price_usd": 0,
+    "max_price_usd": 12,
+    "pricing_unit": "usd_per_user_per_month",
+    "mid_size_annual_cost_usd": "15000-60000",
+    "publicly_disclosed": true,
+    "source": "costbench.com + trustradius.com",
+    "collected_date": "2026-06-20"
+  }
+}

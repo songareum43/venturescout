@@ -1,0 +1,19 @@
+{
+  "source_type": "seed_competitor",
+  "ext_id": "seed_competitor_asana",
+  "title": "Asana - Work management platform with five project views and AI-powered automation",
+  "clean_text": "Asana is a work management platform that helps teams plan, track, and coordinate work through five project views, custom task fields, and in-task comments and file sharing, with AI-powered automation layered on top. It is popular across small businesses, startups, agencies, freelancers, and large enterprises, with customers including Spotify, NASA, Tesla, Google, Disney, IBM, Airbnb, and Unilever. The platform supports native integrations across hundreds of tools spanning communication, file storage, development, analytics, time tracking, and AI categories, and is commonly used by marketing teams and tech startups.",
+  "meta": {
+    "product": "Asana",
+    "category": "work_management",
+    "platform": [
+      "cloud",
+      "web",
+      "mobile"
+    ],
+    "target": "small business through large enterprise, marketing teams and tech startups",
+    "pricing_model": "tiered subscription, per-user",
+    "source": "asana.com + everhour.com + readycontacts.com",
+    "collected_date": "2026-06-20"
+  }
+}

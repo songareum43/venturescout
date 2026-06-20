@@ -1,0 +1,19 @@
+{
+  "source_type": "seed_competitor",
+  "ext_id": "seed_competitor_paypal",
+  "title": "PayPal Business - Digital payments and unbranded processing for SMBs to enterprise",
+  "clean_text": "PayPal Business serves individual creators and freelancers, small and medium businesses (the fastest-growing B2B subgroup seeking integrated payments, fraud protection, and working capital), and large enterprise merchants via its Braintree backend processing arm, whose total payment volume grew 14% in 2025. PayPal offers B2B-specific tools including invoicing, cross-border payment facilitation, and corporate expense management. For 2026, PayPal is unifying Braintree, SMB processing, value-added services, and crypto (including PYUSD) into a single Payment Services & Crypto division.",
+  "meta": {
+    "product": "PayPal Business",
+    "category": "payment_processing",
+    "platform": [
+      "cloud",
+      "web",
+      "API"
+    ],
+    "target": "individual creators and freelancers through SMBs and enterprise merchants",
+    "pricing_model": "usage-based, per-transaction",
+    "source": "businessofapps.com + paymentsdive.com + wizcommerce.com",
+    "collected_date": "2026-06-20"
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "source_type": "seed_competitor",
+  "ext_id": "seed_competitor_finastra",
+  "title": "Finastra - Core banking and payments infrastructure software for financial institutions",
+  "clean_text": "Finastra delivers core banking, lending, and payments infrastructure software to more than 7,000 financial institution customers worldwide, including 80% of the top 50 global banks. Formed in 2017 through a merger of two established fintech providers and majority-owned by Vista Equity Partners, Finastra serves both traditional institutions modernizing legacy core systems and digital-native banks needing enterprise-grade infrastructure, across retail, SME, commercial, and Islamic banking. Its Universal Banking platform and Essence next-generation core (built on microservices and open APIs) are offered in both on-premise and cloud-hosted deployments.",
+  "meta": {
+    "product": "Finastra Universal Banking / Essence",
+    "category": "banking_infrastructure",
+    "platform": [
+      "cloud",
+      "on-premise"
+    ],
+    "target": "banks and financial institutions of all tiers, 80%+ of top 50 global banks",
+    "pricing_model": "custom enterprise quote",
+    "source": "finastra.com",
+    "collected_date": "2026-06-20"
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "source_type": "seed_pricing",
+  "ext_id": "seed_pricing_teamwork",
+  "title": "Teamwork.com pricing - Free for 5 users, then $10.99-$69.99 per user/month",
+  "clean_text": "Teamwork.com's Free plan is limited to 5 users and a small number of projects with 100 automations per month. Paid tiers (annual billing) are Deliver at roughly $10.99-$13.99/user/month (3-user minimum, 300 active projects, 100GB storage), Grow at $25.99/user/month, and Scale at $69.99/user/month. Pricing is per-user and scales linearly with team size.",
+  "meta": {
+    "product": "Teamwork.com",
+    "pricing_model": "tiered subscription, per-user",
+    "min_price_usd": 10.99,
+    "max_price_usd": 69.99,
+    "pricing_unit": "usd_per_user_per_month_annual_billing",
+    "deliver_usd": "10.99-13.99",
+    "grow_usd": 25.99,
+    "scale_usd": 69.99,
+    "publicly_disclosed": true,
+    "source": "costbench.com + trustradius.com",
+    "collected_date": "2026-06-20"
+  }
+}

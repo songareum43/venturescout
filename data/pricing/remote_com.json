@@ -1,0 +1,19 @@
+{
+  "source_type": "seed_pricing",
+  "ext_id": "seed_pricing_remote_com",
+  "title": "Remote pricing - $599/employee/month EOR, $29-$99/contractor/month management",
+  "clean_text": "Remote's standard EOR service costs $599 per employee per month, down from $699 after a late-2024 price cut to stay competitive. Contractor management costs $29/month per active contractor on the basic tier, or $99/month per contractor on the Plus tier. Remote charges no platform setup fees, onboarding fees, or contract minimums for EOR or contractor management, but actual cost also includes employer statutory contributions of 10-35% of gross salary, an undisclosed FX markup on every invoice, and supplemental benefits priced by separate quote. Annual billing offers a discount versus monthly billing.",
+  "meta": {
+    "product": "Remote",
+    "pricing_model": "tiered subscription, per-worker",
+    "min_price_usd": 29,
+    "max_price_usd": 599,
+    "pricing_unit": "usd_per_worker_per_month_by_product",
+    "eor_pepm_usd": 599,
+    "contractor_basic_usd": 29,
+    "contractor_plus_usd": 99,
+    "publicly_disclosed": true,
+    "source": "gloroots.com + remotepeople.com",
+    "collected_date": "2026-06-20"
+  }
+}

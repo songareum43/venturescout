@@ -1,0 +1,17 @@
+{
+  "source_type": "seed_review",
+  "ext_id": "seed_review_remote_com",
+  "title": "Remote - Email-only support and a thinner HR toolset than rivals",
+  "clean_text": "Some reviewers cite the lack of direct chat support as a pain point, relying solely on email and reporting it can take a while to get responses to requests like customized employer letters; some also found health insurance sign-up instructions tricky to follow. One enterprise customer reported a significant decline in service quality over a period of months, leading to damages amounting to tens of thousands of euros. Reviewers also note that Remote's suite of HR solutions lacks some of the additional tools that similar global employment providers offer, and overall review volume on G2, Capterra, and Trustpilot is notably lower than other payroll/EOR services despite generally positive sentiment.",
+  "meta": {
+    "product": "Remote",
+    "sentiment": "negative",
+    "issue_type": [
+      "Feature_Missing",
+      "Performance",
+      "Feature_Limitation"
+    ],
+    "source": "news.ycombinator.com + g2.com",
+    "collected_date": "2026-06-20"
+  }
+}

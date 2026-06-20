@@ -1,0 +1,20 @@
+{
+  "source_type": "seed_competitor",
+  "ext_id": "seed_competitor_notion",
+  "title": "Notion - All-in-one workspace merging notes, docs, databases, and collaboration",
+  "clean_text": "Notion merges note-taking, task management, databases, and team collaboration into a single workspace, with database views including tables, calendars, and kanban boards and a flexible block-based editor for custom layouts. As of 2025 it had grown to over 100 million users globally (up from 20 million in 2022), with more than 4 million paying customers. Notion serves individuals, freelancers, and small businesses up through large enterprises, with over 50% of Fortune 500 companies using the platform as of 2025.",
+  "meta": {
+    "product": "Notion",
+    "category": "collaboration_productivity",
+    "platform": [
+      "cloud",
+      "web",
+      "desktop",
+      "mobile"
+    ],
+    "target": "individuals and freelancers through large enterprises, 50%+ of Fortune 500",
+    "pricing_model": "tiered subscription, per-seat",
+    "source": "canvasbusinessmodel.com + research.contrary.com + research.com",
+    "collected_date": "2026-06-20"
+  }
+}

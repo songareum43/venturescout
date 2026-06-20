@@ -21,7 +21,7 @@ from __future__ import annotations
 import json
 import time
 import uuid
-from typing import Any
+from typing import Any, Literal
 
 from langgraph.graph import END, START, StateGraph
 
@@ -52,6 +52,7 @@ from shared.contracts import (
     EvidenceItem,
     Hypothesis,
     IdeaRecord,
+    IPOverlapCandidate,
 )
 from shared.state import VentureScoutState
 
@@ -100,6 +101,32 @@ def _confidence_from_strength(strength: float) -> Confidence:
     if strength >= 0.45:
         return "mid"
     return "low"
+
+
+_CONFIDENCE_ALIASES: dict[str, str] = {
+    "high": "high", "h": "high",
+    "medium": "mid", "moderate": "mid", "med": "mid", "mid": "mid", "m": "mid",
+    "low": "low", "l": "low",
+}
+
+
+def _normalize_confidence(value: Any, default: Confidence = "low") -> Confidence:
+    return _CONFIDENCE_ALIASES.get(str(value).strip().lower(), default)  # type: ignore[return-value]
+
+
+def _to_str_list(value: Any) -> list[str]:
+    """LLM이 list[str] 대신 list[dict]를 반환할 때 문자열 리스트로 정규화한다."""
+    if not isinstance(value, list):
+        return []
+    result = []
+    for item in value:
+        if isinstance(item, str):
+            result.append(item)
+        elif isinstance(item, dict):
+            result.append(" ".join(str(v) for v in item.values() if v))
+        else:
+            result.append(str(item))
+    return result
 
 
 def _validate_structured_idea(idea: IdeaRecord, hypotheses: list[Hypothesis]) -> dict[str, Any]:
@@ -231,12 +258,13 @@ def _structured_idea_payload(
         '    "patent_keywords": ["..."]\n'
         "  },\n"
         '  "hypotheses": [\n'
-        '    {"hypothesis_id":"H1","code":"H1","axis":"customer_problem","statement":"...","confidence":"low","next_validation":"..."},\n'
-        '    {"hypothesis_id":"H2","code":"H2","axis":"competition","statement":"...","confidence":"low","next_validation":"..."},\n'
-        '    {"hypothesis_id":"H3","code":"H3","axis":"business_model","statement":"...","confidence":"low","next_validation":"..."},\n'
-        '    {"hypothesis_id":"H4","code":"H4","axis":"technology","statement":"...","confidence":"low","next_validation":"..."},\n'
-        '    {"hypothesis_id":"H5","code":"H5","axis":"ip","statement":"...","confidence":"low","next_validation":"..."}\n'
+        '    {"hypothesis_id":"H1","code":"H1","axis":"customer_problem","statement":"<ENGLISH: one-sentence testable hypothesis>","confidence":"low","next_validation":"..."},\n'
+        '    {"hypothesis_id":"H2","code":"H2","axis":"competition","statement":"<ENGLISH: one-sentence testable hypothesis>","confidence":"low","next_validation":"..."},\n'
+        '    {"hypothesis_id":"H3","code":"H3","axis":"business_model","statement":"<ENGLISH: one-sentence testable hypothesis>","confidence":"low","next_validation":"..."},\n'
+        '    {"hypothesis_id":"H4","code":"H4","axis":"technology","statement":"<ENGLISH: one-sentence testable hypothesis>","confidence":"low","next_validation":"..."},\n'
+        '    {"hypothesis_id":"H5","code":"H5","axis":"ip","statement":"<ENGLISH: one-sentence testable hypothesis>","confidence":"low","next_validation":"..."}\n'
         "  ]\n"
+        "중요: hypotheses[].statement 는 반드시 영어로 작성한다. 이 값이 영문 문서 검색 쿼리로 사용된다.\n"
         "}\n\n"
         f"job_id={job_id}\nidea_id={idea_id}\nraw_input:\n{raw_input}"
     )
@@ -353,9 +381,19 @@ def structuring_node(state: VentureScoutState) -> dict:
         "count": len(hypotheses_payload),
     })
     hypotheses = [
-        Hypothesis(job_id=job_id, idea_id=idea_id, **item)
+        Hypothesis(
+            job_id=job_id,
+            idea_id=idea_id,
+            **{**item, "confidence": _normalize_confidence(item.get("confidence"))},
+        )
         for item in hypotheses_payload
     ]
+
+    # 실제 데이터 전환 지점: hypotheses를 DB에 저장해야 뒤쪽 노드의 evidence/agent_run
+    # 적재 시 코드('H1')를 hypotheses.hypothesis_id(uuid)로 변환할 수 있다.
+    # mock/미설정 환경(job_id가 uuid 아님)에서는 내부에서 조용히 건너뛴다.
+    from pipeline.persistence import persist_hypotheses  # 순환 import 방지용 지연 import
+    persist_hypotheses(job_id, idea_id, hypotheses)
 
     log_processing(logger, "구조화 품질 검증 중...")
     structuring_quality = _validate_structured_idea(idea, hypotheses)
@@ -842,6 +880,39 @@ def _decide(
     )
 
 
+def _kill_reason(scorecard: dict[str, Any]) -> Literal["ip_conflict", "weak_evidence"]:
+    """kill이 _decide()의 어느 경로(치명적 문제/근거 약함)에서 나왔는지 scorecard로 되짚는다."""
+    if scorecard.get("high_ip_candidates") and scorecard.get("contradicting_evidence"):
+        return "ip_conflict"
+    return "weak_evidence"
+
+
+def _alternatives_evidence_ids(
+    kill_reason: str,
+    scorecard: dict[str, Any],
+    agent_runs: list[AgentRun],
+    candidates: list[IPOverlapCandidate],
+) -> list[str]:
+    """대안 제안이 인용할 수 있는 evidence_id를 kill 원인별로 코드가 직접 고른다.
+
+    LLM이 임의로 근거를 인용하지 못하게, 어떤 evidence_id를 써도 되는지 여기서 먼저 정한다.
+    """
+    if kill_reason == "ip_conflict":
+        ip_evidence_ids = {
+            candidate.evidence_id
+            for candidate in candidates
+            if candidate.candidate_id in scorecard.get("high_ip_candidates", [])
+        }
+        return sorted(set(scorecard.get("contradicting_evidence", [])) | ip_evidence_ids)
+    low_confidence_names = set(scorecard.get("low_confidence_agents", []))
+    return sorted({
+        evidence_id
+        for run in agent_runs
+        if run.agent_name in low_confidence_names
+        for evidence_id in run.grounded_on
+    })
+
+
 def critic_node(state: VentureScoutState) -> dict:
     """agent_runs를 모아 grounding을 확인하고 최종 결정을 기록한다."""
 
@@ -1007,9 +1078,9 @@ def critic_node(state: VentureScoutState) -> dict:
         confidence=confidence,
         summary=str(critic_output_json["summary"]),
         grounded_on=grounded_on,
-        objections=list(critic_output_json["objections"]),
-        missing_evidence=list(critic_output_json["missing_evidence"]),
-        next_experiments=list(critic_output_json["next_experiments"]),
+        objections=_to_str_list(critic_output_json["objections"]),
+        missing_evidence=_to_str_list(critic_output_json["missing_evidence"]),
+        next_experiments=_to_str_list(critic_output_json["next_experiments"]),
     )
     critic_output_json.update(critic.model_dump())
     critic_output_json["scorecard"] = scorecard
@@ -1046,6 +1117,7 @@ def critic_node(state: VentureScoutState) -> dict:
         "analysis_job": analysis_job,
         "decision": critic.decision,
         "final_report": critic.model_dump(),
+        "critic_scorecard": scorecard,
     }
 
     # 최종 리포트 로깅
@@ -1069,6 +1141,85 @@ def critic_node(state: VentureScoutState) -> dict:
     return result
 
 
+def alternatives_node(state: VentureScoutState) -> dict:
+    """decision == 'kill'일 때만 critic 다음에 실행되어, kill 원인별로 대안을 제안한다."""
+    start_time = time.time()
+    log_stage(logger, "8️⃣", "Alternatives (kill 대안 제안)")
+
+    job_id = state["analysis_job"].job_id
+    scorecard = state.get("critic_scorecard", {})
+    agent_runs = state.get("agent_runs", [])
+    evidence_items = state.get("evidence_items", {})
+    candidates = state.get("ip_overlap_candidates", [])
+
+    log_input(logger, {"job_id": job_id, "scorecard": scorecard})
+
+    kill_reason = _kill_reason(scorecard)
+    evidence_ids = _alternatives_evidence_ids(kill_reason, scorecard, agent_runs, candidates)
+    evidence = [evidence_items[eid] for eid in evidence_ids if eid in evidence_items]
+
+    log_processing(logger, "대안 근거 선택 완료", {
+        "kill_reason": kill_reason,
+        "evidence_count": len(evidence),
+    })
+
+    if not evidence:                       # graceful: 인용 가능 근거 0건 -> run 생략
+        log_processing(logger, "대안 근거 0건 — alternatives run 생략(graceful)")
+        return {"agent_runs": []}
+
+    role = (
+        "IP 시그니처 후보와 반박 근거가 동시에 있어 kill로 판정됐다. "
+        "특허 회피 설계 또는 vertical 범위 축소 중심으로, 기존 아이디어의 핵심은 유지한 채 "
+        "조정 가능한 대안 2~3개를 제안한다."
+        if kill_reason == "ip_conflict" else
+        "대부분의 핵심 가설이 low confidence라 근거가 약해 kill로 판정됐다. "
+        "더 강한 근거가 있는 타겟/포지셔닝/가격정책으로 전환하는 대안 2~3개를 제안한다."
+    )
+
+    try:
+        output_json = _agent_output_with_llm(
+            agent_name="alternatives",
+            hypothesis_id="all",
+            role=role,
+            required_fields=["kill_reason", "alternatives"],
+            context={
+                "idea": state.get("idea"),
+                "kill_reason": kill_reason,
+                "critic_objections": state["critic"].objections,
+                "evidence": evidence,
+            },
+        )
+    except Exception as exc:  # noqa: BLE001
+        # alternatives는 kill 리포트에 곁들이는 보조 제안이다.
+        # 여기서 실패해도 이미 완성된 critic의 kill 판정/리포트 자체는 살려야 하므로
+        # (api.py가 전체 astream_events를 broad except로 감싸 job을 failed로 덮어쓴다)
+        # 다른 노드처럼 예외를 던지지 않고 evidence 0건과 같은 방식으로 graceful skip한다.
+        log_processing(logger, f"⚠️  alternatives LLM 호출 실패 — run 생략(graceful): {exc}")
+        return {"agent_runs": []}
+
+    output_json["kill_reason"] = kill_reason
+
+    agent_run = _agent_run(
+        job_id=job_id,
+        agent_name="alternatives",
+        hypothesis_id="all",
+        depth="light",
+        confidence="low",
+        evidence=evidence,
+        output_json=output_json,
+    )
+
+    duration_ms = (time.time() - start_time) * 1000
+    log_completion(logger, "Alternatives", duration_ms)
+
+    return {"agent_runs": [agent_run]}
+
+
+def _route_after_critic(state: VentureScoutState) -> str:
+    """critic 직후 라우팅: kill이면 alternatives로, 그 외엔 그래프를 끝낸다."""
+    return "alternatives" if state.get("decision") == "kill" else END
+
+
 def build_graph():
     # LangGraph에 노드를 등록하고 실행 순서를 연결한다.
     # 현재 구조는 Structuring 이후 5개 분석 노드가 병렬로 실행되고, 마지막에 Critic이 합친다.
@@ -1084,6 +1235,7 @@ def build_graph():
         ("ip", ip_node),
         ("bm", bm_node),
         ("critic", critic_node),
+        ("alternatives", alternatives_node),
     ]:
         graph.add_node(name, fn)
 
@@ -1093,7 +1245,11 @@ def build_graph():
         graph.add_edge("structuring", node)
         # 각 분석 노드가 agent_runs/evidence_items를 state에 누적하면 Critic이 마지막에 전체를 검수한다.
         graph.add_edge(node, "critic")
-    graph.add_edge("critic", END)
+    # decision == "kill"일 때만 alternatives_node로 이어진다(그 외엔 그래프 종료).
+    graph.add_conditional_edges(
+        "critic", _route_after_critic, {"alternatives": "alternatives", END: END}
+    )
+    graph.add_edge("alternatives", END)
     return graph.compile()
 
 

@@ -1,0 +1,16 @@
+{
+  "source_type": "seed_review",
+  "ext_id": "seed_review_warp",
+  "title": "Warp - Easy to use but light on advanced reporting compared to larger rivals",
+  "clean_text": "Warp holds a 4.4/5 rating on G2 from 28 reviews, used predominantly by small businesses (83.3% of reviewers), with users highlighting responsive customer support and quick onboarding. The most consistent critique is that while Warp is easy to use, it lacks some of the advanced features that larger rivals like Deel Payroll offer, such as detailed reporting and dashboards -- consistent with Warp being built primarily for early-stage founders and small remote teams rather than organizations with more complex reporting needs.",
+  "meta": {
+    "product": "Warp",
+    "sentiment": "negative",
+    "issue_type": [
+      "Feature_Limitation",
+      "Target_Mismatch"
+    ],
+    "source": "g2.com",
+    "collected_date": "2026-06-20"
+  }
+}

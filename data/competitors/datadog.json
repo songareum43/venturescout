@@ -1,0 +1,18 @@
+{
+  "source_type": "seed_competitor",
+  "ext_id": "seed_competitor_datadog",
+  "title": "Datadog - Unified observability and security platform for cloud-native enterprises",
+  "clean_text": "Datadog is a SaaS observability and security platform that unifies infrastructure monitoring, application performance monitoring (APM), log management, user experience monitoring, and cloud security into a single product. It operates exclusively B2B, targeting organizations whose operations depend on cloud-native or hybrid cloud infrastructure. Datadog serves roughly 32,000 customers as of late 2025, including more than 65% of the Fortune 500, with large enterprises contributing about 70% of annual recurring revenue. The platform has expanded its integration coverage to over 1,000 integrations spanning infrastructure, cloud services, SaaS applications, and AI technologies.",
+  "meta": {
+    "product": "Datadog",
+    "category": "observability",
+    "platform": [
+      "cloud",
+      "SaaS"
+    ],
+    "target": "large cloud-native and hybrid-cloud enterprises, 65%+ of Fortune 500",
+    "pricing_model": "modular, usage-based (per host/GB)",
+    "source": "datadoghq.com + matrixbcg.com + webeyez.com",
+    "collected_date": "2026-06-20"
+  }
+}

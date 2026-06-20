@@ -1,0 +1,18 @@
+{
+  "source_type": "seed_competitor",
+  "ext_id": "seed_competitor_workday",
+  "title": "Workday HCM - Unified cloud HR, payroll, and workforce management for large enterprises",
+  "clean_text": "Workday HCM is a cloud-based human capital management platform that unifies HR, payroll, and workforce management into a single system of record, enhanced by the Workday Illuminate AI engine for people-decision insights. It serves more than 10,500 customers globally, including over 60% of the Fortune 500 and 30% of the Global 2,000, spanning mid-market to large global enterprises. Primary buyers are senior executives such as CHROs, CFOs, and CIOs. Adoption is strongest in higher education, retail, manufacturing, healthcare, financial services, and the public sector.",
+  "meta": {
+    "product": "Workday HCM",
+    "category": "hcm_erp",
+    "platform": [
+      "cloud",
+      "web"
+    ],
+    "target": "mid-market to large global enterprises, Fortune 500/Global 2000",
+    "pricing_model": "custom enterprise quote, employee-count tiered",
+    "source": "workday.com + getapp.com + research.com",
+    "collected_date": "2026-06-20"
+  }
+}

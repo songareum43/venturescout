@@ -1,0 +1,18 @@
+{
+  "source_type": "seed_competitor",
+  "ext_id": "seed_competitor_jira_atlassian",
+  "title": "Jira (Atlassian) - AI-powered project and issue tracking for software and business teams",
+  "clean_text": "Jira is Atlassian's project and issue tracking platform supporting agile methodologies such as Kanban and Scrum alongside customizable lists and timeline views. Jira Software targets software development teams planning, tracking, and shipping products, while Jira Work Management extends the same engine to non-technical departments such as HR, marketing, finance, and operations for workflow approvals and task management. Jira Service Management additionally serves call center managers, helpdesk agents, and other support professionals for issue ticketing, incident, and change management.",
+  "meta": {
+    "product": "Jira",
+    "category": "work_management",
+    "platform": [
+      "cloud",
+      "web"
+    ],
+    "target": "software development teams; HR/marketing/finance/operations; IT service desks",
+    "pricing_model": "tiered subscription, per-user",
+    "source": "atlassian.com + everhour.com + techtarget.com",
+    "collected_date": "2026-06-20"
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "source_type": "seed_competitor",
+  "ext_id": "seed_competitor_taulia",
+  "title": "SAP Taulia - SAP-integrated working capital and supply chain finance platform",
+  "clean_text": "SAP Taulia is a supply chain finance and working capital management platform, founded in 2009 with over 2 million business users, covering payables, receivables, and inventory financing through a network connecting buyers, suppliers, and financial institutions. Its Multifunder capability provides additional liquidity beyond a single funding source, and its Cloud Integration Gateway connects SAP, Taulia, and other systems through one managed integration layer. More than 80% of Taulia's customer base runs SAP as their core ERP, and the platform is best suited to organizations that want to implement and self-manage their own supplier financing programs, primarily across the US and Europe.",
+  "meta": {
+    "product": "SAP Taulia",
+    "category": "supply_chain_finance",
+    "platform": [
+      "cloud",
+      "SAP integration"
+    ],
+    "target": "medium-to-large enterprises running SAP ERP",
+    "pricing_model": "custom enterprise quote",
+    "source": "gtreview.com + taulia.com + datos-insights.com",
+    "collected_date": "2026-06-20"
+  }
+}

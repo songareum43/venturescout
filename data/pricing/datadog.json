@@ -1,0 +1,18 @@
+{
+  "source_type": "seed_pricing",
+  "ext_id": "seed_pricing_datadog",
+  "title": "Datadog pricing - $15-$31 per host/month depending on module, plus per-GB log costs",
+  "clean_text": "Datadog Infrastructure Monitoring starts at $15 per host per month billed annually ($18 on-demand), with an Enterprise infrastructure tier at $23/host/month annually ($27 on-demand) adding more dashboards and alerting depth. APM (application performance monitoring) is priced separately at $31 per host per month. Log management is billed at $0.10 per GB for indexed logs plus $1.27 per million ingested events. Costs compound quickly once multiple modules (logs, APM, RUM, custom metrics, high-cardinality tags, extended retention) are enabled together.",
+  "meta": {
+    "product": "Datadog",
+    "pricing_model": "modular, usage-based (per host/GB)",
+    "min_price_usd": 15,
+    "max_price_usd": 31,
+    "pricing_unit": "usd_per_host_per_month_annual_billing",
+    "log_indexed_per_gb_usd": 0.10,
+    "log_ingested_per_million_events_usd": 1.27,
+    "publicly_disclosed": true,
+    "source": "last9.io + costbench.com + opslyft.com",
+    "collected_date": "2026-06-20"
+  }
+}

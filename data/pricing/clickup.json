@@ -1,0 +1,20 @@
+{
+  "source_type": "seed_pricing",
+  "ext_id": "seed_pricing_clickup",
+  "title": "ClickUp pricing - Free through $19/user/month Business Plus, AI add-on stacks on top",
+  "clean_text": "ClickUp's 2026 tiers (annual billing) are Free Forever ($0), Unlimited at $7/user/month, Business at $12/user/month, and Business Plus at $19/user/month, with Enterprise at custom pricing. Monthly (non-annual) billing raises Unlimited to $10 and Business to $19 per user/month -- among the steepest annual-vs-monthly discounts in the category (30-37%). ClickUp Brain, the AI add-on, costs an additional $9/user/month on top of any plan, so a team wanting AI on the Unlimited plan effectively pays $16/user/month rather than the $7 headline rate. Teams of 25-100 users commonly negotiate Enterprise rates of $5-$6.50/user/month on annual or multi-year terms.",
+  "meta": {
+    "product": "ClickUp",
+    "pricing_model": "tiered subscription, per-user",
+    "min_price_usd": 0,
+    "max_price_usd": 19,
+    "pricing_unit": "usd_per_user_per_month_annual_billing",
+    "unlimited_usd": 7,
+    "business_usd": 12,
+    "business_plus_usd": 19,
+    "ai_addon_usd": 9,
+    "publicly_disclosed": true,
+    "source": "vendr.com + costbench.com + quackback.io",
+    "collected_date": "2026-06-20"
+  }
+}

@@ -1,0 +1,20 @@
+{
+  "source_type": "seed_pricing",
+  "ext_id": "seed_pricing_hubspot",
+  "title": "HubSpot Marketing Hub pricing - Free tier through $3,600/month Enterprise bundle",
+  "clean_text": "HubSpot Marketing Hub has four published tiers: Free ($0), Starter (around $20 per seat per month on annual billing, includes 1,000 marketing contacts, with additional contacts at $50/month per 1,000), Professional (about $890/month on annual billing, 2,000 contacts, 3 seats), and Enterprise (about $3,600/month on annual billing, 10,000 contacts, 5 seats, additional seats $75/month each). Professional and Enterprise plans also carry one-time onboarding fees of $3,000 and $7,000 respectively. Monthly (non-annual) billing is available at higher rates on Starter and some Professional configurations.",
+  "meta": {
+    "product": "HubSpot Marketing Hub",
+    "pricing_model": "tiered subscription, seat and contact-volume based",
+    "min_price_usd": 0,
+    "max_price_usd": 3600,
+    "starter_per_seat_monthly_usd": 20,
+    "professional_monthly_usd": 890,
+    "enterprise_monthly_usd": 3600,
+    "onboarding_fee_professional_usd": 3000,
+    "onboarding_fee_enterprise_usd": 7000,
+    "publicly_disclosed": true,
+    "source": "encharge.io + docket.io",
+    "collected_date": "2026-06-20"
+  }
+}

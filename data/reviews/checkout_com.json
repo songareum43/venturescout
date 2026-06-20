@@ -1,0 +1,17 @@
+{
+  "source_type": "seed_review",
+  "ext_id": "seed_review_checkout_com",
+  "title": "Checkout.com - Steep learning curve for advanced features and limited mobile tooling",
+  "clean_text": "Reviewers describe a learning curve for Checkout.com's more advanced features, alongside occasional bugs and a desire for more customization options. Mobile app capabilities are described as limited compared to the web dashboard. Feedback is notably split by platform: G2 gives Checkout.com strong marks for ease of use and customer support (4.6/5 across 70 reviews), while Trustpilot reviewers rate it far lower (2.2/5 across 81 reviews), with reported shortcomings in customer service and suitability for very small businesses (consistent with its enterprise-only focus).",
+  "meta": {
+    "product": "Checkout.com",
+    "sentiment": "negative",
+    "issue_type": [
+      "Implementation_Complexity",
+      "Product_Stability",
+      "Feature_Limitation"
+    ],
+    "source": "g2.com + trustpilot (via cardpaymentoptions.com summary)",
+    "collected_date": "2026-06-20"
+  }
+}

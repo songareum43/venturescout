@@ -1,0 +1,19 @@
+{
+  "source_type": "seed_competitor",
+  "ext_id": "seed_competitor_zoho_crm",
+  "title": "Zoho CRM - Cloud CRM with sales, marketing automation, and AI assistant for SMBs",
+  "clean_text": "Zoho CRM is a cloud-based CRM platform for managing sales, marketing, and customer support across B2B and B2C engagement, accessible via web browser and mobile apps on Android and iOS. It includes core CRM capabilities plus email marketing, social CRM, marketing automation, salesforce forecasting, lead scoring, custom dashboards, and the Zia AI assistant. More than 70% of Zoho CRM reviewers come from businesses with 2-200 employees, and the platform's genuine free plan makes it particularly attractive to small and medium-sized businesses taking their first steps into CRM.",
+  "meta": {
+    "product": "Zoho CRM",
+    "category": "crm",
+    "platform": [
+      "cloud",
+      "web",
+      "mobile"
+    ],
+    "target": "small to medium-sized businesses (70%+ of reviewers, 2-200 employees)",
+    "pricing_model": "tiered subscription, per-user",
+    "source": "techtarget.com + softwareadvice.com + zeeg.me",
+    "collected_date": "2026-06-20"
+  }
+}

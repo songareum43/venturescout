@@ -1,0 +1,19 @@
+{
+  "source_type": "seed_competitor",
+  "ext_id": "seed_competitor_razorpay",
+  "title": "Razorpay - India's leading payment gateway and business banking platform",
+  "clean_text": "Razorpay, founded in 2014, is an Indian fintech offering end-to-end payment processing alongside neobanking (RazorpayX), lending, vendor payouts, and payroll disbursement -- positioning itself as a one-stop business banking shop beyond a pure payment gateway. It serves over 10 million Indian businesses, including Flipkart, Zomato, Swiggy, Ola, CRED, as well as Google, Meta, and Wikipedia, processing more than $150 billion in annual payment volume as of 2025 and holding the largest market share among Indian payment gateways at a valuation above $7.5 billion. Target customers span startups, e-commerce stores, SaaS companies, educational institutions, content creators, and large enterprises.",
+  "meta": {
+    "product": "Razorpay",
+    "category": "payment_processing",
+    "platform": [
+      "cloud",
+      "web",
+      "API"
+    ],
+    "target": "Indian and Asia-based businesses of all sizes, from startups to large enterprises",
+    "pricing_model": "usage-based, per-transaction",
+    "source": "research.contrary.com + canvasbusinessmodel.com",
+    "collected_date": "2026-06-20"
+  }
+}

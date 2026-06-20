@@ -1,0 +1,20 @@
+{
+  "source_type": "seed_pricing",
+  "ext_id": "seed_pricing_zoho_crm",
+  "title": "Zoho CRM pricing - Free through $52/user/month Ultimate tier",
+  "clean_text": "Zoho CRM offers a genuine Free plan plus four paid tiers (annual billing): Standard at $14/user/month, Professional at $23/user/month (the most popular tier for growing businesses), Enterprise at $40/user/month (adds Zia AI, predictive analytics, custom modules, encryption at rest), and Ultimate at $52/user/month for large enterprises with custom needs. Monthly billing raises Standard to $20 and Professional to $35 per user/month. A separate Team Users add-on for non-sales team members costs $9/user/month.",
+  "meta": {
+    "product": "Zoho CRM",
+    "pricing_model": "tiered subscription, per-user",
+    "min_price_usd": 0,
+    "max_price_usd": 52,
+    "pricing_unit": "usd_per_user_per_month_annual_billing",
+    "standard_usd": 14,
+    "professional_usd": 23,
+    "enterprise_usd": 40,
+    "ultimate_usd": 52,
+    "publicly_disclosed": true,
+    "source": "costbench.com + method.me",
+    "collected_date": "2026-06-20"
+  }
+}

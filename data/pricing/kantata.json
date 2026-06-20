@@ -1,0 +1,17 @@
+{
+  "source_type": "seed_pricing",
+  "ext_id": "seed_pricing_kantata",
+  "title": "Kantata pricing - No official list price; third-party estimates vary widely",
+  "clean_text": "Kantata does not publish official list pricing; quotes are based on user count, feature tier, customizations, and integrations. Third-party estimates are inconsistent: one industry estimate suggests roughly $50-$100 per user per month for small teams, scaling to $5,000-$10,000+ per month total for around 100 users, while a separate aggregator listed a $19-$69/month range that appears inconsistent with Kantata's enterprise PSA positioning and may reflect a data error rather than Kantata's actual pricing. Implementation, customization, training, and data migration are billed separately and can range from a few thousand dollars for small firms to tens or hundreds of thousands for enterprise deployments.",
+  "meta": {
+    "product": "Kantata PSA",
+    "pricing_model": "custom enterprise quote",
+    "min_price_usd": 50,
+    "max_price_usd": 100,
+    "pricing_unit": "usd_per_user_per_month_estimated_small_team (low-confidence third-party estimate)",
+    "publicly_disclosed": false,
+    "estimate_confidence": "low - conflicting third-party sources",
+    "source": "milientsoftware.com + thedigitalprojectmanager.com",
+    "collected_date": "2026-06-20"
+  }
+}

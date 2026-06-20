@@ -1,0 +1,18 @@
+{
+  "source_type": "seed_competitor",
+  "ext_id": "seed_competitor_zendesk",
+  "title": "Zendesk - Cloud customer service platform centralizing tickets, chat, and voice",
+  "clean_text": "Zendesk is a cloud-based customer service platform that centralizes support tickets, live chat, email, and phone into one interface, with built-in analytics and a customer-facing knowledge base. It serves more than 182,000 companies globally as of 2025, ranging from small support teams to large enterprise support organizations, with notable customers including Uber, Upwork, and Vimeo. The platform is positioned as especially strong for larger, more complex support organizations, while still serving smaller teams, and has increasingly emphasized AI-driven automation across its core ticketing workflow.",
+  "meta": {
+    "product": "Zendesk",
+    "category": "customer_support",
+    "platform": [
+      "cloud",
+      "web"
+    ],
+    "target": "small support teams through large enterprise support organizations",
+    "pricing_model": "tiered subscription, per-agent",
+    "source": "growthdot.com + peaksupport.io + help-desk-migration.com",
+    "collected_date": "2026-06-20"
+  }
+}

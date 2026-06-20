@@ -1,0 +1,17 @@
+{
+  "source_type": "seed_review",
+  "ext_id": "seed_review_rippling",
+  "title": "Rippling - Steep learning curve, stacking module fees, and an active espionage lawsuit with Deel",
+  "clean_text": "Reddit and review themes describe Rippling as powerful but complex, with a steep learning curve for advanced features; most complaints center on pricing structure and time-to-learn rather than core functionality. Because pricing is modular (per-employee, per-module, plus a mandatory base platform fee), total cost depends heavily on which modules are added, and contracts carry a 5-7% annual price escalation at renewal. Separately, Rippling and competitor Deel are engaged in an ongoing legal battle: Rippling sued Deel in March 2025 alleging a planted corporate spy stole trade secrets including customer data and pricing strategies, and Deel countersued alleging a Rippling employee impersonated a Deel customer for six months to access its systems -- both sides have made serious, unresolved allegations against each other.",
+  "meta": {
+    "product": "Rippling",
+    "sentiment": "negative",
+    "issue_type": [
+      "Implementation_Complexity",
+      "Pricing_Complexity",
+      "Contract_Terms"
+    ],
+    "source": "reddit.com + techcrunch.com",
+    "collected_date": "2026-06-20"
+  }
+}

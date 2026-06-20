@@ -118,10 +118,16 @@ def invoke_claude_json(
 
     try:
         import boto3
+        from botocore.config import Config as _BotoConfig
 
         client = boto3.client(
             "bedrock-runtime",
             region_name=config.region_name,
+            config=_BotoConfig(
+                read_timeout=int(os.getenv("BEDROCK_READ_TIMEOUT", "300")),
+                connect_timeout=10,
+                retries={"max_attempts": 2},
+            ),
         )
         response = client.converse(
             modelId=config.model_id,

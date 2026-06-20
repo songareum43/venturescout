@@ -1,0 +1,17 @@
+{
+  "source_type": "seed_review",
+  "ext_id": "seed_review_visa",
+  "title": "Visa - Interchange fee complexity fueled a $5.54B merchant antitrust settlement",
+  "clean_text": "Merchants and trade associations sued Visa, Mastercard, and card-issuing banks in 2005 over alleged price-fixing and anticompetitive practices in interchange fee setting; a 2019 settlement totaled $5.54 billion, affirmed on appeal in 2023, with claims covering transactions from 2004-2019 and a claims period extended to February 2025. Separately, in recent years dozens of large merchants including Amtrak, Crate & Barrel, Dick's Sporting Goods, and Nike settled individual interchange fee claims against Visa and Mastercard, and a UK tribunal ruled that Visa and Mastercard's default multilateral interchange fees breached competition law. Merchants commonly cite interchange fee complexity -- which varies by merchant category code, transaction type, and risk level -- as difficult to predict and budget against.",
+  "meta": {
+    "product": "Visa Commercial Solutions",
+    "sentiment": "negative",
+    "issue_type": [
+      "Pricing_Complexity",
+      "Contract_Terms",
+      "Price"
+    ],
+    "source": "paymentsdive.com + en.wikipedia.org (interchange antitrust litigation)",
+    "collected_date": "2026-06-20"
+  }
+}

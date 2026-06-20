@@ -1,0 +1,20 @@
+{
+  "source_type": "seed_pricing",
+  "ext_id": "seed_pricing_bill_com",
+  "title": "BILL pricing - Free Spend & Expense plan through $89/user/month Corporate tier",
+  "clean_text": "BILL's Spend and Expense plan is free ($0/user/month) and includes free software, corporate cards, and access to credit lines from $500 to $5 million. Core AP/AR plans are Essentials at $45/user/month, Team at $55/user/month, and Corporate at $89/user/month, with Enterprise available at custom pricing for larger organizations. A 2.9% transaction fee applies to payments made by credit or debit card, on top of the per-user subscription.",
+  "meta": {
+    "product": "BILL (Bill.com)",
+    "pricing_model": "tiered subscription, per-user plus transaction fees",
+    "min_price_usd": 0,
+    "max_price_usd": 89,
+    "pricing_unit": "usd_per_user_per_month",
+    "essentials_usd": 45,
+    "team_usd": 55,
+    "corporate_usd": 89,
+    "card_transaction_fee_pct": 2.9,
+    "publicly_disclosed": true,
+    "source": "tekpon.com + itqlick.com",
+    "collected_date": "2026-06-20"
+  }
+}

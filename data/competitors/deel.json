@@ -1,0 +1,18 @@
+{
+  "source_type": "seed_competitor",
+  "ext_id": "seed_competitor_deel",
+  "title": "Deel - Global employment platform spanning EOR, payroll, and contractor management",
+  "clean_text": "Deel is an all-in-one global employment platform combining Employer of Record (EOR), global payroll, contractor management, HR, IT, and compliance in one system. As of April 2026 it operates 250 owned legal entities across 100+ countries, runs in-house payroll teams in 130+ countries, and serves more than 37,000 customers and 1.5 million workers. Deel is the default EOR choice for venture-backed companies hiring 20-500 people quickly across many countries, and works best for companies managing more than one worker type (full-time EOR hires, contractors, and domestic payroll) under one platform, supplemented by a US PEO partnership with TriNet.",
+  "meta": {
+    "product": "Deel",
+    "category": "global_eor_payroll",
+    "platform": [
+      "cloud",
+      "web"
+    ],
+    "target": "venture-backed companies hiring 20-500 people across multiple countries",
+    "pricing_model": "tiered subscription, per-worker (EOR/contractor/payroll)",
+    "source": "remotepeople.com + deel.com",
+    "collected_date": "2026-06-20"
+  }
+}

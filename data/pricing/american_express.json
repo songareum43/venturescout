@@ -1,0 +1,17 @@
+{
+  "source_type": "seed_pricing",
+  "ext_id": "seed_pricing_american_express",
+  "title": "American Express pricing - 1.43%-3.30% merchant discount rate plus card annual fees",
+  "clean_text": "American Express charges merchants a \"Discount\" rate typically ranging from 1.43% + $0.10 to 3.30% + $0.10 per transaction; with the OptBlue program (since 2014) widening acceptance, effective costs for most merchants are now much closer to other card networks, though large-volume merchants with direct Amex relationships may still face higher rates. Separately, for cardholders, business card programs charge $95 for up to 5 employee cards then $95 per additional card, while premium cards like Business Gold carry a $375 annual fee. Other merchant-side fees can include non-swiped transaction fees, voice authorization fees, and paper statement fees.",
+  "meta": {
+    "product": "American Express Business",
+    "pricing_model": "annual card fee plus merchant discount rate",
+    "min_price_usd": 1.43,
+    "max_price_usd": 3.30,
+    "pricing_unit": "percent_merchant_discount_rate_per_transaction",
+    "card_annual_fee_usd": "95 (up to 5 cards) - 375 (Business Gold)",
+    "publicly_disclosed": true,
+    "source": "merchantcostconsulting.com + upgradedpoints.com",
+    "collected_date": "2026-06-20"
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "source_type": "seed_competitor",
+  "ext_id": "seed_competitor_hubspot",
+  "title": "HubSpot Marketing Hub - Unified marketing automation platform for SMB to enterprise",
+  "clean_text": "HubSpot Marketing Hub consolidates email marketing, social media management, landing pages, lead capture, and campaign tracking into a single platform built on top of HubSpot's customer data hub, replacing scattered point solutions. It serves customers across more than 135 countries, with HubSpot targeting 9,000-10,000 net new customers per quarter in 2026. The platform has evolved from a traditional marketing/CRM tool into an AI-assisted revenue platform under HubSpot's 2026 \"agentic customer platform\" direction, adding AI-driven personalization and workflow automation across the funnel.",
+  "meta": {
+    "product": "HubSpot Marketing Hub",
+    "category": "marketing_automation",
+    "platform": [
+      "cloud",
+      "web"
+    ],
+    "target": "SMB to enterprise marketing teams, global (135+ countries)",
+    "pricing_model": "tiered subscription, seat and contact-volume based",
+    "source": "hubspot.com + sqmagazine.co.uk + cxfoundation.com",
+    "collected_date": "2026-06-20"
+  }
+}

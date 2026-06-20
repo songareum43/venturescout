@@ -1,0 +1,19 @@
+{
+  "source_type": "seed_pricing",
+  "ext_id": "seed_pricing_adyen",
+  "title": "Adyen pricing - Interchange++ plus monthly platform fee, $500+ minimum volume",
+  "clean_text": "Adyen uses an Interchange++ model: the card issuer's interchange fee plus the card network's scheme fee plus Adyen's own processing fee, typically around EUR0.10 per transaction plus roughly 0.6% or higher depending on volume. On top of per-transaction fees, Adyen charges a one-time setup fee of EUR500-EUR5,000+ depending on integration complexity, a mandatory monthly platform fee of EUR120-EUR300, and a EUR100 monthly minimum fee. For a representative $100 US card transaction, total fees run roughly $2.40-$3.75 depending on card type.",
+  "meta": {
+    "product": "Adyen",
+    "pricing_model": "interchange++ usage-based",
+    "min_price_usd": 2.40,
+    "max_price_usd": 3.75,
+    "pricing_unit": "usd_total_fee_per_100_usd_transaction",
+    "setup_fee_eur": "500-5000+",
+    "monthly_platform_fee_eur": "120-300",
+    "monthly_minimum_fee_eur": 100,
+    "publicly_disclosed": true,
+    "source": "todapay.com + blog.finexer.com",
+    "collected_date": "2026-06-20"
+  }
+}

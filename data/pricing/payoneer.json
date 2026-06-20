@@ -1,0 +1,19 @@
+{
+  "source_type": "seed_pricing",
+  "ext_id": "seed_pricing_payoneer",
+  "title": "Payoneer pricing - $29.95 annual fee (often waived) plus 0.5%-3.99% per transaction",
+  "clean_text": "Payoneer charges no monthly fee but applies a $29.95 annual account fee, automatically waived for accounts receiving $2,000+ USD (or equivalent) over a 12-month period. Card payments from clients cost up to 3.99% + $0.49; marketplace payments (Upwork, Fiverr, etc.) incur a 1% receiving fee; Payoneer-to-Payoneer transfers are generally free; currency conversion costs 0.5%-3.5%; bank withdrawals cost $1.50 flat; and ACH transfers cost 1%. Payoneer states the exact applicable fee is shown before a payment is confirmed.",
+  "meta": {
+    "product": "Payoneer",
+    "pricing_model": "usage-based, per-transaction plus annual account fee",
+    "min_price_usd": 0.5,
+    "max_price_usd": 3.99,
+    "pricing_unit": "percent_per_transaction (varies by type, plus flat fees)",
+    "annual_account_fee_usd": 29.95,
+    "annual_fee_waiver_threshold_usd": 2000,
+    "withdrawal_fee_usd": 1.50,
+    "publicly_disclosed": true,
+    "source": "dodopayments.com + payoneer.com/about/pricing",
+    "collected_date": "2026-06-20"
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "source_type": "seed_review",
+  "ext_id": "seed_review_isolved",
+  "title": "isolved - Cafeteria-style add-on pricing and recurring back-end issues",
+  "clean_text": "G2 reviews flag that isolved's cafeteria-style add-on pricing means costs can escalate quickly as modules are added, with some reviewers reporting unexpected price increases and a few lower-rated reviews citing hidden fees and effectively doubled rates following a reseller-partner acquisition. One reviewer reported that every week something goes wrong on the back end of the system, requiring constant calls or emails to support to avoid serious complications, even though other users praise the user-friendly interface and fast payroll processing; some users separately describe customer support as lacking in comprehensiveness.",
+  "meta": {
+    "product": "isolved",
+    "sentiment": "negative",
+    "issue_type": [
+      "Pricing_Complexity",
+      "Product_Stability"
+    ],
+    "source": "g2.com",
+    "collected_date": "2026-06-20"
+  }
+}

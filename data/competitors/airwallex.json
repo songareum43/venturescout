@@ -1,0 +1,19 @@
+{
+  "source_type": "seed_competitor",
+  "ext_id": "seed_competitor_airwallex",
+  "title": "Airwallex - Global financial infrastructure for cross-border business payments",
+  "clean_text": "Airwallex built its own cross-border payments network on more than 60 banking licenses, expanding from FX and cross-border payments into a full-stack suite covering global business accounts, corporate cards, treasury, embedded finance, and expense management. It serves SMEs, e-commerce businesses, startups, tech companies, and financial institutions, with over 150,000 customers as of October 2025 -- including Brex, Rippling, Deel, TikTok, and Canva -- reaching $800 million in ARR and processing over $130 billion in transactions annually. Payments to 200+ countries mostly route through local payment rails rather than SWIFT, with 93% of transactions arriving same-day; North America and Europe are now its fastest-growing markets, scaling over 200% year-over-year as of mid-2025.",
+  "meta": {
+    "product": "Airwallex",
+    "category": "cross_border_payments",
+    "platform": [
+      "cloud",
+      "web",
+      "API"
+    ],
+    "target": "SMEs, ecommerce businesses, startups, tech companies, financial institutions",
+    "pricing_model": "tiered subscription plus usage-based transaction fees",
+    "source": "research.contrary.com + airwallex.com",
+    "collected_date": "2026-06-20"
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "source_type": "seed_review",
+  "ext_id": "seed_review_slack",
+  "title": "Slack - Notification overload and high resource usage frustrate users",
+  "clean_text": "Users commonly report notification overload and a \"culture of immediacy\" that can stifle deep work, with important messages getting lost amid frequent pings and a high channel count. The interface is described as chaotic at scale, with weak or confusing threading and high system resource (RAM) usage cited as major pain points. On the Free plan, message history and file storage are limited, which reviewers find frustrating when needing to look up older discussions, pushing teams toward paid tiers for full search and history access.",
+  "meta": {
+    "product": "Slack",
+    "sentiment": "negative",
+    "issue_type": [
+      "Performance",
+      "Feature_Limitation",
+      "Price"
+    ],
+    "source": "g2.com",
+    "collected_date": "2026-06-20"
+  }
+}
