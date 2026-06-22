@@ -2,6 +2,7 @@
 langgraph
 langchain
 langchain-aws            # ChatBedrockConverse
+langsmith                # 트레이싱·토큰/비용 추적 (LANGCHAIN_TRACING_V2=true 시 활성)
 boto3
 
 # API / UI

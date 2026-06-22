@@ -6,9 +6,8 @@ Track D — 평가 하네스 (ADR-019: process 기반, outcome 정답 없음).
 
 실 LLM(Bedrock) 연결 후 — graph는 비결정적이므로 1회 측정으론 'Critic 효능'인지
 '그 회의 우연'인지 구분 불가. 그래서 같은 idea를 N회 ON/OFF 돌려 **분포로 집계**한다(ADR-030).
-  - 지금 계산: JSON Validity·Groundedness·Overclaim·latency·Critic ON/OFF 분포(change_rate·objections stdev·판정 분포)
-  - 아직 TODO: cost_usd(=agents/llm.py가 Bedrock 토큰 usage 캡처해야 — harness 밖),
-               precision_at_k·contradiction_coverage(=정답 라벨셋 필요)
+  - 지금 계산: JSON Validity·Groundedness·Overclaim·latency·cost_usd(실측 토큰)·Critic ON/OFF 분포
+  - 아직 TODO: precision_at_k·contradiction_coverage(=정답 라벨셋 필요)
 
 graph.py는 건드리지 않는다. Critic OFF는 여기서 critic 없는 그래프를 따로 배선해 만든다.
 """
@@ -27,6 +26,7 @@ from agents.graph import (
     structuring_node, market_node, competitor_node,
     tech_node, ip_node, bm_node,                    # critic_node만 빼고 재사용
 )
+from agents.llm import reset_usage, usage_snapshot  # 실측 토큰·비용 (ADR-029 cost_usd 승격)
 
 # 헤드라인 반복 횟수 기본값. 실 LLM은 호출당 비용·지연이 있어 무한 반복 불가
 # → idea당 적당히(ADR-030: idea 2~3개 × 5회 수준). 환경에 맞게 조절.
@@ -163,9 +163,15 @@ def evaluate(idea: dict, n: int = DEFAULT_REPEAT) -> dict:
     singles: list[dict] = []
     first_runs: list[AgentRun] = []
     first_on_latency = 0.0
+    # 첫 회 ON 1회분(structuring+분석5+critic)만 실측 비용으로 잡는다 = "분석 1건 비용".
+    first_cost = {"input_tokens": 0, "output_tokens": 0, "calls": 0, "cost_usd": None}
     for i in range(n):
         off_state, off_latency = _invoke_timed(build_graph_no_critic(), idea)
+        if i == 0:
+            reset_usage()                       # OFF 제외, ON 1회분만 누적
         on_state, on_latency = _invoke_timed(build_graph(), idea)
+        if i == 0:
+            first_cost = usage_snapshot()
         off_runs = off_state.get("agent_runs", [])
         critic: Optional[CriticResult] = on_state.get("critic")
         off_decision = _naive_decision(off_runs)
@@ -204,9 +210,14 @@ def evaluate(idea: dict, n: int = DEFAULT_REPEAT) -> dict:
         },
         "system_metrics": {
             "latency_s": round(first_on_latency, 4),
-            # TODO(승격): Bedrock 토큰·$ 집계 — agents/llm.py가 converse 응답의 usage(input/output
-            #   토큰)를 캡처해 AgentRun까지 전달해야 함(harness 밖 작업). 그 전엔 None.
-            "cost_usd": None,
+            # 실측: agents/llm.py가 converse usage(input/output 토큰)를 캡처·누적 → 단가로 환산.
+            # 분석 1건(ON 1회) 기준. 단가는 Sonnet 4.6 $3/$15 per 1M(.env로 override 가능).
+            "cost_usd": first_cost["cost_usd"],
+            "tokens": {
+                "input": first_cost["input_tokens"],
+                "output": first_cost["output_tokens"],
+                "calls": first_cost["calls"],
+            },
         },
         "retrieval_metrics": {
             # TODO(승격): 정답 라벨셋 필요 — "이 쿼리엔 이 문서가 적합"이 있어야 계산 가능.

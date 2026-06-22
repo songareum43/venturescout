@@ -91,14 +91,28 @@ def _evidence_strength(evidence: list[EvidenceItem]) -> float:
 
 
 def _confidence_from_strength(strength: float) -> Confidence:
-    # evidence_strength를 사람이 읽기 쉬운 high/mid/low로 변환한다.
-    # 조정 가능 지점:
-    # 현재 high는 0.75 이상, mid는 0.45 이상이다.
-    # 팀 기준이 더 보수적이면 high 기준을 0.80 또는 0.85로 올릴 수 있다.
-    # 운영 데이터 분포에 따라 임계값을 조정할 수 있다.
-    if strength >= 0.75:
+    # evidence_strength(= relevance × reliability 평균)를 high/mid/low로 변환한다.
+    #
+    # 임계값 재보정 (2026-06-22): high 0.75→0.60, mid 0.45→0.40.
+    # 근거 — 기존 0.75/0.45는 strength가 0~1 전구간에 퍼진다고 가정했으나,
+    # 실제 분포는 출처 reliability에 막혀 훨씬 낮은 구간에 몰려 있다:
+    #   * 시드 출처(seed_review/competitor/pricing) reliability=0.6 → strength ≤ 0.6×hybrid,
+    #     hybrid가 잘 나와도 ~0.78이라 시드 strength는 사실상 0.47을 못 넘음.
+    #   * 즉 0.75(high)는 시드로는 도달 불가, 0.45(mid)도 거의 항상 미달 →
+    #     market/competitor/bm이 구조적으로 늘 low → _decide 규칙3(low≥3)으로
+    #     입력 무관 KILL이 기본값이 됨(검증: 실 RDS+Bedrock E2E 3건 전부 KILL).
+    # 실측 strength 분포(실 structuring LLM 쿼리 기준):
+    #   off-domain(축산): market 0.16 / competitor 0.17 / bm 0.33  (전부 low)
+    #   on-domain(SaaS):  market 0.20 / competitor 0.42 / tech 0.45 / bm 0.45
+    # mid=0.40은 on-domain 근거(0.42~0.45)를 mid로, off-domain(0.16~0.33)을 low로
+    # 가르는 자연 경계 → GO/PIVOT/KILL 네 판정이 모두 도달 가능해짐
+    # (실측: 축산→KILL, 결제→PIVOT, SaaS→GO로 분리). high=0.60은 reliability 0.9인
+    # 특허 근거(tech/ip)가 강한 매칭일 때 high에 도달할 수 있게 함.
+    # ※ 근본 원인은 reliability 가중(시드 0.6)과 hybrid 상한이므로, 추후 시드
+    #   reliability 상향 또는 source_type별 정규화로 대체할 수 있음(ADR 예정).
+    if strength >= 0.60:
         return "high"
-    if strength >= 0.45:
+    if strength >= 0.40:
         return "mid"
     return "low"
 
