@@ -90,6 +90,16 @@ def _evidence_strength(evidence: list[EvidenceItem]) -> float:
     return round(sum(scores) / len(scores), 3)
 
 
+# strength → confidence 임계값. 0~1 연속값을 high/mid/low 이산 범주로 가른다.
+CONF_HIGH_THRESHOLD = 0.60
+CONF_MID_THRESHOLD = 0.40
+# mid 경계(0.40) ±δ는 "판단 보류" 데드밴드 — 이 구간 strength는 검색 쿼리의 미세한
+# 변동만으로 confidence(low↔mid)가 뒤집혀 판정을 흔드는 불안정 영역이다.
+BORDERLINE_DELTA = 0.05
+# borderline agent가 이 수 이상이면 판정이 불안정하다고 보고 more_research로 돌린다.
+BORDERLINE_MAJORITY = 2
+
+
 def _confidence_from_strength(strength: float) -> Confidence:
     # evidence_strength(= relevance × reliability 평균)를 high/mid/low로 변환한다.
     #
@@ -110,11 +120,16 @@ def _confidence_from_strength(strength: float) -> Confidence:
     # 특허 근거(tech/ip)가 강한 매칭일 때 high에 도달할 수 있게 함.
     # ※ 근본 원인은 reliability 가중(시드 0.6)과 hybrid 상한이므로, 추후 시드
     #   reliability 상향 또는 source_type별 정규화로 대체할 수 있음(ADR 예정).
-    if strength >= 0.60:
+    if strength >= CONF_HIGH_THRESHOLD:
         return "high"
-    if strength >= 0.40:
+    if strength >= CONF_MID_THRESHOLD:
         return "mid"
     return "low"
+
+
+def _is_borderline_strength(strength: float) -> bool:
+    """strength가 low/mid 경계(±δ)에 걸쳐 있으면 True — 작은 변동이 판정을 뒤집는 불안정 구간."""
+    return CONF_MID_THRESHOLD - BORDERLINE_DELTA <= strength < CONF_MID_THRESHOLD + BORDERLINE_DELTA
 
 
 _CONFIDENCE_ALIASES: dict[str, str] = {
@@ -279,13 +294,19 @@ def _structured_idea_payload(
         '    {"hypothesis_id":"H5","code":"H5","axis":"ip","statement":"<ENGLISH: one-sentence testable hypothesis>","confidence":"low","next_validation":"..."}\n'
         "  ]\n"
         "중요: hypotheses[].statement 는 반드시 영어로 작성한다. 이 값이 영문 문서 검색 쿼리로 사용된다.\n"
+        "중요: idea.patent_keywords 도 반드시 영어로 작성한다(2~5개). 영문 특허 임베딩"
+        "(PatentSBERTa)에 IP 후보 검색 쿼리로 사용된다. technical_elements 는 사람이 읽는 "
+        "한국어 기술 분해로 그대로 둔다.\n"
         "}\n\n"
         f"job_id={job_id}\nidea_id={idea_id}\nraw_input:\n{raw_input}"
     )
+    # 구조화는 결정성이 중요하다 — 여기서 만든 가설 문장/patent_keywords가 그대로 검색
+    # 쿼리가 되므로, temp 0으로 호출 간 쿼리 변동(→ strength·판정 흔들림)을 최소화한다.
     parsed = invoke_claude_json(
         system=system,
         user=user,
         model_tier="sonnet",
+        temperature=0.0,
     )
     if parsed.get("input_sufficient") is not True:
         missing = parsed.get("missing_details")
@@ -325,6 +346,8 @@ def _agent_run(
       각 노드에 개별적으로 적재 코드를 넣을 필요가 없다.
     - 적재 실패 시에도 AgentRun을 반환하므로 그래프 흐름이 끊기지 않는다.
     """
+    # critic이 borderline(판정 경계) 여부를 판단할 수 있게 evidence strength를 실어 보낸다.
+    output_json = {**output_json, "_evidence_strength": _evidence_strength(evidence)}
     run = AgentRun(
         agent_run_id=str(uuid.uuid4()),
         job_id=job_id,
@@ -665,11 +688,14 @@ def ip_node(state: VentureScoutState) -> dict:
         log_processing(logger, "H5 근거 0건 — ip run 생략(graceful)")
         return {"agent_runs": []}
 
-    log_processing(logger, "IP 특허 후보 벡터 검색 중...", {"elements": idea.technical_elements})
+    # IP 후보 검색은 영문 특허 코퍼스(PatentSBERTa, 영문 전용)를 친다 → 쿼리도 영어여야
+    # relevance가 산다(Fix B와 동일 이유). patent_keywords(영어)를 쓰고, 비면 technical_elements 폴백.
+    ip_search_terms = idea.patent_keywords or idea.technical_elements
+    log_processing(logger, "IP 특허 후보 벡터 검색 중...", {"elements": ip_search_terms})
     # 실제 데이터 전환 지점:
     # vector_search()가 실제 claim_limitations 벡터/키워드 검색을 수행하고 후보를 반환해야 한다.
     candidates = vector_search(
-        idea.technical_elements,
+        ip_search_terms,
         job_id=job_id,
         hypothesis_id="H5",
     )
@@ -835,12 +861,14 @@ def _decide(
     low_confidence: list[str],
     high_ip_candidates: list[str],
     contradicting_evidence: list[str],
+    borderline_agents: list[str] | None = None,
 ) -> tuple[Decision, str, Confidence]:
-    """최종 판정 규칙. 우선순위: 커버리지 공백 > 치명적 문제 > 근거 약함 > IP 리스크 > go > 기타 pivot.
+    """최종 판정 규칙. 우선순위: 커버리지 공백 > 치명적 문제 > 판정 불안정 > 근거 약함 > IP 리스크 > go > 기타 pivot.
 
     KILL의 두 경로(치명적 문제 / 근거 약함)는 "근거가 약하거나 치명적 문제로 현재
     형태 추진 부적합"이라는 합의된 정의를 따른다. MORE_RESEARCH는 근거·가설
-    커버리지 자체가 비어있는 경우로 한정해 KILL과 구분한다.
+    커버리지 자체가 비어있거나(규칙1), 근거 강도가 경계에 몰려 판정이 불안정한
+    경우(규칙2.5)로 한정해 KILL과 구분한다.
     """
     if missing_evidence or invalid_grounding or uncovered_hypotheses:
         logger.info("→ 규칙 1: 근거 미연결 또는 가설 미검증 → more_research")
@@ -855,6 +883,18 @@ def _decide(
             "kill",
             "IP 고위험 후보와 반박 근거가 동시에 있어 치명적 문제로 본다. 현재 형태로는 추진이 부적합하다.",
             "mid",
+        )
+    # 규칙 2.5(데드밴드): 치명적 IP 문제는 아니지만, 여러 가설의 근거 강도가 판정 경계(0.40±δ)에
+    # 몰려 있으면 go/kill을 확신할 수 없다. 작은 검색 변동에 판정이 뒤집히는 불안정 상태이므로
+    # 거짓 확신 대신 추가 검증으로 돌린다(go·kill 양쪽을 보수적으로 보류).
+    if borderline_agents and len(borderline_agents) >= BORDERLINE_MAJORITY:
+        logger.info(
+            f"→ 규칙 2.5: 근거 강도 경계 agent {len(borderline_agents)}개(판정 불안정) → more_research"
+        )
+        return (
+            "more_research",
+            "여러 가설의 근거 강도가 판정 경계에 몰려 있어 결론이 불안정하다. 근거를 보강해 재검증이 필요하다.",
+            "low",
         )
     # 조정 가능 지점:
     # 현재는 low confidence agent가 3개 이상이면 근거가 약하다고 보고 kill이다.
@@ -986,6 +1026,17 @@ def critic_node(state: VentureScoutState) -> dict:
     ]
     logger.info(f"Low confidence agents: {low_confidence}")
 
+    # borderline: 근거 강도가 판정 경계(0.40±δ)에 걸친 agent. 많으면 판정이 불안정해
+    # _decide가 more_research로 돌린다. strength는 _agent_run이 output_json에 실어둔다.
+    borderline_agents = [
+        run.agent_name
+        for run in agent_runs
+        if run.agent_name != "critic"
+        and _is_borderline_strength(float(run.output_json.get("_evidence_strength") or 0.0))
+    ]
+    if borderline_agents:
+        logger.info(f"Borderline(경계) agents: {borderline_agents}")
+
     log_processing(logger, "가설 커버리지 확인 중...")
     agent_hypotheses = {
         run.hypothesis_id
@@ -1027,6 +1078,7 @@ def critic_node(state: VentureScoutState) -> dict:
         "evidence_count": len(evidence_items),
         "grounded_claim_count": len(grounded_on),
         "low_confidence_agents": low_confidence,
+        "borderline_agents": borderline_agents,
         "uncovered_hypotheses": uncovered_hypotheses,
         "contradicting_evidence": contradicting_evidence,
         "high_ip_candidates": high_ip_candidates,
@@ -1043,6 +1095,7 @@ def critic_node(state: VentureScoutState) -> dict:
         low_confidence=low_confidence,
         high_ip_candidates=high_ip_candidates,
         contradicting_evidence=contradicting_evidence,
+        borderline_agents=borderline_agents,
     )
 
     log_processing(logger, f"🎯 최종 판단: {decision.upper()} (신뢰도: {confidence})")

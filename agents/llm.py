@@ -215,11 +215,17 @@ def invoke_claude_json(
     system: str,
     user: str,
     model_tier: ModelTier = "sonnet",
+    temperature: float | None = None,
 ) -> dict[str, Any]:
-    """Invoke Claude and fail the run if Bedrock or JSON parsing fails."""
+    """Invoke Claude and fail the run if Bedrock or JSON parsing fails.
+
+    temperature를 주면 config 기본값(BEDROCK_TEMPERATURE)을 호출 단위로 덮어쓴다.
+    구조화처럼 결정성이 중요한 호출은 0을 넘겨 검색 쿼리 변동을 줄인다.
+    """
 
     config = load_claude_config(model_tier)
     _require_bedrock(config)
+    call_temperature = config.temperature if temperature is None else temperature
 
     try:
         import boto3
@@ -244,7 +250,7 @@ def invoke_claude_json(
                 }
             ],
             inferenceConfig={
-                "temperature": config.temperature,
+                "temperature": call_temperature,
                 "maxTokens": config.max_tokens,
             },
         )
