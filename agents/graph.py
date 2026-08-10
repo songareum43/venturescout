@@ -210,9 +210,15 @@ def _hypothesis_query(
 
 
 def _json_context(payload: dict[str, Any]) -> str:
-    """Claude 프롬프트에 넣기 좋게 Pydantic 객체를 JSON 문자열로 바꾼다."""
+    """Claude 프롬프트에 넣기 좋게 Pydantic 객체를 JSON 문자열로 바꾼다.
 
-    return json.dumps(payload, ensure_ascii=False, default=str, indent=2)
+    indent와 기본 구분자가 만드는 공백·개행은 그대로 입력 토큰이 된다
+    (실측 분석 1건 input 45~52K 토큰). 모델은 정렬 없이도 JSON을 읽으므로
+    compact separators로 직렬화한다. 트레이드오프: LangSmith 트레이스에서
+    프롬프트를 눈으로 읽기는 불편해진다.
+    """
+
+    return json.dumps(payload, ensure_ascii=False, default=str, separators=(",", ":"))
 
 
 def _agent_output_with_llm(
@@ -967,6 +973,81 @@ def _alternatives_evidence_ids(
     })
 
 
+# ── critic 프롬프트용 축약 뷰 ────────────────────────────────────────────────
+# critic은 앞선 5개 노드의 output_json·evidence·IP 후보를 통째로 다시 받는다.
+# 실측 input이 45~52K 토큰인 주된 이유이고, max_tokens 초과로 JSON이 잘려 잡이
+# 죽는 원인이기도 하다(ADR-036). 판정 자체는 _decide()가 이 호출 이전에 코드로
+# 확정하므로, LLM에는 서술(summary·objections·next_experiments)을 쓰는 데 필요한
+# 만큼만 준다.
+
+# 모든 노드 공통으로 반론에 인용될 수 있는 서술 필드.
+_CRITIC_COMMON_FIELDS = ("summary", "signal", "key_findings", "risks", "next_experiment")
+
+# 노드별 상세 필드 중 반론에 실제로 쓰이는 것만 추가로 남긴다.
+# claim_review_queue·validation_plan 같은 "다음 할 일" 목록은 critic이 인용하지
+# 않으므로 제외한다(market/competitor는 공통 필드만으로 충분).
+_CRITIC_EXTRA_FIELDS: dict[str, tuple[str, ...]] = {
+    "tech": ("feasibility_signal", "risk_register"),
+    "ip": ("overlap_signal", "high_overlap_elements"),
+    "bm": ("key_risk", "unit_economics"),
+}
+
+# critic은 근거 전문이 아니라 "이 근거가 무엇을 말하는가"만 판단하면 된다.
+# 조정 가능 지점: 반론이 뭉툭해지면 올리고, 토큰이 부족하면 내린다.
+CRITIC_EVIDENCE_CHARS = 500
+
+
+def _critic_agent_view(run: AgentRun) -> dict[str, Any]:
+    """AgentRun에서 critic이 반론을 쓰는 데 필요한 필드만 남긴다."""
+    fields = _CRITIC_COMMON_FIELDS + _CRITIC_EXTRA_FIELDS.get(run.agent_name, ())
+    return {
+        "agent_name": run.agent_name,
+        "hypothesis_id": run.hypothesis_id,
+        "confidence": run.confidence,
+        **{field: run.output_json[field] for field in fields if field in run.output_json},
+    }
+
+
+def _critic_evidence_view(evidence: EvidenceItem) -> dict[str, Any]:
+    """근거를 출처·입장·발췌로 줄인다.
+
+    evidence_id(uuid)는 싣지 않는다 — grounded_on은 코드가 계산하고, 반론에
+    UUID를 쓰지 말라는 프롬프트 지시와도 맞는다.
+    """
+    return {
+        "source_type": evidence.source_type,
+        "stance": evidence.stance,
+        "excerpt": evidence.evidence_text[:CRITIC_EVIDENCE_CHARS],
+    }
+
+
+def _critic_candidate_view(candidate: IPOverlapCandidate) -> dict[str, Any]:
+    """IP 후보에서 critic이 볼 것만 남긴다.
+
+    candidate/job/hypothesis/limitation/evidence 5개 uuid는 제외한다
+    (후보 10건이면 uuid만 50개가 프롬프트에 들어간다).
+    """
+    return {
+        "plan_technical_element": candidate.plan_technical_element,
+        "hybrid_score": round(candidate.hybrid_score, 4),
+        "rank": candidate.rank,
+    }
+
+
+def _critic_scorecard_view(scorecard: dict[str, Any]) -> dict[str, Any]:
+    """scorecard의 UUID 목록을 개수로 바꾼 프롬프트용 사본.
+
+    원본 scorecard는 alternatives_node가 인용 가능한 evidence_id를 고르는 데
+    그대로 쓰므로(_alternatives_evidence_ids) 건드리지 않고, 사본만 LLM에 넘긴다.
+    """
+    return {
+        **scorecard,
+        "contradicting_evidence": len(scorecard.get("contradicting_evidence", [])),
+        "high_ip_candidates": len(scorecard.get("high_ip_candidates", [])),
+        "invalid_grounding": len(scorecard.get("invalid_grounding", [])),
+    }
+
+
 def critic_node(state: VentureScoutState) -> dict:
     """agent_runs를 모아 grounding을 확인하고 최종 결정을 기록한다."""
 
@@ -1126,18 +1207,18 @@ def critic_node(state: VentureScoutState) -> dict:
         required_fields=[
             "summary", "objections", "missing_evidence", "next_experiments",
         ],
+        # 축약 뷰로 넘긴다(_critic_*_view). invalid_grounding·uncovered_hypotheses는
+        # scorecard 안에 이미 있어 따로 싣지 않는다.
         context={
-            "agent_runs": agent_runs,
-            "evidence_items": evidence_items,
-            "ip_overlap_candidates": candidates,
-            "scorecard": scorecard,
+            "agent_runs": [_critic_agent_view(run) for run in agent_runs],
+            "evidence": [_critic_evidence_view(item) for item in evidence_items.values()],
+            "ip_overlap_candidates": [_critic_candidate_view(c) for c in candidates],
+            "scorecard": _critic_scorecard_view(scorecard),
             "fixed_decision": decision,
             "fixed_confidence": confidence,
             "rule_summary": summary,
             "decision_rule": decision_rule,
             "missing_evidence": missing_evidence,
-            "invalid_grounding": invalid_grounding,
-            "uncovered_hypotheses": uncovered_hypotheses,
         },
     )
     critic = CriticResult(
