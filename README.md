@@ -22,6 +22,7 @@ LangGraph · AWS Bedrock(ChatBedrockConverse) · PostgreSQL + pgvector + tsvecto
 shared/         계약(C, Day 1 확정) — contracts.py / state.py
 db/             스키마 — init.sql(9 tables) / schema.dbml
 data/           Track A — 수집·파싱·적재
+dags/           Track A — 주간 증분 갱신 Airflow DAG (연습용)
 retrieval/      Track B — 임베딩·하이브리드 검색·tool  (②③ 에이전트)
 agents/         Track C — LangGraph ①④⑤⑦ + 척추
 app/            Track D — FastAPI·Chainlit·평가        (⑥ 에이전트)
@@ -49,7 +50,8 @@ tests/          계약 검증
 |---|---|---|
 | **수집** | Google BigQuery 공개 특허 데이터셋(`patents-public-data.patents.publications`)에서 2021–2024년 특허를 **연도별로 분할 수집** → S3 적재. 실행 시 S3 객체 키를 파싱해 **이미 수집된 연도를 건너뛰는 중복 방지** 로직 포함 | [data/collect_from_bigquery.py](data/collect_from_bigquery.py) |
 | **적재** | S3의 **최신 파일 자동 탐색** 후 PostgreSQL 배치 적재. 대량 삽입 최적화 | [data/load_from_s3.py](data/load_from_s3.py) |
-| **시드 데이터** | B2B SaaS · Fintech · HR Tech **90개사**를 `competitors` / `pricing` / `reviews` 3종 스키마로 정규화 → **JSON 270개** 직접 구축. 통화 단위 통일 및 DB 스키마 정합 작업 포함 | [data/competitors/](data/competitors/) · [data/pricing/](data/pricing/) · [data/reviews/](data/reviews/) · [data/load_seed.py](data/load_seed.py) |
+| **오케스트레이션**<br>*(연습용)* | 주간 증분 갱신 Airflow DAG. `extract → load → embed → verify` 4단계. **Airflow 비의존 순수 함수와 `@task` 데코레이터를 분리**해 테스트 가능하게 구성, 단계별 재시도 정책 차등 적용, S3 `head_object` 기반 **멱등 추출**(재실행 안전), 주간 소량 배치엔 HNSW 인덱스 재빌드를 건너뛰도록 처리, 마지막 `verify_sync`에서 건수 불일치 시 실행 실패 처리 | [dags/](dags/) · [설계 문서](docs/superpowers/specs/2026-06-22-patent-weekly-refresh-dag-design.md) · [구현 계획](docs/superpowers/plans/2026-06-22-patent-weekly-refresh-dag.md) |
+| **시드 데이터** | B2B SaaS · Fintech · HR Tech **90개사**를 `competitors` / `pricing` / `reviews` 3종 스키마로 정규화 → **JSON 270개** 직접 구축. 통화 단위 통일 및 DB 스키마 정합 작업 포함. 90개 파일을 직접 대조해 **스키마 정의 문서**로 정리 (필드 규약, jsonb 검증 책임 경계, `ext_id` 전역 UNIQUE 제약) | [data/SEED_DATA_FORMAT.md](data/SEED_DATA_FORMAT.md) · [data/competitors/](data/competitors/) · [data/pricing/](data/pricing/) · [data/reviews/](data/reviews/) · [data/load_seed.py](data/load_seed.py) |
 | **인프라** | 로컬 DB → **AWS RDS 연결 방식 전환** (SSL 검증 포함) | [data/](data/) · [db/](db/) |
 | **에이전트 기여** | Solution Advisor 에이전트 설계 문서 작성 | [docs/superpowers/specs/2026-06-19-solution-advisor-agent-design.md](docs/superpowers/specs/2026-06-19-solution-advisor-agent-design.md) |
 | | Critic 판정 규칙에 **Kill 조건** 추가 | [agents/graph.py](agents/graph.py) |

@@ -2,6 +2,7 @@
 
 # 모듈 가져오기
 from google.cloud import bigquery
+from botocore.exceptions import ClientError
 import boto3
 import json
 from datetime import datetime
@@ -97,6 +98,61 @@ def fetch_and_backup():
         saved.append(filename)
     print(f"\n✅ 전체 완료: {len(saved)}개 파일 저장")
     return saved
+
+def fetch_window(client, start_date, end_date):
+    """주(week) 단위 윈도우를 BigQuery에서 조회해 S3에 저장한다.
+    윈도우 키가 이미 S3에 있으면 쿼리를 스킵하고 그 키를 반환한다(재시도 안전).
+    """
+    start = start_date.strftime('%Y%m%d')
+    end = end_date.strftime('%Y%m%d')
+    filename = f"raw/patents/patents_{start}_{end}.json"
+
+    s3 = connect_s3()
+    try:
+        s3.head_object(Bucket=os.getenv('S3_BUCKET_NAME'), Key=filename)
+        print(f"[{start}~{end}] ⏭ 이미 S3에 존재 — BigQuery 쿼리 스킵: {filename}")
+        return filename
+    except ClientError as exc:
+        if exc.response['Error']['Code'] != '404':
+            raise
+
+    query = f"""
+    SELECT DISTINCT
+    pub.publication_number,
+    (SELECT text FROM UNNEST(pub.title_localized)
+    WHERE language = 'en' LIMIT 1) AS title,
+    (SELECT text FROM UNNEST(pub.abstract_localized)
+    WHERE language = 'en' LIMIT 1) AS abstract,
+    pub.filing_date,
+    pub.grant_date,
+    pub.assignee_harmonized[SAFE_OFFSET(0)].name AS assignee,
+    (SELECT cpc.code FROM UNNEST(pub.cpc) AS cpc
+    WHERE cpc.code LIKE 'G06Q30%' LIMIT 1) AS cpc_code,
+    (SELECT claim.text FROM UNNEST(pub.claims_localized) AS claim
+    WHERE claim.language = 'en' LIMIT 1) AS claim_text
+    FROM `patents-public-data.patents.publications` AS pub
+    WHERE EXISTS (
+    SELECT 1 FROM UNNEST(pub.cpc) AS cpc
+    WHERE cpc.code LIKE 'G06Q30%'
+    )
+    AND pub.country_code = 'US'
+    AND pub.filing_date >= {start}
+    AND pub.filing_date <= {end}
+    """
+
+    print(f"[{start}~{end}] BigQuery 쿼리 실행 중...")
+    rows = [dict(row) for row in client.query(query).result()]
+    print(f"[{start}~{end}] ✅ {len(rows)}건 가져옴")
+
+    s3.put_object(
+        Bucket=os.getenv('S3_BUCKET_NAME'),
+        Key=filename,
+        Body=json.dumps(rows, default=str, ensure_ascii=False).encode('utf-8'),
+        ContentType='application/json'
+    )
+    print(f"[{start}~{end}] ✅ S3 저장 완료: {filename}")
+    return filename
+
 
 if __name__ == "__main__":
     fetch_and_backup()
