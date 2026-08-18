@@ -1,5 +1,9 @@
 # VentureScout
 
+> **포트폴리오 사본입니다.** 4인 팀 프로젝트이며, 저는 **Track A — 데이터 수집·적재**를 담당했습니다.
+> 담당 범위는 아래 [내 담당 범위](#내-담당-범위--track-a-데이터-수집적재)에 정리했고, 나머지 트랙은 팀원들의 작업입니다.
+> 원본 팀 레포 · 전체 커밋 히스토리와 팀원 기여는 그대로 보존되어 있습니다 → [de-ai-AIAgentPJ-team4/venturescout](https://github.com/de-ai-AIAgentPJ-team4/venturescout)
+
 Evidence 기반 창업 실사 멀티 에이전트. 창업 아이디어를 가설로 분해하고, 상충하는 근거를 Evidence Board에 드러낸 뒤, Critic이 낙관 편향을 제거해 Go/Pivot/Kill/More Research 신호와 다음 검증 실험을 제안한다.
 
 - **시그니처** — 특허 청구항 중첩 신호 분석 (clean 공식 데이터)
@@ -29,12 +33,34 @@ tests/          계약 검증
 
 | 트랙 | 담당 | 에이전트 |
 |---|---|---|
-| A | 데이터 수집·저장(파싱·적재) | — |
+| **A** 👈 *본인* | **데이터 수집·저장(파싱·적재)** | — |
 | B | 검색·임베딩 | ② Market(full), ③ Competitor(light) |
 | C | 에이전트 플랫폼(척추·계약) | ① Structuring, ④ Tech(light), ⑤ IP(full·시그니처), ⑦ Critic |
 | D | 백엔드·UI·평가 | ⑥ Business Model(light) |
 
 핵심 경계: **시그니처 기계(파싱=A / 검색·임베딩=B)는 DB·tool에, ⑤·④ 에이전트는 읽어와 LLM 판정만.** 척추(State·그래프·⑦·그라운딩)는 C 단독.
+
+## 내 담당 범위 — Track A (데이터 수집·적재)
+
+에이전트들이 근거로 삼는 **모든 데이터의 수집·저장 파이프라인 전 구간**을 맡았습니다.
+`BigQuery(공개 특허) → S3 → PostgreSQL` 경로와, 경쟁사 분석용 시드 데이터셋 구축입니다.
+
+| 범위 | 내용 | 코드 |
+|---|---|---|
+| **수집** | Google BigQuery 공개 특허 데이터셋(`patents-public-data.patents.publications`)에서 2021–2024년 특허를 **연도별로 분할 수집** → S3 적재. 실행 시 S3 객체 키를 파싱해 **이미 수집된 연도를 건너뛰는 중복 방지** 로직 포함 | [data/collect_from_bigquery.py](data/collect_from_bigquery.py) |
+| **적재** | S3의 **최신 파일 자동 탐색** 후 PostgreSQL 배치 적재. 대량 삽입 최적화 | [data/load_from_s3.py](data/load_from_s3.py) |
+| **시드 데이터** | B2B SaaS · Fintech · HR Tech **90개사**를 `competitors` / `pricing` / `reviews` 3종 스키마로 정규화 → **JSON 270개** 직접 구축. 통화 단위 통일 및 DB 스키마 정합 작업 포함 | [data/competitors/](data/competitors/) · [data/pricing/](data/pricing/) · [data/reviews/](data/reviews/) · [data/load_seed.py](data/load_seed.py) |
+| **인프라** | 로컬 DB → **AWS RDS 연결 방식 전환** (SSL 검증 포함) | [data/](data/) · [db/](db/) |
+| **에이전트 기여** | Solution Advisor 에이전트 설계 문서 작성 | [docs/superpowers/specs/2026-06-19-solution-advisor-agent-design.md](docs/superpowers/specs/2026-06-19-solution-advisor-agent-design.md) |
+| | Critic 판정 규칙에 **Kill 조건** 추가 | [agents/graph.py](agents/graph.py) |
+
+<details>
+<summary>내 커밋만 보기</summary>
+
+```bash
+git log --author="songareum" --oneline --no-merges
+```
+</details>
 
 ## Day 1 셋업
 
